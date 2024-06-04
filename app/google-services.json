@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "156128705505",
+    "project_id": "smartmavuno-949ad",
+    "storage_bucket": "smartmavuno-949ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:156128705505:android:bcd56ecb1b13315633b0a0",
+        "android_client_info": {
+          "package_name": "com.example.smartmavuno"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPskz0TyeAvysEt9AxjxXoEXftXFxpqI4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
