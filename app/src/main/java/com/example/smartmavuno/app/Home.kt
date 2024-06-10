@@ -34,12 +34,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.smartmavuno.R
+import com.example.smartmavuno.appActivities.showGeneralNotification
 import com.example.smartmavuno.ui.theme.grey
 import com.example.smartmavuno.ui.theme.white
 import kotlinx.coroutines.delay
@@ -69,6 +71,7 @@ fun NotificationBox() {
     val green1 = colorResource(id = R.color.green1)
     val green3 = colorResource(id = R.color.green3)
     val white = colorResource(id = R.color.white)
+    val context = LocalContext.current
     var searchQuery by remember { mutableStateOf("") }
 
     Box(
@@ -81,7 +84,7 @@ fun NotificationBox() {
     ) {
         Column(
             modifier = Modifier
-                .width(370.dp) // Ensure the width matches the inner box
+                .width(370.dp)
                 .padding(16.dp)
         ) {
             Box(
@@ -90,7 +93,6 @@ fun NotificationBox() {
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp))
                     .background(green1)
-                    .clickable { /* Handle notification click */ }
                     .padding(16.dp),
                 contentAlignment = Alignment.CenterStart
             ) {
@@ -142,7 +144,15 @@ fun NotificationBox() {
                             painter = painterResource(id = R.drawable.notify),
                             contentDescription = "Notification",
                             tint = Color.White,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier
+                                .size(20.dp)
+                                .clickable {
+                                    showGeneralNotification(
+                                        context,
+                                        "General Update",
+                                        "This is a general notification"
+                                    )
+                                }
                         )
                     }
                 }
@@ -163,6 +173,8 @@ fun NotificationBox() {
         }
     }
 }
+
+
 
 
 
