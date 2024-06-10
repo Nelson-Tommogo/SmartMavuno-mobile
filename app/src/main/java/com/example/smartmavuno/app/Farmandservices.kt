@@ -23,22 +23,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.smartmavuno.R
-import com.example.smartmavuno.ui.theme.green2
 import com.example.smartmavuno.ui.theme.green3
-import com.example.smartmavuno.ui.theme.grey
-import com.example.smartmavuno.ui.theme.white
 
 @Composable
-fun FarmServicePage() {
-    val grey = colorResource(id = R.color.grey)
+fun FarmandServicePage() {
     val green1 = colorResource(id = R.color.green1)
 
     Column(
@@ -67,30 +65,29 @@ fun FarmServicePage() {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Farm Services",
+                text = "Farm and  Services",
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Black
             )
         }
 
         Text(
-            text = "Manage Farm Services",
+            text = "Manage Farm and Services",
             style = MaterialTheme.typography.bodyMedium,
             color = Color.Black
         )
 
         // Service Boxes
         val services = listOf(
-            "Land Leasing", "Agricultural Consultancies",
-            "Farm Labour", "Equipment Rental",
-            "Crop Monitoring", "Irrigation Services",
-            "Soil Testing", "Pest Control"
+            "Machinery", "Farms",
+            "Fertilizer services", "Equipment Rentals",
+            "Crop Monitoring",
+
         )
         val serviceIcons = listOf(
             R.drawable.machinery, R.drawable.maizefarm,
             R.drawable.maizefarm, R.drawable.machinery,
-            R.drawable.maizefarm, R.drawable.machinery,
-            R.drawable.machinery, R.drawable.maizefarm
+            R.drawable.maizefarm,
         )
 
         LazyVerticalGrid(
@@ -115,60 +112,39 @@ fun FarmServiceBox(service: String, iconRes: Int, green1: Color) {
             .background(green1)
             .clickable {
                 // Handle service box click
-            },
-        contentAlignment = Alignment.TopCenter
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(top = 8.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.removefarm),
-                    contentDescription = "Remove Service",
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clickable {
-                            // Handle remove service
-                        },
-                    tint = Color.Unspecified
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Icon(
-                    painter = painterResource(id = R.drawable.addfarm),
-                    contentDescription = "Add Service",
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clickable {
-                            // Handle add service
-                        },
-                    tint = Color.Unspecified
-                )
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            Icon(
-                painter = painterResource(id = iconRes),
-                contentDescription = service,
-                modifier = Modifier.size(100.dp),
-                tint = Color.Unspecified
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = service,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Black,
-                textAlign = TextAlign.Center
-            )
+    ) {
+        Icon(
+            painter = painterResource(id = iconRes),
+            contentDescription = service,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
+            tint = Color.Unspecified
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Top
+        ) {
+
         }
+        Text(
+            text = service,
+            style = MaterialTheme.typography.bodyMedium,
+            color = Color.Black,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 8.dp)
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun FarmServicePagePreview() {
-    FarmServicePage()
+    FarmandServicePage()
 }

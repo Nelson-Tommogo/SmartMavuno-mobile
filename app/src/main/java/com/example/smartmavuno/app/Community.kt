@@ -1,8 +1,222 @@
 package com.example.smartmavuno.app
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.smartmavuno.R
+import com.example.smartmavuno.ui.theme.green3
+import com.example.smartmavuno.ui.theme.grey
 
 @Composable
-fun Community(){
+fun CommunityScreen() {
+    val green1 = colorResource(id = R.color.green1)
+    val green3 = colorResource(id = R.color.green3)
+    val selectedButton = remember { mutableStateOf("Community") }
 
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(green3)
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .padding(16.dp)
+        ) {
+            // Profile Picture
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.farm), // Replace with your profile picture resource
+                    contentDescription = "Profile Picture",
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(CircleShape)
+                        .background(Color.Gray) // Placeholder color, replace with actual image
+                )
+            }
+
+            // Buttons Row
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Button(
+                    onClick = { selectedButton.value = "Community" },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (selectedButton.value == "Community") green1 else grey
+                    )
+                ) {
+                    Text(text = "Community",
+                        color = Color.Black
+                    )
+                }
+                Button(
+                    onClick = { selectedButton.value = "Donations" },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (selectedButton.value == "Donations") green1 else green3
+                    )
+                ) {
+                    Text(text = "Donations",
+                            color = Color.Black
+                    )
+
+                }
+            }
+
+            // Top Communities
+            val topCommunities = listOf(
+                "SmartMavunars WorldWide",
+                "SokoMoko Farmers"
+            )
+            val topCommunityIcons = listOf(
+                R.drawable.farmsecurity,
+                R.drawable.farm
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                topCommunities.forEachIndexed { index, community ->
+                    TopCommunityBox(communityName = community, iconRes = topCommunityIcons[index], green1 = green1)
+                }
+            }
+
+            // Other Communities
+            val otherCommunities = listOf(
+                "Maize Farmers - Region A",
+                "Cassava Growers - Region B",
+                "Wheat Farmers - Region C",
+                "Rice Growers - Region D"
+            )
+            val communityIcons = listOf(
+                R.drawable.farmarea,
+                R.drawable.farm,
+                R.drawable.farmsecurity,
+                R.drawable.farmchemicals
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(green1)
+                    .padding(16.dp)
+            ) {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(otherCommunities.size) { index ->
+                        CommunityBox(communityName = otherCommunities[index], iconRes = communityIcons[index], green1 = green1)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun TopCommunityBox(communityName: String, iconRes: Int, green1: Color) {
+    Column(
+        modifier = Modifier
+            .size(150.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(green1)
+            .clickable {
+                // Handle community box click
+            }
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Icon(
+            painter = painterResource(id = iconRes),
+            contentDescription = communityName,
+            modifier = Modifier.size(60.dp),
+            tint = Color.Unspecified
+        )
+        Text(
+            text = communityName,
+            style = MaterialTheme.typography.bodyMedium,
+            color = Color.Black,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 8.dp)
+        )
+    }
+}
+
+@Composable
+fun CommunityBox(communityName: String, iconRes: Int, green1: Color) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .background(green3)
+            .clickable {
+                // Handle community box click
+            }
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Icon(
+            painter = painterResource(id = iconRes),
+            contentDescription = communityName,
+            modifier = Modifier.size(40.dp),
+            tint = Color.Unspecified
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(
+            text = communityName,
+            style = MaterialTheme.typography.bodyMedium,
+            color = Color.Black,
+            textAlign = TextAlign.Start,
+            modifier = Modifier.weight(1f)
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CommunityScreenPreview() {
+    CommunityScreen()
 }
