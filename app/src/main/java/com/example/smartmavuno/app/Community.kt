@@ -58,15 +58,15 @@ fun CommunityScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Start
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.farm), // Replace with your profile picture resource
+                    painter = painterResource(id = R.drawable.farm),
                     contentDescription = "Profile Picture",
                     modifier = Modifier
                         .size(80.dp)
                         .clip(CircleShape)
-                        .background(Color.Gray) // Placeholder color, replace with actual image
+                        .background(Color.Gray)
                 )
             }
 
@@ -83,7 +83,7 @@ fun CommunityScreen() {
                         containerColor = if (selectedButton.value == "Community") green1 else grey
                     )
                 ) {
-                    Text(text = "Community",
+                    Text(text = "Community Outreach",
                         color = Color.Black
                     )
                 }
