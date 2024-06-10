@@ -106,8 +106,8 @@ fun CommunityScreen() {
                 "SokoMoko Farmers"
             )
             val topCommunityIcons = listOf(
-                R.drawable.farmsecurity,
-                R.drawable.farm
+                R.drawable.farmerscomtop,
+                R.drawable.farmerscomtopone
             )
 
             Row(
@@ -129,10 +129,10 @@ fun CommunityScreen() {
                 "Rice Growers - Region D"
             )
             val communityIcons = listOf(
-                R.drawable.farmarea,
-                R.drawable.farm,
-                R.drawable.farmsecurity,
-                R.drawable.farmchemicals
+                R.drawable.farmerscom,
+                R.drawable.farmerscomone,
+                R.drawable.farmerscomthree,
+                R.drawable.farmerscom
             )
 
             Box(

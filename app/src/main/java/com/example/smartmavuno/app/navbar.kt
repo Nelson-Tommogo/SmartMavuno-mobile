@@ -100,7 +100,7 @@ fun AppNavigation(navController: NavHostController, modifier: Modifier = Modifie
     NavHost(navController = navController, startDestination = Screen.HomeScreen.route, modifier = modifier) {
         composable(Screen.HomeScreen.route) { HomePage() }
         composable(Screen.Services.route) { ServicePage() }
-        composable(Screen.Community.route) { Community() }
+        composable(Screen.Community.route) { Screen.Community }
         composable(Screen.Articles.route) { articles() }
     }
 }
