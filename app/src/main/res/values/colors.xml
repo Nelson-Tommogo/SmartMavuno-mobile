@@ -3,10 +3,11 @@
     <color name="green1">#729343</color>
     <color name="green2">#445528</color>
     <color name="green3">#F2FFE4</color>
-    <color name="grey">#B8CAB3</color>
+    <color name="grey">#BCC3B3</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFF</color>
     <color name="red">#D11212</color>
     <color name="green4">#B8CAB3</color>
+    <color name="grey1">#F2FFE4</color>
 </resources>

@@ -65,11 +65,13 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.constraintlayout.compose)
-    
+
     //noinspection UseTomlInstead
     implementation("io.coil-kt:coil-compose:1.4.0")
     //noinspection UseTomlInstead
     implementation ("io.coil-kt:coil-compose:1.4.0")
+
+    implementation (libs.androidx.navigation.compose.v276)
 
     implementation(libs.play.services.vision)
     // Logging
@@ -98,7 +100,7 @@ dependencies {
     //noinspection UseTomlInstead
 
 
-    implementation ("androidx.compose.ui:ui:1.6.7")
+    implementation ("androidx.compose.ui:ui:1.6.8")
     //noinspection UseTomlInstead
     implementation ("androidx.compose.material3:material3:1.2.1")
     //noinspection UseTomlInstead

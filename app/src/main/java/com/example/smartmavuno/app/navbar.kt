@@ -1,25 +1,20 @@
 package com.example.smartmavuno.app
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,84 +23,142 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
-import com.example.smartmavuno.navigation.Screen
+import com.example.smartmavuno.navigation.Screens
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun BottomNavComposable(navController: NavHostController) {
-    val appbarcolor = colorResource(id = R.color.green1)
     val green2 = colorResource(id = R.color.green2)
-    val green11 = colorResource(id = R.color.green1)
+    val grey = colorResource(id = R.color.grey)
+    val bottomAppBarHeight = 70.dp
 
-    val bottomAppBarHeight = 90.dp
-
-    val items: List<Pair<Int, String>> = listOf(
-        R.drawable.home to "Home",
-        R.drawable.service to "Services",
-        R.drawable.communityicon to "Community",
-        R.drawable.articlesicon to "Articles"
-    )
-
-    var selectedItemIndex by rememberSaveable {
-        mutableIntStateOf(0)
-    }
+    val navigationController = rememberNavController()
+    var selected by remember { mutableStateOf("Home") }
 
     Scaffold(
         bottomBar = {
             BottomAppBar(
-                modifier = Modifier.height(bottomAppBarHeight),
+                containerColor = grey,
+                modifier = Modifier
+                    .height(bottomAppBarHeight)
+                    .padding(horizontal = 0.dp, vertical = 2.dp)
+                    .clip(shape = RoundedCornerShape(13.dp)),
                 contentColor = green2
             ) {
-                items.forEachIndexed { index, (drawableRes, title) ->
-                    IconButton(
-                        onClick = {
-                            selectedItemIndex = index
-                            when (index) {
-                                0 -> navController.navigate(Screen.HomeScreen.route)
-                                1 -> navController.navigate(Screen.Services.route)
-                                2 -> navController.navigate(Screen.Community.route)
-                                3 -> navController.navigate(Screen.Articles.route)
-                            }
-                        },
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Icon(
-                                painter = painterResource(id = drawableRes),
-                                contentDescription = title,
-                                tint = if (selectedItemIndex == index) appbarcolor else green11
-                            )
-                            Spacer(modifier = Modifier.height((-15).dp))
-                            Text(
-                                text = title,
-                                color = if (selectedItemIndex == index) appbarcolor else green11,
-                                fontSize = 12.sp
-                            )
+                IconButton(
+                    onClick = {
+                        selected = "Home"
+                        navController.navigate(Screens.Home.screen) {
+                            popUpTo(0)
                         }
+                    },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally) {
+                        Icon(
+                            Icons.Default.Home,
+                            contentDescription = "HomeIcon",
+                            modifier = Modifier.size(26.dp),
+                            tint = if (selected == "home") green2 else colorResource(id = R.color.grey1)
+                        )
+                        Text(
+                            text = "Home",
+                            fontSize = 12.sp,
+                            color = if (selected == "home") green2 else colorResource(id = R.color.grey1),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+
+                IconButton(
+                    onClick = {
+                        selected = "Service"
+                        navController.navigate(Screens.Service.screen) {
+                            popUpTo(0)
+                        }
+                    },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally) {
+                        Image(
+                            painter = painterResource(id = R.drawable.baseline_miscellaneous_services_24),
+                            contentDescription = "ServiceIcon",
+                            modifier = Modifier.size(26.dp),
+                            colorFilter = if (selected == "Service") ColorFilter.tint(Color.White) else ColorFilter.tint(green2)
+                        )
+                        Text(
+                            text = "Services",
+                            fontSize = 12.sp,
+                            color = if (selected == "Service") Color.White else green2,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+
+                IconButton(
+                    onClick = {
+                        selected = "Community"
+                        navController.navigate(Screens.Community.screen) {
+                            popUpTo(0)
+                        }
+                    },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally) {
+                        Image(
+                            painter = painterResource(id = R.drawable.baseline_people_24),
+                            contentDescription = "CommunityIcon",
+                            modifier = Modifier.size(26.dp),
+                            colorFilter = if (selected == "Community") ColorFilter.tint(Color.White) else ColorFilter.tint(green2)
+                        )
+                        Text(
+                            text = "Community",
+                            fontSize = 12.sp,
+                            color = if (selected == "Community") Color.White else green2,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+
+                IconButton(
+                    onClick = {
+                        selected = "Articles"
+                        navController.navigate(Screens.Articles.screen) {
+                            popUpTo(0)
+                        }
+                    },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally) {
+                        Image(
+                            painter = painterResource(id = R.drawable.baseline_article_24),
+                            contentDescription = "ArticlesIcon",
+                            modifier = Modifier.size(26.dp),
+                            colorFilter = if (selected == "Articles") ColorFilter.tint(Color.White) else ColorFilter.tint(green2)
+                        )
+                        Text(
+                            text = "Articles",
+                            fontSize = 12.sp,
+                            color = if (selected == "Articles") Color.White else green2,
+                            textAlign = TextAlign.Center
+                        )
                     }
                 }
             }
-        },
-        content = { padding ->
-            AppNavigation(navController = navController, modifier = Modifier.padding(padding))
         }
-    )
-}
-
-@Composable
-fun AppNavigation(navController: NavHostController, modifier: Modifier = Modifier) {
-    NavHost(navController = navController, startDestination = Screen.HomeScreen.route, modifier = modifier) {
-        composable(Screen.HomeScreen.route) { HomePage() }
-        composable(Screen.Services.route) { ServicePage() }
-        composable(Screen.Community.route) { Screen.Community }
-        composable(Screen.Articles.route) { articles() }
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = Screens.Home.screen,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            composable(Screens.Home.screen) { Home() }
+            composable(Screens.Service.screen) { Service() }
+            composable(Screens.Community.screen) { Community() }
+            composable(Screens.Articles.screen) { Articles() }
+        }
     }
 }
-
-
 
 @Preview
 @Composable

@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
-import com.example.smartmavuno.navigation.Screen
+import com.example.smartmavuno.navigation.Screens
 import kotlinx.coroutines.delay
 
 @Composable
@@ -44,8 +44,8 @@ fun SplashScreen(navController: NavHostController, onAnimationEnd: () -> Unit) {
         expanded = false
         delay(600)
 
-        // Navigate to onboard screen
-        navController.navigate(Screen.Onboarding.route)    }
+        // Navigate to com.example.smartmavuno.app.onboard screen
+        navController.navigate(Screens.Onboarding.screen)    }
 
     val transition = updateTransition(targetState = if (expanded) 1f else 0f, label = "scaleAndAlphaTransition")
 

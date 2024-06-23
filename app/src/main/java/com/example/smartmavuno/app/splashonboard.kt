@@ -1,3 +1,4 @@
+package com.example.smartmavuno.app
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -59,7 +60,6 @@ fun onboard(navController: NavController) {
             description = "Connect with like-minded farmers and customers across the globe to share experiences! 🤝🌱 Get valuable insights, tips, and support from our vibrant community. Together, we grow better! 🚀",
             imageRes = R.drawable.com
         )
-
     )
 
     var currentPage by remember { mutableIntStateOf(0) }
@@ -127,15 +127,9 @@ fun onboard(navController: NavController) {
                         append("⏩")
                     },
                     onClick = {
-                        if (currentPage > 0) {
-                            currentPage--
-                        } else {
-                            navController.navigate("login")
-                        }
+                        navController.navigate("login") // Navigate directly to login
                     }
                 )
-
-
 
                 Spacer(modifier = Modifier.width(26.dp))
 
@@ -148,14 +142,13 @@ fun onboard(navController: NavController) {
                         }
                     },
                 ) {
-                    Text(text = if (currentPage == onboardingData.size -1) "Start" else "Get Started")
+                    Text(text = if (currentPage == onboardingData.size - 1) "Get Started" else "Start")
                 }
 
             }
-            }
         }
     }
-
+}
 
 data class OnboardingItem(
     val title: String,
@@ -169,3 +162,4 @@ fun OnboardingScreenPreview() {
     val navController = rememberNavController()
     onboard(navController = navController)
 }
+

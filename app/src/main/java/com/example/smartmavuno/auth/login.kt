@@ -48,7 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
-import com.example.smartmavuno.navigation.Screen
+import com.example.smartmavuno.navigation.Screens
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -135,7 +135,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                                 .padding(vertical = 8.dp) // Adjust vertical padding
                         )
                         Image(
-                            painter = painterResource(id = R.drawable.emailsmart), // Use the drawable from the drawables folder
+                            painter = painterResource(id = R.drawable.baseline_email_24), // Use the drawable from the drawables folder
                             contentDescription = "Email Icon",
                             modifier = Modifier.padding(end = 16.dp)
                         )
@@ -180,7 +180,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                                 .padding(bottom = 16.dp)
                         )
                         Image(
-                            painter = painterResource(id = R.drawable.passwordsmart), // Use the drawable from the drawables folder
+                            painter = painterResource(id = R.drawable.baseline_lock_24), // Use the drawable from the drawables folder
                             contentDescription = "Password Icon",
                             modifier = Modifier.padding(end = 16.dp)
                         )
@@ -193,7 +193,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
             ClickableText(
                 text = AnnotatedString("Forgot Password?"),
                 onClick = {
-                    navController.navigate(Screen.Reset.route)
+                    navController.navigate(Screens.Reset.screen)
                 },
                 style = TextStyle(
                     fontSize = 12.sp,
@@ -282,7 +282,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
             ClickableText(
                 text = AnnotatedString("Do not have acoount yet?\n Sign Up"),
                 onClick = {
-                    navController.navigate(Screen.Signup.route)
+                    navController.navigate(Screens.Signup.screen)
                 },
                 style = TextStyle(
                     fontSize = 12.sp,

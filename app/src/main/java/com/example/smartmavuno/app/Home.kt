@@ -3,18 +3,8 @@ package com.example.smartmavuno.app
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -23,13 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,24 +31,24 @@ import com.example.smartmavuno.ui.theme.white
 import kotlinx.coroutines.delay
 
 @Composable
-fun HomePage() {
-    Column(
+fun Home() {
+    val verticalScrollState = rememberLazyListState()
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
-            .background(white)
+            .background(grey)
+            .padding(16.dp),
+        state = verticalScrollState
     ) {
-        NotificationBox()
-        Spacer(modifier = Modifier.height(8.dp))
-        Links()
-        Spacer(modifier = Modifier.height(8.dp))
-        RecentProducts()
-        Spacer(modifier = Modifier.height(8.dp))
-        Products()
+        item { NotificationBox() }
+        item { Spacer(modifier = Modifier.height(8.dp)) }
+        item { Links() }
+        item { Spacer(modifier = Modifier.height(8.dp)) }
+        item { RecentProducts() }
+        item { Spacer(modifier = Modifier.height(8.dp)) }
+        item { Products() }
     }
 }
-
-
 
 @Composable
 fun NotificationBox() {
@@ -77,15 +61,14 @@ fun NotificationBox() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(270.dp)
+            .height(300.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(white),
         contentAlignment = Alignment.Center
     ) {
         Column(
             modifier = Modifier
-                .width(370.dp)
-                .padding(16.dp)
+                .fillMaxWidth()
         ) {
             Box(
                 modifier = Modifier
@@ -120,7 +103,7 @@ fun NotificationBox() {
                             }
                             Spacer(modifier = Modifier.width(25.dp))
                             Text(
-                                text = "Hello SmartMavunar",
+                                text = "Hello SmartMavuno",
                                 style = MaterialTheme.typography.bodyMedium,
                                 modifier = Modifier.padding(bottom = 8.dp)
                             )
@@ -141,7 +124,7 @@ fun NotificationBox() {
                         contentAlignment = Alignment.TopEnd
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.notify),
+                            painter = painterResource(id = R.drawable.baseline_notifications_24),
                             contentDescription = "Notification",
                             tint = Color.White,
                             modifier = Modifier
@@ -164,21 +147,16 @@ fun NotificationBox() {
                 label = { Text("Search") },
                 trailingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.search), // Replace with your search icon resource ID
+                        painter = painterResource(id = R.drawable.baseline_search_24),
                         contentDescription = "Search Icon"
                     )
                 },
                 modifier = Modifier.fillMaxWidth()
+                    .padding(10.dp)
             )
         }
     }
 }
-
-
-
-
-
-
 
 @Composable
 fun Links() {
@@ -194,7 +172,7 @@ fun Links() {
             .height(100.dp)
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
-            .background(grey)
+            .background(white)
             .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -241,7 +219,7 @@ fun RecentProducts() {
 
     LaunchedEffect(Unit) {
         while (true) {
-            delay(2000)
+            delay(100)
             currentIndex = (currentIndex + 1) % icons.size
         }
     }
@@ -250,11 +228,11 @@ fun RecentProducts() {
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
-            .background(grey)
+            .background(white)
             .padding(16.dp)
     ) {
         Text(
-            text = "Recent com.example.smartmavuno.app.Products",
+            text = "Recent Products",
             style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
             color = Color.Black,
             modifier = Modifier.padding(bottom = 8.dp)
@@ -266,7 +244,7 @@ fun RecentProducts() {
             state = state,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp),
+                .height(70.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             contentPadding = PaddingValues(horizontal = 8.dp)
@@ -274,17 +252,16 @@ fun RecentProducts() {
             itemsIndexed(icons) { index, icon ->
                 Box(
                     modifier = Modifier
-                        .size(100.dp)
+                        .size(60.dp)
                         .clip(RoundedCornerShape(16.dp))
-                        .background(white)
-                        .clickable { /* Handle click */ },
+                        .background(grey)
+                        .clickable { },
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        painter = painterResource(id = icon),
+                    Image(
+                        painter = painterResource(id = icons[index]),
                         contentDescription = null,
-                        modifier = Modifier.size(58.dp),
-                        tint = Color.Unspecified
+                        modifier = Modifier.size(38.dp),
                     )
                 }
             }
@@ -309,6 +286,8 @@ fun RecentProducts() {
         }
     }
 }
+
+
 @Composable
 fun Products() {
     val icons = listOf(
@@ -323,10 +302,9 @@ fun Products() {
 
     var listState by remember { mutableIntStateOf(0) }
 
-    // Function to scroll the LazyRow
     LaunchedEffect(Unit) {
         while (true) {
-            delay(1000)
+            delay(100)
             listState = (listState + 1) % icons.size
         }
     }
@@ -335,7 +313,7 @@ fun Products() {
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
-            .background(grey)
+            .background(white)
             .padding(16.dp)
     ) {
         Row(
@@ -355,7 +333,7 @@ fun Products() {
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Black,
                 modifier = Modifier.clickable {
-                    //onclick for view more
+                    // Handle click for "View more"
                 }
             )
         }
@@ -372,18 +350,16 @@ fun Products() {
             itemsIndexed(icons) { index, icon ->
                 Box(
                     modifier = Modifier
-                        .size(100.dp)
+                        .size(60.dp)
                         .clip(RoundedCornerShape(16.dp))
-                        .background(white)
-                        .clickable {
-                                   /* Handle click */
-                                   },
+                        .background(grey)
+                        .clickable { /* Handle click */ },
                     contentAlignment = Alignment.Center
                 ) {
                     Image(
-                        painter = painterResource(id = icon),
+                        painter = painterResource(id = icons[index]),
                         contentDescription = null,
-                        modifier = Modifier.size(58.dp)
+                        modifier = Modifier.size(38.dp),
                     )
                 }
             }
@@ -394,6 +370,6 @@ fun Products() {
 @Preview
 @Composable
 fun HomePagePreview() {
-    HomePage()
+    Home()
 
 }

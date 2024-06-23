@@ -55,7 +55,7 @@ fun TopBar(
         actions = {
             IconButton(onClick = onSearchClick) {
                 Icon(
-                    painter = painterResource(id = R.drawable.menu),
+                    painter = painterResource(id = R.drawable.baseline_menu_24),
                     contentDescription = "menu",
                     tint = Color.Unspecified
                 )
@@ -63,7 +63,7 @@ fun TopBar(
             Box {
                 IconButton(onClick = onCartClick) {
                     Icon(
-                        painter = painterResource(id = R.drawable.cart),
+                        painter = painterResource(id = R.drawable.baseline_shopping_cart_24),
                         contentDescription = "cart",
                         tint = Color.Unspecified
                     )

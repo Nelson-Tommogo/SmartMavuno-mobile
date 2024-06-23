@@ -37,9 +37,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.smartmavuno.R
 import com.example.smartmavuno.ui.theme.green3
+import com.example.smartmavuno.ui.theme.white
 
 @Composable
-fun ServicePage() {
+fun Service() {
     val grey = colorResource(id = R.color.grey)
     val green1 = colorResource(id = R.color.green1)
     var searchQuery by remember { mutableStateOf("") }
@@ -47,7 +48,7 @@ fun ServicePage() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(green3)
+            .background(white)
             .padding(16.dp)
     ) {
         // Top Icon and Text
@@ -59,7 +60,7 @@ fun ServicePage() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.backhome),
+                painter = painterResource(id = R.drawable.baseline_arrow_back_24),
                 contentDescription = "Home Icon",
                 tint = green1,
                 modifier = Modifier
@@ -82,7 +83,7 @@ fun ServicePage() {
             label = { Text("Search") },
             leadingIcon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.search), // Replace with your search icon
+                    painter = painterResource(id = R.drawable.baseline_search_24), // Replace with your search icon
                     contentDescription = "Search Icon"
                 )
             },
@@ -160,5 +161,5 @@ fun ServiceBox(service: String, iconRes: Int, green1: Color) {
 @Preview(showBackground = true)
 @Composable
 fun ServicePagePreview() {
-    ServicePage()
+    Service()
 }

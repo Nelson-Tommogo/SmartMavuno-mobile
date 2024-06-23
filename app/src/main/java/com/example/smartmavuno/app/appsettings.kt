@@ -36,17 +36,17 @@ fun SettingsScreen(navController: NavController) {
 
     val settingsItems = remember {
         mutableStateListOf(
-            SettingsItem("Personal Information", R.drawable.info, R.drawable.navigatemore) { /* Implement navigation or action */ },
-            SettingsItem("Notification", R.drawable.notificationme, R.drawable.navigatemore) { /* Implement navigation or action */ },
-            SettingsItem("Security", R.drawable.security, R.drawable.navigatemore) { /* Implement navigation or action */ },
-            SettingsItem("Language", R.drawable.language, R.drawable.navigatemore) { isLanguageSelectionVisible = true },
+            SettingsItem("Personal Information", R.drawable.baseline_question_mark_24, R.drawable.baseline_arrow_forward_24) { /* Implement navigation or action */ },
+            SettingsItem("Notification", R.drawable.baseline_notifications_24, R.drawable.baseline_arrow_forward_24) { /* Implement navigation or action */ },
+            SettingsItem("Security", R.drawable.security, R.drawable.baseline_arrow_forward_24) { /* Implement navigation or action */ },
+            SettingsItem("Language", R.drawable.language, R.drawable.baseline_arrow_forward_24) { isLanguageSelectionVisible = true },
             SettingsItem("Dark Mode/Light Mode", R.drawable.darkmode, R.drawable.lightmode) { isDarkMode = !isDarkMode },
-            SettingsItem("Help Centre", R.drawable.help, R.drawable.navigatemore) { /* Implement navigation or action */ },
-            SettingsItem("Log out", R.drawable.logout, R.drawable.navigatemore) { /* Implement logout */ }
+            SettingsItem("Help Centre", R.drawable.baseline_question_mark_24, R.drawable.baseline_arrow_forward_24) { /* Implement navigation or action */ },
+            SettingsItem("Log out", R.drawable.baseline_logout_24, R.drawable.baseline_arrow_forward_24) { /* Implement logout */ }
         )
     }
 
-    val rotationAngle by animateFloatAsState(if (isDarkMode) 180f else 0f)
+    val rotationAngle by animateFloatAsState(if (isDarkMode) 180f else 0f, label = "")
 
     Column(
         modifier = Modifier

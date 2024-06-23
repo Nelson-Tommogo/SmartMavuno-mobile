@@ -38,7 +38,7 @@ fun createNotificationChannels(context: Context) {
 
 fun showGeneralNotification(context: Context, title: String, message: String) {
     val builder = NotificationCompat.Builder(context, "general_channel_id")
-        .setSmallIcon(R.drawable.notify)
+        .setSmallIcon(R.drawable.baseline_notifications_24)
         .setContentTitle(title)
         .setContentText(message)
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -57,7 +57,7 @@ fun showGeneralNotification(context: Context, title: String, message: String) {
 
 fun showSystemNotification(context: Context, title: String, message: String) {
     val builder = NotificationCompat.Builder(context, "system_channel_id")
-        .setSmallIcon(R.drawable.notify)
+        .setSmallIcon(R.drawable.baseline_notifications_24)
         .setContentTitle(title)
         .setContentText(message)
         .setPriority(NotificationCompat.PRIORITY_HIGH)

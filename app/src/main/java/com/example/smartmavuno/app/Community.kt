@@ -38,7 +38,7 @@ import com.example.smartmavuno.ui.theme.green3
 import com.example.smartmavuno.ui.theme.grey
 
 @Composable
-fun CommunityScreen() {
+fun Community() {
     val green1 = colorResource(id = R.color.green1)
     val green3 = colorResource(id = R.color.green3)
     val selectedButton = remember { mutableStateOf("Community") }
@@ -90,7 +90,7 @@ fun CommunityScreen() {
                 Button(
                     onClick = { selectedButton.value = "Donations" },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (selectedButton.value == "Donations") green1 else green3
+                        containerColor = if (selectedButton.value == "Donations") green1 else grey
                     )
                 ) {
                     Text(text = "Donations",
@@ -190,7 +190,7 @@ fun CommunityBox(communityName: String, iconRes: Int, green1: Color) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .background(green3)
+            .background(grey)
             .clickable {
                 // Handle community box click
             }
@@ -218,5 +218,5 @@ fun CommunityBox(communityName: String, iconRes: Int, green1: Color) {
 @Preview(showBackground = true)
 @Composable
 fun CommunityScreenPreview() {
-    CommunityScreen()
+    Community()
 }

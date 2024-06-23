@@ -47,7 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
-import com.example.smartmavuno.navigation.Screen
+import com.example.smartmavuno.navigation.Screens
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -131,7 +131,7 @@ fun ResetScreen(navController: NavHostController, onreset: (String) -> Unit) {
                                 .padding(bottom = 16.dp)
                         )
                         Image(
-                            painter = painterResource(id = R.drawable.emailsmart), // Use the drawable from the drawables folder
+                            painter = painterResource(id = R.drawable.baseline_email_24), // Use the drawable from the drawables folder
                             contentDescription = "Email Icon",
                             modifier = Modifier.padding(end = 16.dp)
                         )
@@ -223,7 +223,7 @@ fun ResetScreen(navController: NavHostController, onreset: (String) -> Unit) {
             ClickableText(
                 text = AnnotatedString("Go Back and Login"),
                 onClick = {
-                    navController.navigate(Screen.LogIn.route)
+                    navController.navigate(Screens.Login.screen)
                 },
                 style = TextStyle(
                     fontSize = 12.sp,
