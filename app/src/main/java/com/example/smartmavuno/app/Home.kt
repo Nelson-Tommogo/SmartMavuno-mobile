@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.smartmavuno.R
@@ -205,12 +206,19 @@ fun Links() {
 
 @Composable
 fun RecentProducts() {
-    val icons = listOf(
-        R.drawable.crop,
-        R.drawable.cropone,
-        R.drawable.crop3,
-        R.drawable.crop4,
-        R.drawable.crop5
+    data class Product(
+        val iconRes: Int,
+        val name: String,
+        val price: String,
+        val discountedPrice: String
+    )
+
+    val products = listOf(
+        Product(R.drawable.crop, "Fresh Carrots", "Ksh 100", "Ksh 80"),
+        Product(R.drawable.cropone, "Tomatoes", "Ksh 200", "Ksh 150"),
+        Product(R.drawable.crop3, "Mango Seeds", "Ksh 300", "Ksh 250"),
+        Product(R.drawable.crop4, "Fresh Maize", "Ksh 400", "Ksh 350"),
+        Product(R.drawable.crop5, "Cassava", "Ksh 500", "Ksh 450")
     )
 
     val green1 = colorResource(id = R.color.green1)
@@ -219,8 +227,8 @@ fun RecentProducts() {
 
     LaunchedEffect(Unit) {
         while (true) {
-            delay(100)
-            currentIndex = (currentIndex + 1) % icons.size
+            delay(1000)
+            currentIndex = (currentIndex + 1) % products.size
         }
     }
 
@@ -244,25 +252,51 @@ fun RecentProducts() {
             state = state,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(70.dp),
+                .height(150.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             contentPadding = PaddingValues(horizontal = 8.dp)
         ) {
-            itemsIndexed(icons) { index, icon ->
+            itemsIndexed(products) { index, product ->
                 Box(
                     modifier = Modifier
-                        .size(60.dp)
+                        .width(100.dp)
                         .clip(RoundedCornerShape(16.dp))
                         .background(grey)
                         .clickable { },
                     contentAlignment = Alignment.Center
                 ) {
-                    Image(
-                        painter = painterResource(id = icons[index]),
-                        contentDescription = null,
-                        modifier = Modifier.size(38.dp),
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = product.iconRes),
+                            contentDescription = null,
+                            modifier = Modifier.size(38.dp),
+                        )
+                        Text(
+                            text = product.name,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.Black,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
+                        Text(
+                            text = product.price,
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                textDecoration = TextDecoration.LineThrough
+                            ),
+                            color = Color.Red,
+                            modifier = Modifier.padding(top = 4.dp)
+                        )
+                        Text(
+                            text = product.discountedPrice,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = green1,
+                            modifier = Modifier.padding(top = 4.dp)
+                        )
+                    }
                 }
             }
         }
@@ -274,7 +308,7 @@ fun RecentProducts() {
                 .padding(top = 8.dp),
             horizontalArrangement = Arrangement.Center
         ) {
-            icons.forEachIndexed { index, _ ->
+            products.forEachIndexed { index, _ ->
                 val color = if (index == currentIndex) green1 else Color.Gray
                 Box(
                     modifier = Modifier
@@ -286,6 +320,7 @@ fun RecentProducts() {
         }
     }
 }
+
 
 
 @Composable
