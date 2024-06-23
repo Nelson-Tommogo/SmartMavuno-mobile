@@ -165,8 +165,10 @@ fun Links() {
         Pair(R.drawable.farm, "Farm"),
         Pair(R.drawable.process, "Progress"),
         Pair(R.drawable.calendar, "Calendar"),
-        Pair(R.drawable.forecast, "Weather")
+        Pair(R.drawable.forecast, "Weather"),
+        Pair(R.drawable.pest, "Pest Control")
     )
+
 
     Box(
         modifier = Modifier
