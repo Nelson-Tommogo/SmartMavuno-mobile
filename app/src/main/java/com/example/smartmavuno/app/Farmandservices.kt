@@ -54,7 +54,7 @@ fun FarmandServicePage() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.backhome),
+                painter = painterResource(id = R.drawable.baseline_arrow_back_24),
                 contentDescription = "Home Icon",
                 tint = green1,
                 modifier = Modifier

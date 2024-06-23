@@ -60,7 +60,7 @@ fun SettingsScreen(navController: NavController) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.backhome),
+                painter = painterResource(id = R.drawable.baseline_arrow_back_24),
                 contentDescription = "Back",
                 modifier = Modifier
                     .size(24.dp)

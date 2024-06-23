@@ -156,7 +156,7 @@ fun MyArticles(service: String, green1: Color) {
             }
     ) {
         Icon(
-            painter = if (isBookmarked.value) painterResource(id = R.drawable.baseline_bookmark_24) else painterResource(id = R.drawable.baseline_menu_book_24),
+            painter = if (isBookmarked.value) painterResource(id = R.drawable.baseline_bookmark_24) else painterResource(id = R.drawable.baseline_bookmark_border_24),
             contentDescription = service,
             modifier = Modifier
                 .align(Alignment.TopEnd)

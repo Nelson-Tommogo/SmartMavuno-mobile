@@ -56,7 +56,7 @@ fun Farms() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.backhome),
+                painter = painterResource(id = R.drawable.baseline_arrow_back_24),
                 contentDescription = "Home Icon",
                 tint = green1,
                 modifier = Modifier
@@ -194,7 +194,7 @@ fun FarmsBox(service: String, iconRes: Int, green1: Color) {
                     tint = Color.White
                 )
                 Icon(
-                    painter = painterResource(id = R.drawable.addfarm),
+                    painter = painterResource(id = R.drawable.baseline_add_circle_outline_24),
                     contentDescription = "Add Service",
                     modifier = Modifier
                         .size(24.dp)
