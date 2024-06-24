@@ -1,5 +1,6 @@
 package com.example.smartmavuno.app
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -147,6 +148,50 @@ fun Community() {
                     TopCommunityBox(communityName = community, iconRes = topCommunityIcons[index], green1 = green1)
                 }
             }
+
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(150.dp)
+                    .padding(bottom = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                // Define the list of drawables and colors
+                val communityIcons = listOf(
+                    R.drawable.baseline_circle_24,
+                    R.drawable.baseline_circle_24,
+                    R.drawable.baseline_circle_24,
+                    R.drawable.baseline_circle_24
+                )
+                val colors = listOf(
+                    colorResource(id = R.color.green2),
+                    colorResource(id = R.color.green1),
+                    colorResource(id = R.color.green4),
+                    colorResource(id = R.color.green3)
+                )
+
+                // Iterate through the list of icons and colors
+                communityIcons.forEachIndexed { index, iconRes ->
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(150.dp)
+                            .padding(horizontal = 8.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = iconRes),
+                            contentDescription = null,
+                            colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(colors[index]),
+                            modifier = Modifier
+                                .size(60.dp)
+                        )
+                    }
+                }
+            }
+
+
 
             // Other Communities
             val otherCommunities = listOf(
