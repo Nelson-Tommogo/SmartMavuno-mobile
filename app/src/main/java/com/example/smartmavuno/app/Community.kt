@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import com.example.smartmavuno.R
 import com.example.smartmavuno.ui.theme.green3
 import com.example.smartmavuno.ui.theme.grey
+import com.example.smartmavuno.ui.theme.white
 
 @Composable
 fun Community() {
@@ -149,15 +150,14 @@ fun Community() {
                 }
             }
 
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp)
+                    .height(60.dp)
+                    .background(white)
                     .padding(bottom = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.Center
             ) {
-                // Define the list of drawables and colors
                 val communityIcons = listOf(
                     R.drawable.baseline_circle_24,
                     R.drawable.baseline_circle_24,
@@ -171,21 +171,22 @@ fun Community() {
                     colorResource(id = R.color.green3)
                 )
 
-                // Iterate through the list of icons and colors
                 communityIcons.forEachIndexed { index, iconRes ->
                     Box(
                         modifier = Modifier
-                            .weight(1f)
-                            .height(150.dp)
-                            .padding(horizontal = 8.dp),
-                        contentAlignment = Alignment.Center
+                            .size(70.dp)
+                            .background(colors[index])
+                            .clip(CircleShape)
+                            .padding(4.dp)
                     ) {
                         Image(
                             painter = painterResource(id = iconRes),
                             contentDescription = null,
                             colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(colors[index]),
                             modifier = Modifier
-                                .size(60.dp)
+                                .size(62.dp)
+                                .clip(CircleShape)
+                                .align(Alignment.Center)
                         )
                     }
                 }
