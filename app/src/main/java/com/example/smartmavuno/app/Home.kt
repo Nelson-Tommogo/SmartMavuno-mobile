@@ -378,22 +378,28 @@ fun RecentProducts() {
 
 @Composable
 fun Methods() {
-    val icons = listOf(
-        R.drawable.crop,
-        R.drawable.cropone,
-        R.drawable.crop3,
-        R.drawable.crop4,
-        R.drawable.crop5
+    data class Method(
+        val iconRes: Int,
+        val name: String
+    )
+
+    val methods = listOf(
+        Method(R.drawable.crop, "Hydroponics"),
+        Method(R.drawable.cropone, "Aquaponics"),
+        Method(R.drawable.crop3, "Vertical Farming"),
+        Method(R.drawable.crop4, "Greenhouse Farming"),
+        Method(R.drawable.crop5, "Conservation Tillage")
     )
 
     val white = colorResource(id = R.color.white)
+    val grey = colorResource(id = R.color.grey)
 
     var listState by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(Unit) {
         while (true) {
-            delay(100)
-            listState = (listState + 1) % icons.size
+            delay(1000)
+            listState = (listState + 1) % methods.size
         }
     }
 
@@ -435,25 +441,38 @@ fun Methods() {
             verticalAlignment = Alignment.CenterVertically,
             contentPadding = PaddingValues(horizontal = 8.dp)
         ) {
-            itemsIndexed(icons) { index, icon ->
-                Box(
+            itemsIndexed(methods) { index, method ->
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
-                        .size(60.dp)
+                        .width(100.dp) // Adjust width to accommodate text
                         .clip(RoundedCornerShape(16.dp))
                         .background(grey)
-                        .clickable { /* Handle click */ },
-                    contentAlignment = Alignment.Center
+                        .clickable { /* Handle click */ }
+                        .padding(8.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = icons[index]),
+                        painter = painterResource(id = method.iconRes),
                         contentDescription = null,
-                        modifier = Modifier.size(38.dp),
+                        modifier = Modifier
+                            .size(38.dp)
+                            .clip(CircleShape)
+                            .background(Color.White)
+                            .padding(8.dp)
+                    )
+                    Text(
+                        text = method.name,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Black,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(top = 4.dp)
                     )
                 }
             }
         }
     }
 }
+
 
 
 @Composable
