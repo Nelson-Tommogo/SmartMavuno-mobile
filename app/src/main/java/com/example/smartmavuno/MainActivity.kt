@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.app.BottomNavComposable
+import com.example.smartmavuno.app.Home
 import com.example.smartmavuno.navigation.SetupNavigation
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun SmartMavunoApp() {
     val navController = rememberNavController()
-    BottomNavComposable(navController = navController)
+    BottomNavComposable(navController)
 }
 
 

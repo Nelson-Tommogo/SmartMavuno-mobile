@@ -3,28 +3,12 @@ package com.example.smartmavuno.app
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -34,9 +18,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.example.smartmavuno.R
+import com.example.smartmavuno.navigation.Screens
 
 @SuppressLint("ComposableNaming")
 @OptIn(ExperimentalFoundationApi::class)
@@ -127,7 +113,7 @@ fun onboard(navController: NavController) {
                         append("⏩")
                     },
                     onClick = {
-                        navController.navigate("login") // Navigate directly to login
+                        navController.navigate(Screens.BottomNav.screen)
                     }
                 )
 
@@ -138,17 +124,20 @@ fun onboard(navController: NavController) {
                         if (currentPage < onboardingData.size - 1) {
                             currentPage++
                         } else {
-                            navController.navigate("navbar")
+                            navController.navigate(Screens.BottomNav.screen)
                         }
                     },
                 ) {
-                    Text(text = if (currentPage == onboardingData.size - 1) "Get Started" else "Start")
+                    Text(text = if (currentPage == onboardingData.size - 1) "Get Started" else "Next")
                 }
-
             }
         }
     }
 }
+
+
+
+
 
 data class OnboardingItem(
     val title: String,
@@ -158,8 +147,7 @@ data class OnboardingItem(
 
 @Preview
 @Composable
-fun OnboardingScreenPreview() {
+fun OnboardPreview() {
     val navController = rememberNavController()
     onboard(navController = navController)
 }
-

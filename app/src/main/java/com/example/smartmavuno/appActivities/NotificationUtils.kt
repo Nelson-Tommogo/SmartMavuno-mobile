@@ -11,6 +11,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.smartmavuno.R
 
+
 fun createNotificationChannels(context: Context) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val generalChannel = NotificationChannel(
@@ -29,8 +30,7 @@ fun createNotificationChannels(context: Context) {
             description = "System notifications for the app"
         }
 
-        val notificationManager: NotificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(generalChannel)
         notificationManager.createNotificationChannel(systemChannel)
     }

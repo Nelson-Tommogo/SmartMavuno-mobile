@@ -62,7 +62,6 @@ fun Farms() {
                 modifier = Modifier
                     .size(24.dp)
                     .clickable {
-                        // Handle home icon click to navigate back
                     }
             )
             Spacer(modifier = Modifier.width(6.dp))
@@ -79,7 +78,6 @@ fun Farms() {
             color = Color.Black
         )
 
-        // Service Boxes
         val services = listOf(
             "Maize Farm", "Cassava farms"
         )
@@ -90,7 +88,7 @@ fun Farms() {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(8.dp),
-            modifier = Modifier.height(200.dp) // Limit height to allow scrolling of the entire content
+            modifier = Modifier.height(200.dp)
         ) {
             items(services.size) { index ->
                 FarmsBox(service = services[index], iconRes = serviceIcons[index], green1 = green1)
@@ -112,10 +110,8 @@ fun Farms() {
             InfoBox(title = "Security", iconRes = R.drawable.farmsecurity)
         }
 
-        // Spacer between grids
         Spacer(modifier = Modifier.height(6.dp))
 
-        // Farm Photos Box
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -152,7 +148,6 @@ fun FarmsBox(service: String, iconRes: Int, green1: Color) {
             .clip(RoundedCornerShape(16.dp))
             .background(green1)
             .clickable {
-                // Handle service box click
             }
     ) {
         Column(
@@ -189,7 +184,6 @@ fun FarmsBox(service: String, iconRes: Int, green1: Color) {
                     modifier = Modifier
                         .size(24.dp)
                         .clickable {
-                            // Handle remove service
                         },
                     tint = Color.White
                 )
@@ -199,10 +193,9 @@ fun FarmsBox(service: String, iconRes: Int, green1: Color) {
                     modifier = Modifier
                         .size(24.dp)
                         .graphicsLayer {
-                            alpha = 0.1f // Apply blur effect
+                            alpha = 0.1f
                         }
                         .clickable {
-                            // Handle add service
                         },
                     tint = Color.White
                 )

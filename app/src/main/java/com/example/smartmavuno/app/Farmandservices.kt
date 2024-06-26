@@ -23,10 +23,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -45,7 +43,6 @@ fun FarmandServicePage() {
             .background(green3)
             .padding(16.dp)
     ) {
-        // Top Icon and Text
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -60,7 +57,6 @@ fun FarmandServicePage() {
                 modifier = Modifier
                     .size(24.dp)
                     .clickable {
-                        // Handle home icon click to navigate back
                     }
             )
             Spacer(modifier = Modifier.width(8.dp))
@@ -111,7 +107,6 @@ fun FarmServiceBox(service: String, iconRes: Int, green1: Color) {
             .clip(RoundedCornerShape(8.dp))
             .background(green1)
             .clickable {
-                // Handle service box click
             }
     ) {
         Icon(

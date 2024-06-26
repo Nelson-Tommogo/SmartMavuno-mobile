@@ -60,7 +60,6 @@ fun DonationPage() {
             )
         }
 
-        // Combined Box for SmartMavuno Logo and Motivational Text
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -113,7 +112,6 @@ fun DonationPage() {
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Donation Amount Slider and Button Box
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -148,7 +146,6 @@ fun DonationPage() {
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = {
-                        // Handle donate button click
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -162,6 +159,7 @@ fun DonationPage() {
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

@@ -1,5 +1,6 @@
 package com.example.smartmavuno.app
 
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,7 +37,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.smartmavuno.R
-import com.example.smartmavuno.ui.theme.green3
 import com.example.smartmavuno.ui.theme.white
 
 @Composable
@@ -51,7 +51,6 @@ fun Service() {
             .background(white)
             .padding(16.dp)
     ) {
-        // Top Icon and Text
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -66,7 +65,6 @@ fun Service() {
                 modifier = Modifier
                     .size(24.dp)
                     .clickable {
-                        // Handle home icon click to navigate back
                     }
             )
             Spacer(modifier = Modifier.width(8.dp))
@@ -83,7 +81,7 @@ fun Service() {
             label = { Text("Search") },
             leadingIcon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_search_24), // Replace with your search icon
+                    painter = painterResource(id = R.drawable.baseline_search_24),
                     contentDescription = "Search Icon"
                 )
             },
@@ -98,7 +96,6 @@ fun Service() {
             color = Color.Black
         )
 
-        // Service Boxes
         val services = listOf(
             "Land Leasing", "Agricultural Consultancies",
             "Farm Labour", "Equipment Rental",
@@ -133,7 +130,6 @@ fun ServiceBox(service: String, iconRes: Int, green1: Color) {
             .clip(RoundedCornerShape(8.dp))
             .background(green1)
             .clickable {
-                // Handle service box click
             },
         contentAlignment = Alignment.Center
     ) {

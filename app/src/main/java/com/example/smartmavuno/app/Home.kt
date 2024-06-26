@@ -8,7 +8,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -47,7 +50,9 @@ fun Home() {
         item { Spacer(modifier = Modifier.height(8.dp)) }
         item { RecentProducts() }
         item { Spacer(modifier = Modifier.height(8.dp)) }
-        item { Products() }
+        item { Methods() }
+        item { Spacer(modifier = Modifier.height(8.dp)) }
+        item { Trending() }
     }
 }
 
@@ -212,20 +217,23 @@ fun RecentProducts() {
         val iconRes: Int,
         val name: String,
         val price: String,
-        val discountedPrice: String
+        val discountedPrice: String,
+        val rating: Int,
+        var isInCart: Boolean = false // Add isInCart property
     )
 
     val products = listOf(
-        Product(R.drawable.crop, "Fresh Carrots", "Ksh 100", "Ksh 80"),
-        Product(R.drawable.cropone, "Tomatoes", "Ksh 200", "Ksh 150"),
-        Product(R.drawable.crop3, "Mango Seeds", "Ksh 300", "Ksh 250"),
-        Product(R.drawable.crop4, "Fresh Maize", "Ksh 400", "Ksh 350"),
-        Product(R.drawable.crop5, "Cassava", "Ksh 500", "Ksh 450")
+        Product(R.drawable.crop, "Fresh Carrots", "Ksh 100", "Ksh 80", 4),
+        Product(R.drawable.cropone, "Tomatoes", "Ksh 200", "Ksh 150", 3),
+        Product(R.drawable.crop3, "Mango Seeds", "Ksh 300", "Ksh 250", 5),
+        Product(R.drawable.crop4, "Fresh Maize", "Ksh 400", "Ksh 350", 2),
+        Product(R.drawable.crop5, "Cassava", "Ksh 500", "Ksh 450", 1)
     )
 
     val green1 = colorResource(id = R.color.green1)
     val white = colorResource(id = R.color.white)
-    var currentIndex by remember { mutableIntStateOf(0) }
+    val grey = colorResource(id = R.color.grey)
+    var currentIndex by remember { mutableStateOf(0) }
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -254,7 +262,7 @@ fun RecentProducts() {
             state = state,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(150.dp),
+                .height(200.dp), // Adjust height to accommodate "Add to Cart" button
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             contentPadding = PaddingValues(horizontal = 8.dp)
@@ -298,6 +306,40 @@ fun RecentProducts() {
                             color = green1,
                             modifier = Modifier.padding(top = 4.dp)
                         )
+                        Row(
+                            modifier = Modifier.padding(top = 4.dp),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            repeat(5) { starIndex ->
+                                val starColor = if (starIndex < product.rating) Color.Yellow else Color.Gray
+                                Image(
+                                    painter = painterResource(id = R.drawable.baseline_star_purple500_24),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(12.dp)
+                                        .padding(1.dp),
+                                    colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(starColor)
+                                )
+                            }
+                        }
+                        Button(
+                            onClick = {
+                                product.isInCart = !product.isInCart
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (product.isInCart) Color.Gray else green1
+                            ),
+                            modifier = Modifier
+                                .padding(top = 8.dp)
+                                .fillMaxWidth()
+                        ) {
+                            Text(
+                                text = if (product.isInCart) "Remove from Cart" else "Add to Cart",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = white
+                            )
+                        }
                     }
                 }
             }
@@ -316,7 +358,7 @@ fun RecentProducts() {
                     modifier = Modifier
                         .size(8.dp)
                         .padding(horizontal = 2.dp)
-                        .background(color, shape = RoundedCornerShape(50))
+                        .background(color, shape = CircleShape)
                 )
             }
         }
@@ -325,8 +367,10 @@ fun RecentProducts() {
 
 
 
+
+
 @Composable
-fun Products() {
+fun Methods() {
     val icons = listOf(
         R.drawable.crop,
         R.drawable.cropone,
@@ -403,6 +447,88 @@ fun Products() {
         }
     }
 }
+
+
+@Composable
+fun Trending() {
+    val icons = listOf(
+        R.drawable.crop,
+        R.drawable.cropone,
+        R.drawable.crop3,
+        R.drawable.crop4,
+        R.drawable.crop5
+    )
+
+    val white = colorResource(id = R.color.white)
+
+    var listState by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(100)
+            listState = (listState + 1) % icons.size
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+            .background(white)
+            .padding(16.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Top Service Providers",
+                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                color = Color.Black,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            Text(
+                text = "View more",
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.Black,
+                modifier = Modifier.clickable {
+                    // Handle click for "View more"
+                }
+            )
+        }
+
+        val state = rememberLazyListState(initialFirstVisibleItemIndex = listState)
+
+        LazyRow(
+            state = state,
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            contentPadding = PaddingValues(horizontal = 8.dp)
+        ) {
+            itemsIndexed(icons) { index, icon ->
+                Box(
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(grey)
+                        .clickable { /* Handle click */ },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = icons[index]),
+                        contentDescription = null,
+                        modifier = Modifier.size(38.dp),
+                    )
+                }
+            }
+        }
+    }
+}
+
+
 
 @Preview
 @Composable

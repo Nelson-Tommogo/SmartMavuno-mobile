@@ -42,7 +42,6 @@ fun NotificationScreen(navController: NavController) {
             .background(white)
             .padding(16.dp)
     ) {
-        // Top bar with back icon, title, and clear icon
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
@@ -68,7 +67,6 @@ fun NotificationScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Toggle text for General and System notifications
         Column {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -88,7 +86,6 @@ fun NotificationScreen(navController: NavController) {
                 )
             }
 
-            // Slider to indicate current section
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
