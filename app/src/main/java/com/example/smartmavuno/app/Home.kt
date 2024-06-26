@@ -25,9 +25,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.smartmavuno.R
 import com.example.smartmavuno.appActivities.showGeneralNotification
 import com.example.smartmavuno.ui.theme.grey
@@ -52,7 +54,7 @@ fun Home() {
         item { Spacer(modifier = Modifier.height(8.dp)) }
         item { Methods() }
         item { Spacer(modifier = Modifier.height(8.dp)) }
-        item { Trending() }
+        item { Trending()}
     }
 }
 
@@ -157,7 +159,8 @@ fun NotificationBox() {
                         contentDescription = "Search Icon"
                     )
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(10.dp)
             )
         }
@@ -210,6 +213,8 @@ fun Links() {
         }
     }
 }
+
+
 
 @Composable
 fun RecentProducts() {
@@ -270,7 +275,7 @@ fun RecentProducts() {
             itemsIndexed(products) { index, product ->
                 Box(
                     modifier = Modifier
-                        .width(100.dp)
+                        .width(150.dp)
                         .clip(RoundedCornerShape(16.dp))
                         .background(grey)
                         .clickable { },
@@ -332,11 +337,12 @@ fun RecentProducts() {
                             ),
                             modifier = Modifier
                                 .padding(top = 8.dp)
-                                .fillMaxWidth()
+                                .defaultMinSize(minWidth = 64.dp, minHeight = 24.dp)
+                                .align(Alignment.CenterHorizontally)
                         ) {
                             Text(
-                                text = if (product.isInCart) "Remove from Cart" else "Add to Cart",
-                                style = MaterialTheme.typography.bodySmall,
+                                text = if (product.isInCart) "Remove" else "Add",
+                                style = MaterialTheme.typography.bodySmall.copy(fontSize = 10.sp),
                                 color = white
                             )
                         }
@@ -364,6 +370,7 @@ fun RecentProducts() {
         }
     }
 }
+
 
 
 
@@ -403,7 +410,7 @@ fun Methods() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Cultivation Methods",
+                text = "Popular Cultivation Methods",
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                 color = Color.Black,
                 modifier = Modifier.padding(bottom = 8.dp)
@@ -451,22 +458,28 @@ fun Methods() {
 
 @Composable
 fun Trending() {
-    val icons = listOf(
-        R.drawable.crop,
-        R.drawable.cropone,
-        R.drawable.crop3,
-        R.drawable.crop4,
-        R.drawable.crop5
+    data class Provider(
+        val iconRes: Int,
+        val name: String
+    )
+
+    val providers = listOf(
+        Provider(R.drawable.crop, "iProcure"),
+        Provider(R.drawable.cropone, "M-Shamba"),
+        Provider(R.drawable.crop3, "Yara East Africa"),
+        Provider(R.drawable.crop4, "AgroCares"),
+        Provider(R.drawable.crop5, "Hello Tractor")
     )
 
     val white = colorResource(id = R.color.white)
+    val grey = colorResource(id = R.color.grey)
 
     var listState by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(Unit) {
         while (true) {
-            delay(100)
-            listState = (listState + 1) % icons.size
+            delay(1000)
+            listState = (listState + 1) % providers.size
         }
     }
 
@@ -508,26 +521,37 @@ fun Trending() {
             verticalAlignment = Alignment.CenterVertically,
             contentPadding = PaddingValues(horizontal = 8.dp)
         ) {
-            itemsIndexed(icons) { index, icon ->
-                Box(
+            itemsIndexed(providers) { index, provider ->
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
-                        .size(60.dp)
+                        .width(80.dp) // Adjust width to accommodate text
                         .clip(RoundedCornerShape(16.dp))
                         .background(grey)
-                        .clickable { /* Handle click */ },
-                    contentAlignment = Alignment.Center
+                        .clickable { /* Handle click */ }
+                        .padding(8.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = icons[index]),
+                        painter = painterResource(id = provider.iconRes),
                         contentDescription = null,
-                        modifier = Modifier.size(38.dp),
+                        modifier = Modifier
+                            .size(38.dp)
+                            .clip(CircleShape)
+                            .background(Color.White)
+                            .padding(8.dp)
+                    )
+                    Text(
+                        text = provider.name,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Black,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(top = 4.dp)
                     )
                 }
             }
         }
     }
 }
-
 
 
 @Preview
