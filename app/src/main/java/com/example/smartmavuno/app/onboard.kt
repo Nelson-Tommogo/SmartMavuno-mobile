@@ -219,7 +219,7 @@ fun onboard(navController: NavController) {
                             ) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Text(
-                                        text = if (currentPage == onboardingData.size - 1) "Start" else "Next",
+                                        text = if (currentPage == onboardingData.size - 1) "Start" else "Get Started",
                                         color = Color.Black
                                     )
                                     // Emoji of a person walking

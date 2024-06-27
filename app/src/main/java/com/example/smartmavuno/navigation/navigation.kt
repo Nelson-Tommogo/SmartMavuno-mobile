@@ -40,7 +40,7 @@ fun SetupNavigation(navController: NavHostController) {
         }
 
         composable(Screens.Signup.screen) {
-            SignupScreen(navController = navController) { s, s2 ->
+            SignupScreen(navController = navController) { s, s2, s3 ->
             }
         }
 

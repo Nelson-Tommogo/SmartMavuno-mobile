@@ -21,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,17 +33,16 @@ import kotlinx.coroutines.delay
 @Composable
 fun SplashScreen(navController: NavHostController, onAnimationEnd: () -> Unit) {
     var expanded by remember { mutableStateOf(false) }
-    val green1 = colorResource(id = R.color.green1)
 
     LaunchedEffect(true) {
         // Zoom in
         expanded = true
-        delay(1000)
+        delay(800)
         // Zoom out
         expanded = false
-        delay(600)
+        delay(800)
 
-        // Navigate to com.example.smartmavuno.app.onboard screen
+        // navigates to onboarding screens
         navController.navigate(Screens.Onboarding.screen)    }
 
     val transition = updateTransition(targetState = if (expanded) 1f else 0f, label = "scaleAndAlphaTransition")
