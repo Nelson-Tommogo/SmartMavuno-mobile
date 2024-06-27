@@ -3,6 +3,8 @@ package com.example.smartmavuno.app
 
 
 import android.annotation.SuppressLint
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -76,8 +78,17 @@ fun onboard(navController: NavController) {
             ) {
                 IconButton(
                     onClick = {
-                        InfoDialog()
 
+                        val toast = Toast.makeText(
+                            context,
+                            "Please Reach Out to Our Team for Onboarding Assistance, Contact smartmavuno@gmail.com or +254759735505",
+                            Toast.LENGTH_LONG
+                        )
+                        toast.show()
+
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            toast.cancel()
+                        }, 85000)
                     },
                     modifier = Modifier
                         .padding(16.dp)
