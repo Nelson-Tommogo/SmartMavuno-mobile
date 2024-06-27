@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -57,20 +58,24 @@ fun Community() {
         ) {
             // Profile Picture
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp),
-                horizontalArrangement = Arrangement.Start
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.farm),
-                    contentDescription = "Profile Picture",
+                // Profile Image Holder
+                Box(
                     modifier = Modifier
-                        .size(80.dp)
-                        .clip(CircleShape)
-                        .background(Color.Gray)
-                )
+                        .size(40.dp)
+                        .clip(RoundedCornerShape(20.dp)) // Circular shape
+                        .background(green3) // Background color for the holder
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.profile),
+                        contentDescription = "Profile Image",
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             // Buttons Row
             Row(
@@ -96,12 +101,10 @@ fun Community() {
                     )
                 ) {
                     Text(text = "Donations",
-                            color = Color.Black
+                        color = Color.Black
                     )
-
                 }
             }
-
 
             Row(
                 modifier = Modifier
@@ -123,7 +126,6 @@ fun Community() {
                     tint = Color.Unspecified
                 )
             }
-
 
             // Top Communities
             val topCommunities = listOf(
@@ -172,28 +174,27 @@ fun Community() {
                     Box(
                         modifier = Modifier
                             .size(70.dp)
-                            .background(colors[index])
-                            .clip(CircleShape)
                             .padding(4.dp)
+                            .offset(x = (-26).dp * index),
+                        contentAlignment = Alignment.Center
                     ) {
                         Image(
                             painter = painterResource(id = iconRes),
-                            contentDescription = null,
+                            contentDescription = "Community Icon $index",
                             colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(colors[index]),
                             modifier = Modifier
                                 .size(62.dp)
                                 .clip(CircleShape)
-                                .align(Alignment.Center)
+                                .background(colors[index])
+                                .padding(2.dp)
                         )
                     }
                 }
             }
 
-
-
             // Other Communities
             val otherCommunities = listOf(
-                "Maize Farmers - Region A",
+                "SoyBeans farmers",
                 "Cassava Growers - Region B",
                 "Wheat Farmers - Region C",
                 "Rice Growers - Region D"
@@ -241,7 +242,7 @@ fun TopCommunityBox(communityName: String, iconRes: Int, green1: Color) {
         Icon(
             painter = painterResource(id = iconRes),
             contentDescription = communityName,
-            modifier = Modifier.size(60.dp),
+            modifier = Modifier.size(80.dp), // Increase the icon size
             tint = Color.Unspecified
         )
         Text(

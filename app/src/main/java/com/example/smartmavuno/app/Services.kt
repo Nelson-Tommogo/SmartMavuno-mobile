@@ -1,6 +1,5 @@
 package com.example.smartmavuno.app
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -69,7 +69,7 @@ fun Service() {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Service",
+                text = "Services",
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Black
             )
@@ -91,7 +91,7 @@ fun Service() {
         )
 
         Text(
-            text = "Available Agricultural Services",
+            text = "SmartMavuno Services",
             style = MaterialTheme.typography.bodyMedium,
             color = Color.Black
         )
@@ -103,10 +103,10 @@ fun Service() {
             "Soil Testing", "Pest Control"
         )
         val serviceIcons = listOf(
-            R.drawable.farm, R.drawable.crop4,
-            R.drawable.crop, R.drawable.cropone,
-            R.drawable.croptwo, R.drawable.crop3,
-            R.drawable.farm, R.drawable.crop
+            R.drawable.landleasing, R.drawable.consultancy,
+            R.drawable.farmlabour, R.drawable.equiprental,
+            R.drawable.moniitor, R.drawable.irrigation,
+            R.drawable.soiltesting, R.drawable.pestcontrol
         )
 
         LazyVerticalGrid(
@@ -129,20 +129,27 @@ fun ServiceBox(service: String, iconRes: Int, green1: Color) {
             .height(150.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(green1)
-            .clickable {
-            },
+            .clickable { },
         contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Icon(
-                painter = painterResource(id = iconRes),
-                contentDescription = service,
-                modifier = Modifier.size(64.dp),
-                tint = Color.Unspecified
-            )
+            Box(
+                modifier = Modifier
+                    .size(80.dp)
+                    .clip(CircleShape)
+                    .background(Color.White),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    painter = painterResource(id = iconRes),
+                    contentDescription = service,
+                    modifier = Modifier.size(80.dp),
+                    tint = Color.Unspecified
+                )
+            }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = service,
