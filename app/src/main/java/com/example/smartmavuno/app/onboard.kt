@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.*
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +38,7 @@ import com.example.smartmavuno.R
 import com.example.smartmavuno.navigation.Screens
 import com.example.smartmavuno.ui.theme.green1
 import com.example.smartmavuno.ui.theme.green3
+import com.example.smartmavuno.ui.theme.white
 
 @SuppressLint("ComposableNaming")
 @OptIn(ExperimentalFoundationApi::class)
@@ -61,7 +63,7 @@ fun onboard(navController: NavController) {
         )
     )
 
-    var currentPage by remember { mutableStateOf(0) }
+    var currentPage by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
     Surface(modifier = Modifier.fillMaxSize()) {
@@ -100,7 +102,7 @@ fun onboard(navController: NavController) {
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_info_outline_24),
                         contentDescription = stringResource(id = R.string.info_icon),
-                        tint = Color.Black
+                        tint = white
                     )
                 }
 
@@ -145,7 +147,14 @@ fun onboard(navController: NavController) {
                                 text = item.description,
                                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 14.sp)
                             )
+                            // Indicator for showing current page position
+                            Indicator(
+                                currentPage = page,
+                                pageCount = onboardingData.size,
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            )
                         }
+
                     }
                 }
 
@@ -267,6 +276,30 @@ fun InfoDialog() {
         }
     )
 }
+
+
+@Composable
+fun Indicator(
+    currentPage: Int,
+    pageCount: Int,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        repeat(pageCount) { index ->
+            Box(
+                modifier = Modifier
+                    .size(if (index == currentPage) 12.dp else 8.dp)
+                    .clip(CircleShape)
+                    .background(color = if (index == currentPage) Color.Black else Color.Gray)
+            )
+        }
+    }
+}
+
 
 @Preview
 @Composable
