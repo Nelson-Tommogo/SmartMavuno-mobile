@@ -85,22 +85,30 @@ fun Community() {
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 Button(
-                    onClick = { selectedButton.value = "Community" },
+                    onClick = {
+                        selectedButton.value = "Community"
+                        // Handle Community Outreach button click
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (selectedButton.value == "Community") green1 else grey
                     )
                 ) {
-                    Text(text = "Community Outreach",
+                    Text(
+                        text = "Community Outreach",
                         color = Color.Black
                     )
                 }
                 Button(
-                    onClick = { selectedButton.value = "Donations" },
+                    onClick = {
+                        selectedButton.value = "Donations"
+                        // Handle Donations button click
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (selectedButton.value == "Donations") green1 else grey
                     )
                 ) {
-                    Text(text = "Donations",
+                    Text(
+                        text = "Donations",
                         color = Color.Black
                     )
                 }
@@ -122,7 +130,10 @@ fun Community() {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
                     contentDescription = "Forward",
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier
+                        .width(40.dp)
+                        .height(24.dp)
+                        .clickable { /* Handle forward icon click */ },
                     tint = green1
                 )
             }
@@ -195,8 +206,8 @@ fun Community() {
             // Other Communities
             val otherCommunities = listOf(
                 "SoyBeans farmers",
-                "western farmers Association",
-                "Central Kenya farmers Forum",
+                "Western Farmers Association",
+                "Central Kenya Farmers Forum",
                 "Smart Farmers Forum"
             )
             val communityIcons = listOf(
@@ -297,7 +308,6 @@ fun CommunityBox(communityName: String, iconRes: Int, green1: Color, onClick: ()
                 .clickable { onClick() },
             tint = green1
         )
-
     }
 }
 
