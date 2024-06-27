@@ -195,9 +195,9 @@ fun Community() {
             // Other Communities
             val otherCommunities = listOf(
                 "SoyBeans farmers",
-                "Cassava Growers - Region B",
-                "Wheat Farmers - Region C",
-                "Rice Growers - Region D"
+                "western farmers Association",
+                "Central Kenya farmers Forum",
+                "Smart Farmers Forum"
             )
             val communityIcons = listOf(
                 R.drawable.farmerscom,
@@ -217,7 +217,12 @@ fun Community() {
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(otherCommunities.size) { index ->
-                        CommunityBox(communityName = otherCommunities[index], iconRes = communityIcons[index], green1 = green1)
+                        CommunityBox(
+                            communityName = otherCommunities[index],
+                            iconRes = communityIcons[index],
+                            green1 = green1,
+                            onClick = { /* Handle navigation to the community */ }
+                        )
                     }
                 }
             }
@@ -256,7 +261,7 @@ fun TopCommunityBox(communityName: String, iconRes: Int, green1: Color) {
 }
 
 @Composable
-fun CommunityBox(communityName: String, iconRes: Int, green1: Color) {
+fun CommunityBox(communityName: String, iconRes: Int, green1: Color, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -282,6 +287,14 @@ fun CommunityBox(communityName: String, iconRes: Int, green1: Color) {
             color = Color.Black,
             textAlign = TextAlign.Start,
             modifier = Modifier.weight(1f)
+        )
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
+            contentDescription = "Navigate to $communityName",
+            modifier = Modifier
+                .size(24.dp)
+                .clickable { onClick() },
+            tint = Color.Unspecified
         )
     }
 }
