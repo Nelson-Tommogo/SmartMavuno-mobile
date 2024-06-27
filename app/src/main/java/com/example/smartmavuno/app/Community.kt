@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -163,16 +164,18 @@ fun Community() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(60.dp)
-                    .background(white)
-                    .padding(bottom = 16.dp),
-                horizontalArrangement = Arrangement.Center
+                    .height(70.dp)
+                    .background(Color.White)
+                    .padding(bottom = 26.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 val communityIcons = listOf(
                     R.drawable.baseline_circle_24,
                     R.drawable.baseline_circle_24,
                     R.drawable.baseline_circle_24,
                     R.drawable.baseline_circle_24
+
                 )
                 val colors = listOf(
                     colorResource(id = R.color.green2),
@@ -203,6 +206,9 @@ fun Community() {
                 }
             }
 
+
+
+
             // Other Communities
             val otherCommunities = listOf(
                 "SoyBeans farmers",
@@ -216,6 +222,10 @@ fun Community() {
                 R.drawable.farmerscomthree,
                 R.drawable.farmerscom
             )
+
+
+
+
 
             Box(
                 modifier = Modifier
