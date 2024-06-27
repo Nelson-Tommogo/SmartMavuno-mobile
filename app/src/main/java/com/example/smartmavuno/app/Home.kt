@@ -1,7 +1,10 @@
 package com.example.smartmavuno.app
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,10 +15,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -35,7 +41,9 @@ import com.example.smartmavuno.appActivities.showGeneralNotification
 import com.example.smartmavuno.ui.theme.grey
 import com.example.smartmavuno.ui.theme.white
 import kotlinx.coroutines.delay
+import java.time.LocalTime
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Home() {
     val verticalScrollState = rememberLazyListState()
@@ -58,8 +66,12 @@ fun Home() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotificationBox() {
+    val currentTime = remember { LocalTime.now() }
+    val greeting = getGreeting(currentTime)
     val green1 = colorResource(id = R.color.green1)
     val green3 = colorResource(id = R.color.green3)
     val white = colorResource(id = R.color.white)
@@ -104,17 +116,24 @@ fun NotificationBox() {
                                     .background(green3) // Background color for the holder
                             ) {
                                 Image(
-                                    painter = painterResource(id = R.drawable.communitypic),
+                                    painter = painterResource(id = R.drawable.profile),
                                     contentDescription = "Profile Image",
                                     modifier = Modifier.size(40.dp)
                                 )
                             }
                             Spacer(modifier = Modifier.width(25.dp))
                             Text(
-                                text = "Hello SmartMavuno",
+                                text = "Hello",
                                 style = MaterialTheme.typography.bodyMedium,
                                 modifier = Modifier.padding(bottom = 8.dp)
                             )
+                            Spacer(modifier = Modifier.width(25.dp))
+                            Text(
+                                text = greeting,
+                                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp),
+                                modifier = Modifier.padding(bottom = 8.dp)
+                            )
+
                         }
                         Spacer(modifier = Modifier.height(16.dp))
 
@@ -147,23 +166,61 @@ fun NotificationBox() {
                         )
                     }
                 }
+
+
+
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            OutlinedTextField(
-                value = searchQuery,
-                onValueChange = { searchQuery = it },
-                label = { Text("Search") },
-                trailingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_search_24),
-                        contentDescription = "Search Icon"
-                    )
-                },
+
+
+            Spacer(modifier = Modifier.height(10.dp))
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(10.dp)
-            )
+                    .padding(8.dp)
+                    .background(color = Color.Gray)
+                    .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(8.dp))
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(54.dp)
+                        .padding(horizontal = 0.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TextField(
+                        value = searchQuery,
+                        onValueChange = { searchQuery = it },
+                        placeholder = { Text("Search Service", color = green1) },
+                        modifier = Modifier.weight(1f),
+                        textStyle = TextStyle(color = Color.Black),
+                        colors = TextFieldDefaults.textFieldColors(
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            cursorColor = Color.Black
+                        )
+                    )
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_search_24),
+                        contentDescription = "Search Icon",
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+
+
+
         }
+    }
+}
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun getGreeting(currentTime: java.time.LocalTime): String {
+    return when (currentTime.hour) {
+        in 0..11 -> "Good Morning"
+        in 12..16 -> "Good Afternoon"
+        in 17..23 -> "Good Evening"
+        else -> "Hello"
     }
 }
 
@@ -177,13 +234,12 @@ fun Links() {
         Pair(R.drawable.pest, "Pest Control")
     )
 
-
     Box(
         modifier = Modifier
             .height(100.dp)
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
-            .background(white)
+            .background(Color.White)
             .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -195,7 +251,16 @@ fun Links() {
             icons.forEach { icon ->
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.clickable {
+                        when (icon.second) {
+                            "Farm" -> { /* Handle Farm click */ }
+                            "Progress" -> { /* Handle Progress click */ }
+                            "Calendar" -> { /* Handle Calendar click */ }
+                            "Weather" -> { /* Handle Weather click */ }
+                            "Pest Control" -> { /* Handle Pest Control click */ }
+                        }
+                    }
                 ) {
                     Icon(
                         painter = painterResource(id = icon.first),
@@ -573,6 +638,7 @@ fun Trending() {
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
 fun HomePagePreview() {

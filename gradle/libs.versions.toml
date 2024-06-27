@@ -28,6 +28,7 @@ firebaseAnalyticsKtx = "21.2.0"
 googleFirebaseCrashlytics = "2.9.2"
 firebaseMessagingKtx = "23.1.0"
 foundationDesktop = "1.6.8"
+places = "3.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -62,6 +63,7 @@ firebase-crashlytics-ktx = { group = "com.google.firebase", name = "firebase-cra
 firebase-analytics-ktx = { group = "com.google.firebase", name = "firebase-analytics-ktx", version.ref = "firebaseAnalyticsKtx" }
 firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebaseMessagingKtx" }
 androidx-foundation-desktop = { group = "androidx.compose.foundation", name = "foundation-desktop", version.ref = "foundationDesktop" }
+places = { group = "com.google.android.libraries.places", name = "places", version.ref = "places" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

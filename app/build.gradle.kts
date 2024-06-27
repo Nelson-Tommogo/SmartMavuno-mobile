@@ -93,6 +93,7 @@ dependencies {
     implementation(libs.firebase.messaging.ktx)
     implementation(libs.firebase.crashlytics.ktx)
     implementation(libs.firebase.analytics.ktx)
+    implementation(libs.places)
     // Testing
     //noinspection UseTomlInstead
     testImplementation("io.mockk:mockk:1.12.0")

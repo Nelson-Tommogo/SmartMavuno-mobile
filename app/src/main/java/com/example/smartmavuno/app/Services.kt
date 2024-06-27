@@ -65,6 +65,7 @@ fun Service() {
                 modifier = Modifier
                     .size(24.dp)
                     .clickable {
+                        // Handle back click here
                     }
             )
             Spacer(modifier = Modifier.width(8.dp))
@@ -115,21 +116,38 @@ fun Service() {
             modifier = Modifier.fillMaxSize()
         ) {
             items(services.size) { index ->
-                ServiceBox(service = services[index], iconRes = serviceIcons[index], green1 = green1)
+                ServiceBox(
+                    service = services[index],
+                    iconRes = serviceIcons[index],
+                    green1 = green1,
+                    onClick = {
+                        // Handle service box click here
+                        when (services[index]) {
+                            "Land Leasing" -> { /* Handle Land Leasing click */ }
+                            "Agricultural Consultancies" -> { /* Handle Agricultural Consultancies click */ }
+                            "Farm Labour" -> { /* Handle Farm Labour click */ }
+                            "Equipment Rental" -> { /* Handle Equipment Rental click */ }
+                            "Crop Monitoring" -> { /* Handle Crop Monitoring click */ }
+                            "Irrigation Services" -> { /* Handle Irrigation Services click */ }
+                            "Soil Testing" -> { /* Handle Soil Testing click */ }
+                            "Pest Control" -> { /* Handle Pest Control click */ }
+                        }
+                    }
+                )
             }
         }
     }
 }
 
 @Composable
-fun ServiceBox(service: String, iconRes: Int, green1: Color) {
+fun ServiceBox(service: String, iconRes: Int, green1: Color, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .padding(8.dp)
             .height(150.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(green1)
-            .clickable { },
+            .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Column(
