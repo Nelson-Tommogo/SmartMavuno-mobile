@@ -59,23 +59,16 @@ fun ResetScreen(navController: NavHostController, onLogin: (String) -> Unit) {
                     .padding(bottom = 0.dp)
             )
 
-            Text(
-                text = "Welcome to SmartMavuno",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .padding(top = 4.dp, bottom = 12.dp)
-                    .offset(x = 80.dp),
-                color = green1
-            )
+
+            Spacer(modifier = Modifier.height(22.dp))
 
             Text(
-                text = "Sign In",
-                fontSize = 10.sp,
+                text = "Forgot Password?",
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .padding(bottom = 12.dp)
-                    .offset(x = 170.dp),
+                    .offset(x = 130.dp),
                 color = green1
             )
 
@@ -98,7 +91,7 @@ fun ResetScreen(navController: NavHostController, onLogin: (String) -> Unit) {
                         TextField(
                             value = email,
                             onValueChange = { email = it },
-                            placeholder = { Text("Email", color = green1) },
+                            placeholder = { Text("Email Address", color = green1) },
                             trailingIcon = {
                                 Image(
                                     painter = painterResource(id = R.drawable.baseline_email_24),
@@ -135,10 +128,12 @@ fun ResetScreen(navController: NavHostController, onLogin: (String) -> Unit) {
                     .padding(horizontal = 16.dp)
                     .clip(RoundedCornerShape(15.dp))
                     .background(color = green1)
-                    .clickable { /* Handle button click */ }
+                    .clickable {
+                        navController.navigate(Screens.Login.screen)
+                    }
             ) {
                 Text(
-                    text = "Sign In",
+                    text = "Generate Password",
                     color = Color.White,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
@@ -151,7 +146,7 @@ fun ResetScreen(navController: NavHostController, onLogin: (String) -> Unit) {
 
             // Sign Up text
             ClickableText(
-                text = AnnotatedString("\t\t\t Rembered Your Account?\n\t\t\t\t\t\t\t Login"),
+                text = AnnotatedString("\t\t\t Remembered Your Account?\n\t\t\t\t\t Go Back and Login"),
                 onClick = {
                     navController.navigate(Screens.Login.screen)
                 },

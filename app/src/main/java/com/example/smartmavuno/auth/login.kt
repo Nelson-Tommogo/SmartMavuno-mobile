@@ -203,7 +203,10 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                     .padding(horizontal = 16.dp)
                     .clip(RoundedCornerShape(15.dp))
                     .background(color = green1)
-                    .clickable { /* Handle button click */ }
+                    .clickable {
+                        navController.navigate(Screens.BottomNav.screen)
+
+                    }
             ) {
                 Text(
                     text = "Sign In",

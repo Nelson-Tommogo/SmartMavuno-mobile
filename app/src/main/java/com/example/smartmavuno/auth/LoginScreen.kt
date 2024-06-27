@@ -1,6 +1,5 @@
 package com.example.smartmavuno.auth
 
-import android.graphics.Paint.Align
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,8 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +22,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.components.CButton
@@ -35,7 +31,7 @@ import com.example.smartmavuno.components.DontHaveAccountRow
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    navController: NavHostController
+    navController: () -> Unit
 ) {
 
     // we can copy and paste and do changes for signup screen
@@ -105,7 +101,6 @@ fun LoginScreen(
 
                 DontHaveAccountRow(
                     onSignupTap = {
-                        navController.navigate("signup")
                     }
                 )
 
@@ -121,5 +116,4 @@ fun LoginScreen(
 @Preview(showBackground = true, widthDp = 320, heightDp = 640)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen(rememberNavController())
 }

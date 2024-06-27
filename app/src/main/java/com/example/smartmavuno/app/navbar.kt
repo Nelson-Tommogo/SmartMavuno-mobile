@@ -23,6 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
+import com.example.smartmavuno.auth.LoginScreen
 import com.example.smartmavuno.navigation.Screens
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -156,6 +157,9 @@ fun BottomNavComposable(navController: NavHostController) {
             composable(Screens.Service.screen) { Service() }
             composable(Screens.Community.screen) { Community() }
             composable(Screens.Articles.screen) { Articles() }
+            composable(Screens.Login.screen){ LoginScreen() {
+
+            } }
         }
     }
 }
