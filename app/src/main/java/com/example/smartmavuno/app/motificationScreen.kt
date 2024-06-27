@@ -57,7 +57,7 @@ fun NotificationScreen(navController: NavController) {
             Text(text = "Notifications", style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.weight(1f))
             Icon(
-                painter = painterResource(id = R.drawable.clear),
+                painter = painterResource(id = R.drawable.baseline_cleaning_services_24),
                 contentDescription = "Clear",
                 modifier = Modifier
                     .size(24.dp)
