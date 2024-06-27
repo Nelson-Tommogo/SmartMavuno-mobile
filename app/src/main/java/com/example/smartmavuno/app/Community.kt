@@ -123,7 +123,7 @@ fun Community() {
                     painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
                     contentDescription = "Forward",
                     modifier = Modifier.size(24.dp),
-                    tint = Color.Unspecified
+                    tint = green1
                 )
             }
 
@@ -292,10 +292,12 @@ fun CommunityBox(communityName: String, iconRes: Int, green1: Color, onClick: ()
             painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
             contentDescription = "Navigate to $communityName",
             modifier = Modifier
-                .size(24.dp)
+                .width(30.dp)
+                .height(44.dp)
                 .clickable { onClick() },
-            tint = Color.Unspecified
+            tint = green1
         )
+
     }
 }
 
