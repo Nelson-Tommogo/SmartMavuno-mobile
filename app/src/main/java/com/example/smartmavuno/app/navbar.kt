@@ -1,6 +1,8 @@
 package com.example.smartmavuno.app
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,9 +25,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
-import com.example.smartmavuno.auth.LoginScreen
 import com.example.smartmavuno.navigation.Screens
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun BottomNavComposable(navController: NavHostController) {
@@ -33,7 +35,6 @@ fun BottomNavComposable(navController: NavHostController) {
     val grey = colorResource(id = R.color.grey)
     val bottomAppBarHeight = 70.dp
 
-    val navigationController = rememberNavController()
     var selected by remember { mutableStateOf("Home") }
 
     Scaffold(
@@ -60,12 +61,12 @@ fun BottomNavComposable(navController: NavHostController) {
                             Icons.Default.Home,
                             contentDescription = "HomeIcon",
                             modifier = Modifier.size(26.dp),
-                            tint = if (selected == "home") green2 else colorResource(id = R.color.grey1)
+                            tint = if (selected == "Home") green2 else colorResource(id = R.color.grey1)
                         )
                         Text(
                             text = "Home",
                             fontSize = 12.sp,
-                            color = if (selected == "home") green2 else colorResource(id = R.color.grey1),
+                            color = if (selected == "Home") green2 else colorResource(id = R.color.grey1),
                             textAlign = TextAlign.Center
                         )
                     }
@@ -153,17 +154,15 @@ fun BottomNavComposable(navController: NavHostController) {
             startDestination = Screens.Home.screen,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(Screens.Home.screen) { Home() }
+            composable(Screens.Home.screen) { Home(navController = navController) }
             composable(Screens.Service.screen) { Service() }
             composable(Screens.Community.screen) { Community() }
             composable(Screens.Articles.screen) { Articles() }
-            composable(Screens.Login.screen){ LoginScreen() {
-
-            } }
         }
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
 fun BottomNavComposablePreview() {

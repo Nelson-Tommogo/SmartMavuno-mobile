@@ -1,5 +1,8 @@
 package com.example.smartmavuno.navigation
 
+import com.example.smartmavuno.app.MarketplaceScreen
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -9,6 +12,8 @@ import com.example.smartmavuno.auth.ResetScreen
 import com.example.smartmavuno.auth.SignupScreen
 import com.example.smartmavuno.auth.SplashScreen
 import com.example.smartmavuno.app.BottomNavComposable
+import com.example.smartmavuno.app.FarmsandServices
+import com.example.smartmavuno.app.Weather
 import com.example.smartmavuno.app.onboard
 
 sealed class Screens(val screen: String) {
@@ -22,8 +27,12 @@ sealed class Screens(val screen: String) {
     data object Service : Screens("service")
     data object Community : Screens("community")
     data object Articles : Screens("articles")
+    data object FarmsandServices : Screens("FarmsandServices")
+    data object  Weather : Screens("Weather")
+    data object  MarketPlace : Screens("MarketPlace")
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SetupNavigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = Screens.Splash.screen) {
@@ -56,6 +65,18 @@ fun SetupNavigation(navController: NavHostController) {
 
         composable(Screens.BottomNav.screen) {
             BottomNavComposable(navController = navController)
+        }
+
+        composable(Screens.FarmsandServices.screen){
+            FarmsandServices(navController = navController)
+        }
+
+        composable(Screens.Weather.screen){
+            Weather(navController)
+        }
+
+        composable(Screens.MarketPlace.screen){
+            MarketplaceScreen(navController)
         }
     }
 }

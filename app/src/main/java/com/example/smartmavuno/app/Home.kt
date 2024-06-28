@@ -36,16 +36,18 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.appActivities.showGeneralNotification
+import com.example.smartmavuno.navigation.Screens
 import com.example.smartmavuno.ui.theme.grey
-import com.example.smartmavuno.ui.theme.white
 import kotlinx.coroutines.delay
 import java.time.LocalTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Home() {
+fun Home(navController: NavHostController) {
     val verticalScrollState = rememberLazyListState()
     LazyColumn(
         modifier = Modifier
@@ -231,7 +233,7 @@ fun Links() {
         Pair(R.drawable.process, "Progress"),
         Pair(R.drawable.calendar, "Calendar"),
         Pair(R.drawable.forecast, "Weather"),
-        Pair(R.drawable.pest, "Pest Control")
+        Pair(R.drawable.marketplace, "Market Place")
     )
 
     Box(
@@ -254,7 +256,11 @@ fun Links() {
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier.clickable {
                         when (icon.second) {
-                            "Farm" -> { /* Handle Farm click */ }
+                            "Farm" -> {
+//                                val navController = rememberNavController()
+//                                navController.navigate(Screens.FarmsandServices.screen)
+
+                          }
                             "Progress" -> { /* Handle Progress click */ }
                             "Calendar" -> { /* Handle Calendar click */ }
                             "Weather" -> { /* Handle Weather click */ }
@@ -303,7 +309,7 @@ fun RecentProducts() {
     val green1 = colorResource(id = R.color.green1)
     val white = colorResource(id = R.color.white)
     val grey = colorResource(id = R.color.grey)
-    var currentIndex by remember { mutableStateOf(0) }
+    var currentIndex by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(Unit) {
         while (true) {
@@ -642,6 +648,6 @@ fun Trending() {
 @Preview
 @Composable
 fun HomePagePreview() {
-    Home()
+    Home(navController = rememberNavController())
 
 }
