@@ -32,9 +32,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.smartmavuno.R
+import com.example.smartmavuno.navigation.Screens
 
 @Composable
-fun DonationPage() {
+fun Donate() {
     val green1 = colorResource(id = R.color.green1)
     val green4 = colorResource(id = R.color.green4)
     val white = colorResource(id = R.color.white)
@@ -164,5 +165,5 @@ fun DonationPage() {
 @Preview(showBackground = true)
 @Composable
 fun DonationPagePreview() {
-    DonationPage()
+    Donate()
 }

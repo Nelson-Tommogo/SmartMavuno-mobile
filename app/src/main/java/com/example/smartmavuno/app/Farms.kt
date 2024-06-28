@@ -33,11 +33,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.ui.theme.green3
 
 @Composable
-fun Farms() {
+fun Farms(navController: NavController) {
     val green1 = colorResource(id = R.color.green1)
 
     Column(
@@ -257,5 +259,5 @@ fun PhotoBox(title: String, iconRes: Int) {
 @Preview(showBackground = true)
 @Composable
 fun FarmsPreview() {
-    Farms()
+    Farms(navController = rememberNavController())
 }

@@ -56,22 +56,22 @@ fun Home(navController: NavHostController) {
             .padding(16.dp),
         state = verticalScrollState
     ) {
-        item { NotificationBox() }
+        item { NotificationBox(navController) }
         item { Spacer(modifier = Modifier.height(8.dp)) }
-        item { Links() }
+        item { Links(navController) }
         item { Spacer(modifier = Modifier.height(8.dp)) }
-        item { RecentProducts() }
+        item { RecentProducts(navController) }
         item { Spacer(modifier = Modifier.height(8.dp)) }
-        item { Methods() }
+        item { Methods(navController) }
         item { Spacer(modifier = Modifier.height(8.dp)) }
-        item { Trending()}
+        item { Trending(navController)}
     }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NotificationBox() {
+fun NotificationBox(navController: NavHostController) {
     val currentTime = remember { LocalTime.now() }
     val greeting = getGreeting(currentTime)
     val green1 = colorResource(id = R.color.green1)
@@ -227,7 +227,7 @@ fun getGreeting(currentTime: java.time.LocalTime): String {
 }
 
 @Composable
-fun Links() {
+fun Links(navController: NavHostController) {
     val icons = listOf(
         Pair(R.drawable.farm, "Farm"),
         Pair(R.drawable.process, "Progress"),
@@ -257,14 +257,22 @@ fun Links() {
                     modifier = Modifier.clickable {
                         when (icon.second) {
                             "Farm" -> {
-//                                val navController = rememberNavController()
-//                                navController.navigate(Screens.FarmsandServices.screen)
+                                navController.navigate(Screens.FarmsandServices.screen)
+                            }
+                            "Progress" -> {
 
-                          }
-                            "Progress" -> { /* Handle Progress click */ }
-                            "Calendar" -> { /* Handle Calendar click */ }
-                            "Weather" -> { /* Handle Weather click */ }
-                            "Pest Control" -> { /* Handle Pest Control click */ }
+                            }
+                            "Calendar" -> {
+
+                            }
+                            "Weather" -> {
+                                navController.navigate(Screens.Weather.screen)
+
+                            }
+                            "Market Place" -> {
+                                navController.navigate(Screens.MarketPlace.screen)
+
+                            }
                         }
                     }
                 ) {
@@ -288,7 +296,7 @@ fun Links() {
 
 
 @Composable
-fun RecentProducts() {
+fun RecentProducts(navController: NavHostController) {
     data class Product(
         val iconRes: Int,
         val name: String,
@@ -402,6 +410,7 @@ fun RecentProducts() {
                         Button(
                             onClick = {
                                 product.isInCart = !product.isInCart
+                                navController.navigate(Screens.MarketPlace.screen)
                             },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = if (product.isInCart) Color.Gray else green1
@@ -448,7 +457,7 @@ fun RecentProducts() {
 
 
 @Composable
-fun Methods() {
+fun Methods(navController: NavHostController) {
     data class Method(
         val iconRes: Int,
         val name: String
@@ -498,7 +507,7 @@ fun Methods() {
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Black,
                 modifier = Modifier.clickable {
-                    // Handle click for "View more"
+                     navController.navigate(Screens.Articles.screen)
                 }
             )
         }
@@ -547,7 +556,7 @@ fun Methods() {
 
 
 @Composable
-fun Trending() {
+fun Trending(navController: NavHostController) {
     data class Provider(
         val iconRes: Int,
         val name: String

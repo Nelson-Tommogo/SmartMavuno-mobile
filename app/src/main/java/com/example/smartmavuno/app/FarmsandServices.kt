@@ -19,19 +19,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
-import com.example.smartmavuno.ui.theme.green3
+import com.example.smartmavuno.ui.theme.white
 
 @Composable
-fun FarmsandServices(navController: NavHostController) {
+fun FarmsandServices() {
     val green1 = colorResource(id = R.color.green1)
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(green3)
+            .background(white)
             .padding(16.dp)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -174,5 +172,5 @@ fun FarmsandServicesBox(service: String, iconRes: Int, green1: Color, onClick: (
 @Preview(showBackground = true)
 @Composable
 fun FarmsandServicesPreview() {
-    FarmsandServices(navController = rememberNavController())
+    FarmsandServices()
 }

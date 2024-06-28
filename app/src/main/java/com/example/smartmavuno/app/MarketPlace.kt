@@ -19,7 +19,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.example.smartmavuno.R  // Replace with your project's resource import
 
 data class Product(
@@ -32,7 +31,7 @@ data class Product(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MarketplaceScreen(products: NavHostController) {
+fun MarketplaceScreen() {
 
 }
 
