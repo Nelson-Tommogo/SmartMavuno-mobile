@@ -182,7 +182,7 @@ fun FarmsBox(service: String, iconRes: Int, green1: Color) {
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.removefarm),
-                    contentDescription = "Remove Service",
+                    contentDescription = "Remove com.example.smartmavuno.model.Service",
                     modifier = Modifier
                         .size(24.dp)
                         .clickable {
@@ -191,7 +191,7 @@ fun FarmsBox(service: String, iconRes: Int, green1: Color) {
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_add_circle_outline_24),
-                    contentDescription = "Add Service",
+                    contentDescription = "Add com.example.smartmavuno.model.Service",
                     modifier = Modifier
                         .size(24.dp)
                         .graphicsLayer {

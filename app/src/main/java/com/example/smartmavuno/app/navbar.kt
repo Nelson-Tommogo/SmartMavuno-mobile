@@ -20,13 +20,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
-import com.example.smartmavuno.auth.LoginScreen
 import com.example.smartmavuno.navigation.Screens
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -76,7 +74,7 @@ fun BottomNavComposable(navController: NavHostController) {
 
                 IconButton(
                     onClick = {
-                        selected = "Service"
+                        selected = "com.example.smartmavuno.model.Service"
                         navController.navigate(Screens.Service.screen) {
                             popUpTo(0)
                         }
@@ -88,12 +86,12 @@ fun BottomNavComposable(navController: NavHostController) {
                             painter = painterResource(id = R.drawable.baseline_miscellaneous_services_24),
                             contentDescription = "ServiceIcon",
                             modifier = Modifier.size(26.dp),
-                            colorFilter = if (selected == "Service") ColorFilter.tint(Color.White) else ColorFilter.tint(green2)
+                            colorFilter = if (selected == "com.example.smartmavuno.model.Service") ColorFilter.tint(Color.White) else ColorFilter.tint(green2)
                         )
                         Text(
                             text = "Services",
                             fontSize = 12.sp,
-                            color = if (selected == "Service") Color.White else green2,
+                            color = if (selected == "com.example.smartmavuno.model.Service") Color.White else green2,
                             textAlign = TextAlign.Center
                         )
                     }
@@ -163,6 +161,9 @@ fun BottomNavComposable(navController: NavHostController) {
             composable(Screens.FarmsandServices.screen) { FarmsandServices() }
             composable(Screens.Weather.screen) { Weather() }
             composable(Screens.MarketPlace.screen) { MarketplaceScreen() }
+            composable(Screens.appsettings.screen) { SettingsScreen(navController) }
+
+
         }
     }
 }

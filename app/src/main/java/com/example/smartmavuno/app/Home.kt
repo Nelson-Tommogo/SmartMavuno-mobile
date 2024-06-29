@@ -83,7 +83,7 @@ fun NotificationBox(navController: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp)
+            .height(280.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(white),
         contentAlignment = Alignment.Center
@@ -192,7 +192,7 @@ fun NotificationBox(navController: NavHostController) {
                     TextField(
                         value = searchQuery,
                         onValueChange = { searchQuery = it },
-                        placeholder = { Text("Search Service", color = green1) },
+                        placeholder = { Text("Search Services", color = green1) },
                         modifier = Modifier.weight(1f),
                         textStyle = TextStyle(color = Color.Black),
                         colors = TextFieldDefaults.textFieldColors(
@@ -263,6 +263,7 @@ fun Links(navController: NavHostController) {
 
                             }
                             "Calendar" -> {
+                                navController.navigate(Screens.appsettings.screen)
 
                             }
                             "Weather" -> {

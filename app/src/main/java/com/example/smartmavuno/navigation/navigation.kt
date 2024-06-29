@@ -12,9 +12,8 @@ import com.example.smartmavuno.auth.ResetScreen
 import com.example.smartmavuno.auth.SignupScreen
 import com.example.smartmavuno.auth.SplashScreen
 import com.example.smartmavuno.app.BottomNavComposable
-import com.example.smartmavuno.app.Donate
-import com.example.smartmavuno.app.Farms
 import com.example.smartmavuno.app.FarmsandServices
+import com.example.smartmavuno.app.SettingsScreen
 import com.example.smartmavuno.app.Weather
 import com.example.smartmavuno.app.onboard
 
@@ -34,6 +33,7 @@ sealed class Screens(val screen: String) {
     data object  MarketPlace : Screens("MarketPlace")
     data object  Donate : Screens("Donate")
     data object  Farm : Screens("Farms")
+    data object  appsettings : Screens ("appsettings")
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -82,6 +82,8 @@ fun SetupNavigation(navController: NavHostController) {
         composable(Screens.MarketPlace.screen){
             MarketplaceScreen()
         }
-
+        composable(Screens.appsettings.screen){
+            SettingsScreen(navController)
+        }
     }
 }

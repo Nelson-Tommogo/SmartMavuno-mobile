@@ -73,7 +73,7 @@ fun FarmandServicePage() {
             color = Color.Black
         )
 
-        // Service Boxes
+        // com.example.smartmavuno.model.Service Boxes
         val services = listOf(
             "Machinery", "Farms",
             "Fertilizer services", "Equipment Rentals",
