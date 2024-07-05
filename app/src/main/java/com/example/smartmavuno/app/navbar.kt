@@ -26,6 +26,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.navigation.Screens
+import java.time.LocalDate
+import java.time.temporal.TemporalQueries
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -162,6 +164,17 @@ fun BottomNavComposable(navController: NavHostController) {
             composable(Screens.Weather.screen) { Weather() }
             composable(Screens.MarketPlace.screen) { MarketplaceScreen() }
             composable(Screens.appsettings.screen) { SettingsScreen(navController) }
+            composable(Screens.Calendar.screen) {
+                CalendarView(
+                    navController = navController,
+                    selectedDate = LocalDate.now(), // Replace with your selected date logic
+                    events = emptyList(), // Replace with your events logic
+                    onDateSelected = { /* Handle date selection */ },
+                    onEventClicked = { /* Handle event click */ },
+                    onAddEventClicked = { /* Handle add event click */ }
+                )
+            }
+
 
 
         }

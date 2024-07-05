@@ -263,7 +263,7 @@ fun Links(navController: NavHostController) {
 
                             }
                             "Calendar" -> {
-                                navController.navigate(Screens.appsettings.screen)
+                                navController.navigate(Screens.Calendar.screen)
 
                             }
                             "Weather" -> {

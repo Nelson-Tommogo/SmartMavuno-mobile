@@ -34,6 +34,7 @@ sealed class Screens(val screen: String) {
     data object  Donate : Screens("Donate")
     data object  Farm : Screens("Farms")
     data object  appsettings : Screens ("appsettings")
+    data object  Calendar : Screens("Calendar")
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -83,6 +84,10 @@ fun SetupNavigation(navController: NavHostController) {
             MarketplaceScreen()
         }
         composable(Screens.appsettings.screen){
+            SettingsScreen(navController)
+        }
+
+        composable(Screens.Calendar.screen){
             SettingsScreen(navController)
         }
     }

@@ -77,7 +77,7 @@ fun MarketplaceScreen(viewModel: MarketplaceViewModel = viewModel()) {
                 contentDescription = "Cart Icon",
                 tint = green1,
                 modifier = Modifier
-                    .size(24.dp)
+                    .size(20.dp)
                     .clickable { /* Handle cart click here */ }
             )
         }
@@ -181,6 +181,8 @@ fun MarketplaceScreen(viewModel: MarketplaceViewModel = viewModel()) {
                 columns = GridCells.Fixed(2),
                 contentPadding = PaddingValues(8.dp),
                 modifier = Modifier.fillMaxSize()
+                    .background(grey)
+
             ) {
                 items(viewModel.services.size) { index ->
                     ServiceBox(
@@ -212,10 +214,10 @@ fun MarketplaceScreen(viewModel: MarketplaceViewModel = viewModel()) {
 fun ServiceBox(service: Service, onClick: () -> Unit) {
     Box(
         modifier = Modifier
-            .padding(8.dp)
-            .height(170.dp)
+            .padding(5.dp)
+            .height(180.dp)
             .clip(RoundedCornerShape(16.dp))
-            .background(Color.LightGray)
+            .background(green3)
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
@@ -271,7 +273,7 @@ fun ServiceBox(service: Service, onClick: () -> Unit) {
                     painter = painterResource(id = R.drawable.baseline_shopping_cart_24),
                     contentDescription = "Add to Cart Icon",
                     tint = Color.White,
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier.size(13.dp)
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(text = "Add to Cart", color = Color.White)

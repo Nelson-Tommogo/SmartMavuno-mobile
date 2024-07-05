@@ -100,8 +100,11 @@ dependencies {
     // Material Design Components
     //noinspection UseTomlInstead
 
+     //retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 
-    implementation ("androidx.compose.ui:ui:1.6.8")
+    implementation (libs.ui)
     //noinspection UseTomlInstead
     implementation ("androidx.compose.material3:material3:1.2.1")
     //noinspection UseTomlInstead
@@ -109,16 +112,16 @@ dependencies {
 
     androidTestImplementation(libs.androidx.espresso.core)
     //noinspection UseTomlInstead
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.6.1")
     //noinspection UseTomlInstead
-    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.6.1")
     //noinspection UseTomlInstead
-    androidTestImplementation("androidx.test.espresso:espresso-accessibility:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-accessibility:3.6.1")
     //noinspection UseTomlInstead
-    androidTestImplementation("androidx.test.espresso:espresso-web:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-web:3.6.1")
 
     //noinspection UseTomlInstead
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
     //noinspection UseTomlInstead
     implementation("com.google.android.material:material:1.12.0")
@@ -129,4 +132,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+
 }

@@ -46,7 +46,7 @@ class MarketplaceViewModel : ViewModel() {
         _services = when (_sortBy) {
             SortBy.Ratings -> getDummyServices().sortedByDescending { it.rating }
             SortBy.Price -> getDummyServices().sortedBy { it.price.removePrefix("KES ").toFloat() }
-            SortBy.FrequentlyOrdered -> getDummyServices() // Implement logic for frequently ordered
+            SortBy.FrequentlyOrdered -> getDummyServices()
         }
     }
 
