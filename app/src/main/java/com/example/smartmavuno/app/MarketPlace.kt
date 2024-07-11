@@ -24,9 +24,7 @@ import com.example.smartmavuno.R
 import com.example.smartmavuno.model.MarketplaceViewModel
 import com.example.smartmavuno.model.Service
 import com.example.smartmavuno.model.SortBy
-import com.example.smartmavuno.ui.theme.black
 import com.example.smartmavuno.ui.theme.green1
-import com.example.smartmavuno.ui.theme.green2
 import com.example.smartmavuno.ui.theme.green3
 import com.example.smartmavuno.ui.theme.white
 
