@@ -29,7 +29,7 @@ sealed class Screens(val screen: String) {
     data object Community : Screens("community")
     data object Articles : Screens("articles")
     data object FarmsandServices : Screens("FarmsandServices")
-    data object  Weather : Screens("Weather")
+    data object  WeatherScreen : Screens("WeatherScreen")
     data object  MarketPlace : Screens("MarketPlace")
     data object  Donate : Screens("Donate")
     data object  Farm : Screens("Farms")
@@ -76,7 +76,7 @@ fun SetupNavigation(navController: NavHostController) {
             FarmsandServices()
         }
 
-        composable(Screens.Weather.screen){
+        composable(Screens.WeatherScreen.screen){
             Weather()
         }
 

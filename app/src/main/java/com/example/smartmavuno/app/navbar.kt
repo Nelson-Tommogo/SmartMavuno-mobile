@@ -161,7 +161,7 @@ fun BottomNavComposable(navController: NavHostController) {
             composable(Screens.Community.screen) { Community() }
             composable(Screens.Articles.screen) { Articles() }
             composable(Screens.FarmsandServices.screen) { FarmsandServices() }
-            composable(Screens.Weather.screen) { Weather() }
+            composable(Screens.WeatherScreen.screen) { WeatherScreen(navController) }
             composable(Screens.MarketPlace.screen) { MarketplaceScreen() }
             composable(Screens.appsettings.screen) { SettingsScreen(navController) }
             composable(Screens.Calendar.screen) {

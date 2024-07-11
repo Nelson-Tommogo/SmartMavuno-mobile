@@ -267,7 +267,7 @@ fun Links(navController: NavHostController) {
 
                             }
                             "Weather" -> {
-                                navController.navigate(Screens.Weather.screen)
+                                navController.navigate(Screens.WeatherScreen.screen)
 
                             }
                             "Market Place" -> {

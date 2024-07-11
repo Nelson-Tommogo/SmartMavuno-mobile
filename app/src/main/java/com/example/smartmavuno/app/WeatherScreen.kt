@@ -4,77 +4,105 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.smartmavuno.R
+import com.example.smartmavuno.navigation.Screens
 import com.example.smartmavuno.ui.theme.green1
-import com.example.smartmavuno.ui.theme.green3
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherScreen(navController: NavController) {
     var location by remember { mutableStateOf("Nairobi") }
 
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.LightGray)
             .padding(16.dp)
     ) {
-        // Location Input
-        OutlinedTextField(
-            value = location,
-            onValueChange = { location = it },
-            label = { Text("Enter location") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp),
-            shape = RoundedCornerShape(16.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = green1,
-                unfocusedBorderColor = Color.Gray,
-                cursorColor = green1
+        item {
+            OutlinedTextField(
+                value = location,
+                onValueChange = { location = it },
+                label = {
+                    Row {
+                        Image(
+                            painter = painterResource(id = R.drawable.baseline_search_24),
+                            contentDescription = "Search",
+                            modifier = Modifier.clickable { /* Implement search functionality */ }
+                        )
+                        Text("Enter location")
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = green1,
+                    unfocusedBorderColor = Color.Gray,
+                    cursorColor = green1
+                )
             )
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Get Weather Button
-        Button(
-            onClick = { /* Implement get weather functionality */ },
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = green1
-            )
-        ) {
-            Text("Get Weather")
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        item {
+            Spacer(modifier = Modifier.height(8.dp))
 
-        // Current Weather Section
-        CurrentWeatherSection()
+            // Get Weather Button
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .padding(horizontal = 16.dp)
+                    .clip(RoundedCornerShape(15.dp))
+                    .background(green1)
+                    .clickable {
+                        navController.navigate(Screens.BottomNav.screen)
 
-        Spacer(modifier = Modifier.height(16.dp))
+                    }
+            ) {
+                Text(
+                    text = "Get Weather",
+                    color = Color.White,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
 
-        // Forecast Section
-        ForecastSection()
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        // Weekly Forecast Section
-        WeeklyForecastSection()
+            // Current Weather Section
+            CurrentWeatherSection()
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Forecast Section
+            ForecastSection()
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Weekly Forecast Section
+            WeeklyForecastSection()
+        }
     }
 }
 
@@ -174,10 +202,6 @@ fun WeeklyForecastSection() {
             WeeklyForecastItem(day = "Monday", temperature = "24°C", weather = "Sunny", R.drawable.baseline_sunny_24)
             WeeklyForecastItem(day = "Tuesday", temperature = "22°C", weather = "Cloudy", R.drawable.baseline_cloud_24)
             WeeklyForecastItem(day = "Wednesday", temperature = "23°C", weather = "Rainy", R.drawable.baseline_cloudy_snowing_24)
-            WeeklyForecastItem(day = "Thursday", temperature = "23°C", weather = "Rainy", R.drawable.baseline_cloudy_snowing_24)
-            WeeklyForecastItem(day = "Friday", temperature = "23°C", weather = "Rainy", R.drawable.baseline_cloudy_snowing_24)
-            WeeklyForecastItem(day = "Saturday", temperature = "23°C", weather = "Rainy", R.drawable.baseline_cloudy_snowing_24)
-            WeeklyForecastItem(day = "Sunday", temperature = "23°C", weather = "Rainy", R.drawable.baseline_cloudy_snowing_24)
         }
     }
 }
