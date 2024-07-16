@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.example.smartmavuno.R
 
 class MarketplaceViewModel : ViewModel() {
-    private val cart = mutableStateListOf<Service>()
+    val cart = mutableStateListOf<Service>()
 
     private var _sortBy: SortBy by mutableStateOf(SortBy.Ratings)
     val sortBy: SortBy
