@@ -94,6 +94,8 @@ dependencies {
     implementation(libs.firebase.crashlytics.ktx)
     implementation(libs.firebase.analytics.ktx)
     implementation(libs.places)
+    implementation(libs.play.services.tflite.support)
+    implementation(libs.firebase.crashlytics.buildtools)
     // Testing
     //noinspection UseTomlInstead
     testImplementation("io.mockk:mockk:1.12.0")

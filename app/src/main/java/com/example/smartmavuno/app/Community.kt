@@ -37,12 +37,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
+import com.example.smartmavuno.navigation.Screens
 import com.example.smartmavuno.ui.theme.grey
 import com.example.smartmavuno.ui.theme.white
 
 @Composable
-fun Community() {
+fun Community(navController: NavController) {
     val green1 = colorResource(id = R.color.green1)
     val green3 = colorResource(id = R.color.green3)
     val selectedButton = remember { mutableStateOf("Community") }
@@ -101,8 +104,9 @@ fun Community() {
                 }
                 Button(
                     onClick = {
+
                         selectedButton.value = "Donations"
-                        // Handle Donations button click
+                        navController.navigate(Screens.Donate.screen)
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (selectedButton.value == "Donations") green1 else grey
@@ -324,5 +328,5 @@ fun CommunityBox(communityName: String, iconRes: Int, green1: Color, onClick: ()
 @Preview(showBackground = true)
 @Composable
 fun CommunityScreenPreview() {
-    Community()
+    Community(navController = rememberNavController())
 }

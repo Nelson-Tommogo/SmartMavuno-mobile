@@ -193,7 +193,7 @@ fun onboard(navController: NavController) {
                                         append("⏩")
                                     },
                                     onClick = {
-                                        navController.navigate(Screens.Login.screen)
+                                        navController.navigate("login")
                                     },
                                     modifier = Modifier.align(Alignment.Center)
                                 )
@@ -208,7 +208,7 @@ fun onboard(navController: NavController) {
                                     if (currentPage < onboardingData.size - 1) {
                                         currentPage++
                                     } else {
-                                        navController.navigate(Screens.BottomNav.screen)
+                                        navController.navigate("BottomNavComposable")
                                     }
                                 },
                                 shape = MaterialTheme.shapes.large,

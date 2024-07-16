@@ -12,9 +12,10 @@ import com.example.smartmavuno.auth.ResetScreen
 import com.example.smartmavuno.auth.SignupScreen
 import com.example.smartmavuno.auth.SplashScreen
 import com.example.smartmavuno.app.BottomNavComposable
+import com.example.smartmavuno.app.CalendarScreen
+import com.example.smartmavuno.app.Donate
 import com.example.smartmavuno.app.FarmsandServices
 import com.example.smartmavuno.app.SettingsScreen
-import com.example.smartmavuno.app.Weather
 import com.example.smartmavuno.app.onboard
 
 sealed class Screens(val screen: String) {
@@ -23,7 +24,8 @@ sealed class Screens(val screen: String) {
     data object Signup : Screens("signUp")
     data object Login : Screens("login")
     data object Reset : Screens("resetpassword")
-    data object BottomNav : Screens("navbar")
+    data object navbar : Screens("BottomNavComposable")
+    data object onboard :Screens("onboard")
     data object Home : Screens("home")
     data object Service : Screens("service")
     data object Community : Screens("community")
@@ -34,7 +36,7 @@ sealed class Screens(val screen: String) {
     data object  Donate : Screens("Donate")
     data object  Farm : Screens("Farms")
     data object  appsettings : Screens ("appsettings")
-    data object  Calendar : Screens("Calendar")
+    data object  CalendarScreen : Screens("CalendarScreen")
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -68,7 +70,7 @@ fun SetupNavigation(navController: NavHostController) {
             }
         }
 
-        composable(Screens.BottomNav.screen) {
+        composable(Screens.navbar.screen) {
             BottomNavComposable(navController = navController)
         }
 
@@ -76,19 +78,19 @@ fun SetupNavigation(navController: NavHostController) {
             FarmsandServices()
         }
 
-        composable(Screens.WeatherScreen.screen){
-            Weather()
-        }
-
         composable(Screens.MarketPlace.screen){
             MarketplaceScreen()
         }
-        composable(Screens.appsettings.screen){
-            SettingsScreen(navController)
+        composable(Screens.onboard.screen){
+            onboard(navController)
         }
 
-        composable(Screens.Calendar.screen){
-            SettingsScreen(navController)
+        composable(Screens.CalendarScreen.screen){
+            CalendarScreen(navController)
+        }
+
+        composable(Screens.Donate.screen){
+            Donate(navController)
         }
     }
 }

@@ -73,7 +73,7 @@ fun WeatherScreen(navController: NavController) {
                     .clip(RoundedCornerShape(15.dp))
                     .background(green1)
                     .clickable {
-                        navController.navigate(Screens.BottomNav.screen)
+                        navController.navigate(Screens.navbar.screen)
 
                     }
             ) {

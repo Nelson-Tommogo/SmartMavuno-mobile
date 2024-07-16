@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -17,13 +18,14 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.smartmavuno.R
-import com.example.smartmavuno.model.MarketplaceViewModel
-import com.example.smartmavuno.model.Service
-import com.example.smartmavuno.model.SortBy
+import com.example.smartmavuno.viewmodel.MarketplaceViewModel
+import com.example.smartmavuno.viewmodel.Service
+import com.example.smartmavuno.viewmodel.SortBy
 import com.example.smartmavuno.ui.theme.green1
 import com.example.smartmavuno.ui.theme.green3
 import com.example.smartmavuno.ui.theme.white
@@ -116,7 +118,7 @@ fun MarketplaceScreen(viewModel: MarketplaceViewModel = viewModel()) {
                         searchQuery = newValue
                         viewModel.filterByName(newValue)
                     },
-                    placeholder = { Text("Search Service", color = Color.White) }, // Placeholder text color
+                    placeholder = { Text("Search Service", color = Color.Black) },
                     modifier = Modifier
                         .weight(1f)
                         .background(green1)
@@ -131,10 +133,7 @@ fun MarketplaceScreen(viewModel: MarketplaceViewModel = viewModel()) {
                 Box(
                     modifier = Modifier
                         .size(24.dp)
-                        .background(
-                            green3,
-                            shape = RoundedCornerShape(4.dp)
-                        ) // Background color for Filter Box
+                        .background(Color.LightGray, shape = RoundedCornerShape(4.dp))
                         .clickable { showFilterMenu = !showFilterMenu }
                 ) {
                     Icon(
@@ -178,9 +177,9 @@ fun MarketplaceScreen(viewModel: MarketplaceViewModel = viewModel()) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 contentPadding = PaddingValues(8.dp),
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .background(grey)
-
             ) {
                 items(viewModel.services.size) { index ->
                     ServiceBox(
@@ -213,8 +212,9 @@ fun ServiceBox(service: Service, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .padding(5.dp)
-            .height(180.dp)
-            .clip(RoundedCornerShape(16.dp))
+            .height(150.dp)
+            .width(200.dp)
+            .clip(RoundedCornerShape(6.dp))
             .background(green3)
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
@@ -226,7 +226,7 @@ fun ServiceBox(service: Service, onClick: () -> Unit) {
             Icon(
                 painter = painterResource(id = service.iconRes),
                 contentDescription = service.name,
-                modifier = Modifier.size(60.dp),
+                modifier = Modifier.size(50.dp),
                 tint = Color.Unspecified
             )
             Spacer(modifier = Modifier.height(4.dp))
@@ -236,46 +236,40 @@ fun ServiceBox(service: Service, onClick: () -> Unit) {
                 color = Color.Black,
                 textAlign = TextAlign.Center
             )
-            Text(
-                text = service.price,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Black,
-                textAlign = TextAlign.Center
-            )
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.padding(vertical = 0.dp)
+            Spacer(modifier = Modifier.height(4.dp))
+            if (service.originalPrice.isNotEmpty() && service.originalPrice != service.price) {
+                Text(
+                    text = "Ksh. ${service.originalPrice}",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        textDecoration = TextDecoration.LineThrough,
+                        color = Color.Gray
+                    ),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(2.dp))
+            }
+            Box(
+                modifier = Modifier
+                    .background(green1, shape = CircleShape)
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
-                val maxRating = 5 // Maximum rating scale
-                val rating = (3..5).random() // Randomly generate a rating between 3 to 5
-                repeat(maxRating) { index ->
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_star_purple500_24),
-                        contentDescription = "Star",
-                        tint = if (index < rating) {
-                            if (index >= 3) Color.Gray else Color.Yellow
-                        } else {
-                            Color.Gray
-                        },
-                        modifier = Modifier.size(16.dp)
-                    )
-                }
+                Text(
+                    text = "Ksh. ${service.price}",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = Color.White
+                    ),
+                    textAlign = TextAlign.Center
+                )
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Button(
-                onClick = onClick,
-                colors = ButtonDefaults.buttonColors(containerColor = green1)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_shopping_cart_24),
-                    contentDescription = "Add to Cart Icon",
-                    tint = Color.White,
-                    modifier = Modifier.size(13.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Add to Cart", color = Color.White)
-            }
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_shopping_cart_24),
+                contentDescription = "Add to Cart Icon",
+                tint = green1,
+                modifier = Modifier
+                    .size(24.dp)
+                    .clickable(onClick = onClick)
+            )
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.smartmavuno.model
+package com.example.smartmavuno.viewmodel
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -79,5 +79,6 @@ data class Service(
     val name: String,
     val iconRes: Int,
     val price: String,
-    val rating: Float
+    val rating: Float,
+    val originalPrice: String = "",
 )

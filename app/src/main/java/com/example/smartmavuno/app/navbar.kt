@@ -2,6 +2,7 @@ package com.example.smartmavuno.app
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.widget.CalendarView
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -82,7 +83,8 @@ fun BottomNavComposable(navController: NavHostController) {
                         }
                     },
                     modifier = Modifier.weight(1f)
-                ) {
+                )
+                {
                     Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally) {
                         Image(
                             painter = painterResource(id = R.drawable.baseline_miscellaneous_services_24),
@@ -158,24 +160,17 @@ fun BottomNavComposable(navController: NavHostController) {
         ) {
             composable(Screens.Home.screen) { Home(navController = navController) }
             composable(Screens.Service.screen) { Service() }
-            composable(Screens.Community.screen) { Community() }
+            composable(Screens.Community.screen) { Community(navController) }
             composable(Screens.Articles.screen) { Articles() }
             composable(Screens.FarmsandServices.screen) { FarmsandServices() }
             composable(Screens.WeatherScreen.screen) { WeatherScreen(navController) }
             composable(Screens.MarketPlace.screen) { MarketplaceScreen() }
             composable(Screens.appsettings.screen) { SettingsScreen(navController) }
-            composable(Screens.Calendar.screen) {
-                CalendarView(
-                    navController = navController,
-                    selectedDate = LocalDate.now(), // Replace with your selected date logic
-                    events = emptyList(), // Replace with your events logic
-                    onDateSelected = { /* Handle date selection */ },
-                    onEventClicked = { /* Handle event click */ },
-                    onAddEventClicked = { /* Handle add event click */ }
-                )
+            composable(Screens.Donate.screen) { Donate(navController) }
+            composable(Screens.onboard.screen) { onboard(navController) }
+            composable(Screens.CalendarScreen.screen) {
+                CalendarScreen(navController)
             }
-
-
 
         }
     }
