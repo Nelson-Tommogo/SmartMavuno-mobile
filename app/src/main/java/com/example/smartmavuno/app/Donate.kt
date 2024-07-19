@@ -1,6 +1,5 @@
 package com.example.smartmavuno.app
 
-import android.graphics.Color as AndroidColor
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -26,6 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import kotlin.random.Random
 
 @Composable
@@ -34,44 +34,83 @@ fun Donate(navController: NavController) {
     val green3 = colorResource(id = R.color.green3)
     val white = colorResource(id = R.color.white)
     val red = colorResource(id = R.color.red)
-    var donationAmount by remember { mutableStateOf(0f) }
-    var flowers by remember { mutableStateOf(listOf<Offset>()) }
+    var donationAmountFarmers by remember { mutableFloatStateOf(0f) }
+    var donationAmountVulnerable by remember { mutableFloatStateOf(0f) }
+    var emojis by remember { mutableStateOf(listOf<Offset>()) }
     val coroutineScope = rememberCoroutineScope()
 
-    val animatedWidth by animateFloatAsState(targetValue = donationAmount / 10000f, label = "")
+    val animatedWidthFarmers by animateFloatAsState(targetValue = donationAmountFarmers / 10000f, label = "")
+    val animatedWidthVulnerable by animateFloatAsState(targetValue = donationAmountVulnerable / 10000f, label = "")
+
+    // Define the list of emojis to be used
+    val emojiList = listOf("😊", "😂", "😍", "😎", "🤩")
 
     // Determine slider color based on the donation amount
-    val sliderColors = SliderDefaults.colors(
+    val sliderColorsFarmers = SliderDefaults.colors(
         thumbColor = when {
-            donationAmount <= 1000f -> red
-            donationAmount <= 5500f -> Color(0xFF4CAF50) // Light green
+            donationAmountFarmers <= 5000f -> red
+            donationAmountFarmers <= 7500f -> Color(0xFF4CAF50) // Light green
             else -> green1 // Dark green
         },
         activeTrackColor = when {
-            donationAmount <= 1000f -> red
-            donationAmount <= 5500f -> Color(0xFF4CAF50) // Light green
+            donationAmountFarmers <= 5000f -> red
+            donationAmountFarmers <= 6500f -> Color(0xFF4CAF50) // Light green
             else -> green1 // Dark green
         },
         inactiveTrackColor = Color.Gray
     )
 
-    // Function to generate falling flowers
-    fun generateFlowers() {
+    val sliderColorsVulnerable = SliderDefaults.colors(
+        thumbColor = when {
+            donationAmountVulnerable <= 5000f -> red
+            donationAmountVulnerable <= 6500f -> Color(0xFF4CAF50) // Light green
+            else -> green1 // Dark green
+        },
+        activeTrackColor = when {
+            donationAmountVulnerable <= 5000f -> red
+            donationAmountVulnerable <= 6500f -> Color(0xFF4CAF50) // Light green
+            else -> green1 // Dark green
+        },
+        inactiveTrackColor = Color.Gray
+    )
+
+    // Function to generate falling emojis
+    fun generateEmojis() {
         coroutineScope.launch {
             while (true) {
-                if (donationAmount > 10000f) { // Only generate flowers if donation > $10k
-                    val newFlower = Offset(Random.nextFloat() * 1000f, -50f)
-                    flowers = flowers + newFlower
+                if (donationAmountFarmers > 8000f || donationAmountVulnerable > 8000f) {
+                    val newEmoji = Offset(Random.nextFloat() * 1000f, -50f)
+                    emojis = emojis + newEmoji
+                    Timber.tag("Donate").d("Generated emoji at: %s", newEmoji)
                 }
-                delay(200) // Adjust this delay as needed
+                delay(100)
             }
         }
     }
 
-    // Start flower generation only when donation amount exceeds $10k
-    if (donationAmount > 10000f) {
-        LaunchedEffect(donationAmount) {
-            generateFlowers()
+    // Simulated function to fetch exchange rate
+    suspend fun fetchExchangeRate(): Float {
+        delay(1000) // Simulate network delay
+        return 140f // Placeholder exchange rate (1 USD = 140 KES)
+    }
+
+    var exchangeRate by remember { mutableFloatStateOf(140f) } // Initial exchange rate
+
+    // Fetch exchange rate on start
+    LaunchedEffect(Unit) {
+        exchangeRate = fetchExchangeRate()
+    }
+
+    // Convert USD to KES
+    fun convertToKES(amountInUSD: Float): Float {
+        return amountInUSD * exchangeRate
+    }
+
+    // Start emoji generation only when donation amount exceeds $10k
+    if (donationAmountFarmers > 10000f || donationAmountVulnerable > 10000f) {
+        LaunchedEffect(donationAmountFarmers, donationAmountVulnerable) {
+            Timber.tag("Donate").d("Donation amount exceeded 10,000") // Debugging log
+            generateEmojis()
         }
     }
 
@@ -104,7 +143,7 @@ fun Donate(navController: NavController) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(300.dp)
+                    .height(370.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .background(green3)
                     .padding(16.dp),
@@ -129,36 +168,38 @@ fun Donate(navController: NavController) {
                         )
                     }
 
-                    // Bottom Progress Bar Slider
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(10.dp) // Height for the progress bar slider
-                            .clip(RoundedCornerShape(4.dp))
-                            .background(Color.White)
+                    // Bottom Progress Bar Slider for Farmers
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
                     ) {
+                        Text(
+                            text = "$${donationAmountFarmers.toInt()} (${convertToKES(donationAmountFarmers).toInt()} KES)",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.Black
+                        )
+
                         Slider(
-                            value = donationAmount,
-                            onValueChange = {},
+                            value = donationAmountFarmers,
+                            onValueChange = { donationAmountFarmers = it },
                             valueRange = 0f..10000f,
-                            colors = sliderColors.copy(
+                            colors = sliderColorsFarmers.copy(
                                 thumbColor = Color.Transparent, // Hide thumb for progress bar
                                 activeTrackColor = when {
-                                    donationAmount <= 3000f -> red
-                                    donationAmount <= 6500f -> Color(0xFF4CAF50) // Light green
+                                    donationAmountFarmers <= 3000f -> red
+                                    donationAmountFarmers <= 6500f -> Color(0xFF4CAF50) // Light green
                                     else -> green1 // Dark green
                                 }
                             ),
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .align(Alignment.Center)
                         )
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = "Every donation helps us grow and support more farmers.",
+                        text = "Every donation helps us grow and support more farmers. \uD83D\uDE4F",
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.Black,
                         textAlign = TextAlign.Center,
@@ -166,14 +207,37 @@ fun Donate(navController: NavController) {
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
                     )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Button(
+                        onClick = {
+                            // Handle the button click here
+                        },
+                        shape = MaterialTheme.shapes.large,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = green1 // Custom button color
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp)
+                    ) {
+                        Text(
+                            text = "Donate \uD83D\uDCB3",
+                            style = TextStyle(
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight(500),
+                                color = Color.White
+                            )
+                        )
+                    }
+
                 }
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(250.dp)
+                    .height(350.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .background(green3)
                     .padding(16.dp),
@@ -184,51 +248,69 @@ fun Donate(navController: NavController) {
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "Donate To Help The Vulnerable",
+                        text = "Donate To Help The Vulnerable \uD83E\uDD7A",
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.Black
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "You can Choose Your Donation\n Amount by Shifting the ball left \nand Right",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.Black
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "$${donationAmount.toInt()}",
+                        text = "You can Choose Your Donation \n Amount by Shifting the ball left \n and Right \uD83C\uDF9A\uFE0F",
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.Black
                     )
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    // Top Slider with dynamic color
-                    Slider(
-                        value = donationAmount,
-                        onValueChange = { donationAmount = it },
-                        valueRange = 0f..20000f,
-                        colors = sliderColors,
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "$${donationAmountVulnerable.toInt()} (${convertToKES(donationAmountVulnerable).toInt()} KES)",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.Black
+                        )
+
+                        Slider(
+                            value = donationAmountVulnerable,
+                            onValueChange = { donationAmountVulnerable = it },
+                            valueRange = 0f..10000f,
+                            colors = sliderColorsVulnerable.copy(
+                                thumbColor = Color.Transparent, // Hide thumb for progress bar
+                                activeTrackColor = when {
+                                    donationAmountVulnerable <= 3000f -> red
+                                    donationAmountVulnerable <= 6500f -> Color(0xFF4CAF50) // Light green
+                                    else -> green1 // Dark green
+                                }
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Every donation helps us grow and support more farmers. \uD83D\uDE4F",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.Black,
+                        textAlign = TextAlign.Center,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(50.dp)
+                            .padding(horizontal = 16.dp)
                     )
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
+                    Spacer(modifier = Modifier.height(10.dp))
                     Button(
                         onClick = {
                             // Handle the button click here
                         },
                         shape = MaterialTheme.shapes.large,
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF7C9A92) // Custom button color
+                            containerColor = green1 // Custom button color
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(52.dp)
                     ) {
                         Text(
-                            text = "Donate",
+                            text = "Donate \uD83D\uDCB3",
                             style = TextStyle(
                                 fontSize = 22.sp,
                                 fontWeight = FontWeight(500),
@@ -236,37 +318,29 @@ fun Donate(navController: NavController) {
                             )
                         )
                     }
+
                 }
             }
         }
 
-        // Falling flowers animation
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Transparent)
-        ) {
-            flowers.forEach { flower ->
-                Box(
-                    modifier = Modifier
-                        .offset(
-                            x = flower.x.dp,
-                            y = flower.y.dp
-                        )
-                        .size(24.dp)
-                        .background(Color.Yellow) // Replace with your flower image or shape
-                        .graphicsLayer {
-                            alpha = 0.5f // Adjust alpha for transparency effect
-                        }
-                )
-            }
+        // Falling Emojis
+        emojis.forEach { emojiOffset ->
+            Text(
+                text = emojiList.random(), // Randomly pick an emoji
+                fontSize = 40.sp,
+                modifier = Modifier
+                    .graphicsLayer(
+                        translationX = emojiOffset.x,
+                        translationY = emojiOffset.y
+                    )
+            )
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun DonationPagePreview() {
-    Donate(navController = rememberNavController())
+fun DonatePreview() {
+    val navController = rememberNavController()
+    Donate(navController = navController)
 }
-
