@@ -23,6 +23,7 @@ import androidx.navigation.NavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.navigation.Screens
 import com.example.smartmavuno.ui.theme.green1
+import com.example.smartmavuno.ui.theme.green3
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,7 +33,7 @@ fun WeatherScreen(navController: NavController) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.LightGray)
+            .background(green3)
             .padding(16.dp)
     ) {
         item {
@@ -55,7 +56,7 @@ fun WeatherScreen(navController: NavController) {
                 shape = RoundedCornerShape(16.dp),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = green1,
-                    unfocusedBorderColor = Color.Gray,
+                    unfocusedBorderColor = Color.LightGray ,
                     cursorColor = green1
                 )
             )

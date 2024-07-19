@@ -36,7 +36,6 @@ import kotlin.random.Random
 fun Donate(navController: NavController) {
     val green1 = colorResource(id = R.color.green1)
     val green3 = colorResource(id = R.color.green3)
-    val white = colorResource(id = R.color.white)
     val red = colorResource(id = R.color.red)
     var donationAmountFarmers by remember { mutableFloatStateOf(0f) }
     var donationAmountVulnerable by remember { mutableFloatStateOf(0f) }
@@ -97,7 +96,7 @@ fun Donate(navController: NavController) {
         return 140f // Placeholder exchange rate (1 USD = 140 KES)
     }
 
-    var exchangeRate by remember { mutableStateOf(140f) } // Initial exchange rate
+    var exchangeRate by remember { mutableFloatStateOf(140f) } // Initial exchange rate
 
     // Fetch exchange rate on start
     LaunchedEffect(Unit) {
@@ -133,9 +132,9 @@ fun Donate(navController: NavController) {
                     .padding(bottom = 16.dp)
             ) {
                 Text(
-                    text = "Donate",
+                    text = "SmartMavuno Donation Basket 🎁💚",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = green3,
+                    color = black,
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -143,7 +142,7 @@ fun Donate(navController: NavController) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(370.dp)
+                    .height(400.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .background(green3)
                     .padding(16.dp),
@@ -163,7 +162,7 @@ fun Donate(navController: NavController) {
                         Icon(
                             painter = painterResource(id = R.drawable.logo_no_background),
                             contentDescription = "SmartMavuno Logo",
-                            modifier = Modifier.size(128.dp),
+                            modifier = Modifier.size(100.dp),
                             tint = Color.Unspecified
                         )
                     }
@@ -173,6 +172,15 @@ fun Donate(navController: NavController) {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
+                        Text(
+                            text = "Help The Needy, Build Our Society \uD83D\uDE4F\uD83C\uDFFD\uD83C\uDFE1",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.Black,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                        )
                         Text(
                             text = "$${donationAmountFarmers.toInt()} (${convertToKES(donationAmountFarmers).toInt()} KES)",
                             style = MaterialTheme.typography.bodyMedium,
@@ -196,16 +204,27 @@ fun Donate(navController: NavController) {
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(6.dp))
 
                     Text(
-                        text = "Every donation helps us grow and support more farmers. \uD83D\uDE4F",
+                        text = "Our Donation ❤️",
+                        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                        color = Color.Black,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 6.dp)
+                    )
+
+
+                    Text(
+                        text = "As SmartMavuno Team, we've Donated 10% of the total Donations Needed \uD83D\uDE4F",
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.Black,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
+                            .padding(horizontal = 6.dp)
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     Button(
@@ -253,6 +272,16 @@ fun Donate(navController: NavController) {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
+                            text = "Donate to Help the Needy \uD83D\uDC96",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.Black,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                        )
+                        Spacer(modifier = Modifier.height(5.dp))
+                        Text(
                             text = "$${donationAmountVulnerable.toInt()} (${convertToKES(donationAmountVulnerable).toInt()} KES)",
                             style = MaterialTheme.typography.bodyMedium,
                             color = Color.Black
@@ -277,7 +306,7 @@ fun Donate(navController: NavController) {
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = "Your contribution makes a difference! \uD83D\uDE4C",
+                        text = "Move the Slider Left and Right to choose Your Donation Amount \uD83D\uDCB0",
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.Black,
                         textAlign = TextAlign.Center,
