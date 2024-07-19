@@ -1,9 +1,12 @@
 package com.example.smartmavuno.app
 
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
+import com.example.smartmavuno.ui.theme.black
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -42,19 +46,18 @@ fun Donate(navController: NavController) {
     val animatedWidthFarmers by animateFloatAsState(targetValue = donationAmountFarmers / 10000f, label = "")
     val animatedWidthVulnerable by animateFloatAsState(targetValue = donationAmountVulnerable / 10000f, label = "")
 
-    // Define the list of emojis to be used
-    val emojiList = listOf("😊", "😂", "😍", "😎", "🤩")
+    val emojiList = listOf("😊", "😂", "😍", "😎", "🤩", "😇", "🤗", "😋", "😜", "😝", "😛", "🤔", "🤨", "\uD83D\uDE43", "😏")
 
     // Determine slider color based on the donation amount
     val sliderColorsFarmers = SliderDefaults.colors(
         thumbColor = when {
-            donationAmountFarmers <= 5000f -> red
-            donationAmountFarmers <= 7500f -> Color(0xFF4CAF50) // Light green
+            donationAmountFarmers <= 1000f -> red
+            donationAmountFarmers <= 5500f -> Color(0xFF4CAF50) // Light green
             else -> green1 // Dark green
         },
         activeTrackColor = when {
-            donationAmountFarmers <= 5000f -> red
-            donationAmountFarmers <= 6500f -> Color(0xFF4CAF50) // Light green
+            donationAmountFarmers <= 1000f -> red
+            donationAmountFarmers <= 5500f -> Color(0xFF4CAF50) // Light green
             else -> green1 // Dark green
         },
         inactiveTrackColor = Color.Gray
@@ -62,13 +65,13 @@ fun Donate(navController: NavController) {
 
     val sliderColorsVulnerable = SliderDefaults.colors(
         thumbColor = when {
-            donationAmountVulnerable <= 5000f -> red
-            donationAmountVulnerable <= 6500f -> Color(0xFF4CAF50) // Light green
+            donationAmountVulnerable <= 1000f -> red
+            donationAmountVulnerable <= 5500f -> Color(0xFF4CAF50) // Light green
             else -> green1 // Dark green
         },
         activeTrackColor = when {
-            donationAmountVulnerable <= 5000f -> red
-            donationAmountVulnerable <= 6500f -> Color(0xFF4CAF50) // Light green
+            donationAmountVulnerable <= 1000f -> red
+            donationAmountVulnerable <= 5500f -> Color(0xFF4CAF50) // Light green
             else -> green1 // Dark green
         },
         inactiveTrackColor = Color.Gray
@@ -78,10 +81,10 @@ fun Donate(navController: NavController) {
     fun generateEmojis() {
         coroutineScope.launch {
             while (true) {
-                if (donationAmountFarmers > 8000f || donationAmountVulnerable > 8000f) {
+                if (donationAmountFarmers > 5000f || donationAmountVulnerable > 5000f) { // Only generate emojis if donation > $5k
                     val newEmoji = Offset(Random.nextFloat() * 1000f, -50f)
                     emojis = emojis + newEmoji
-                    Timber.tag("Donate").d("Generated emoji at: %s", newEmoji)
+                    Timber.tag("Donate").d("Generated emoji at: %s", newEmoji) // Debugging log
                 }
                 delay(100)
             }
@@ -94,7 +97,7 @@ fun Donate(navController: NavController) {
         return 140f // Placeholder exchange rate (1 USD = 140 KES)
     }
 
-    var exchangeRate by remember { mutableFloatStateOf(140f) } // Initial exchange rate
+    var exchangeRate by remember { mutableStateOf(140f) } // Initial exchange rate
 
     // Fetch exchange rate on start
     LaunchedEffect(Unit) {
@@ -106,20 +109,16 @@ fun Donate(navController: NavController) {
         return amountInUSD * exchangeRate
     }
 
-    // Start emoji generation only when donation amount exceeds $10k
-    if (donationAmountFarmers > 10000f || donationAmountVulnerable > 10000f) {
+    // Start emoji generation only when donation amount exceeds $5k
+    if (donationAmountFarmers > 5000f || donationAmountVulnerable > 5000f) {
         LaunchedEffect(donationAmountFarmers, donationAmountVulnerable) {
-            Timber.tag("Donate").d("Donation amount exceeded 10,000") // Debugging log
+            Timber.tag("Donate").d("Donation amount exceeded 5,000") // Debugging log
             generateEmojis()
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(green1)
-            .padding(16.dp)
-    ) {
+
+
         // Main Content
         Column(
             modifier = Modifier
@@ -127,6 +126,7 @@ fun Donate(navController: NavController) {
                 .background(green1)
                 .padding(16.dp)
         ) {
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -135,7 +135,7 @@ fun Donate(navController: NavController) {
                 Text(
                     text = "Donate",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = green1,
+                    color = green3,
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -247,19 +247,7 @@ fun Donate(navController: NavController) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(
-                        text = "Donate To Help The Vulnerable \uD83E\uDD7A",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.Black
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "You can Choose Your Donation \n Amount by Shifting the ball left \n and Right \uD83C\uDF9A\uFE0F",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.Black
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-
+                    // Emoji Slider
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
@@ -269,7 +257,6 @@ fun Donate(navController: NavController) {
                             style = MaterialTheme.typography.bodyMedium,
                             color = Color.Black
                         )
-
                         Slider(
                             value = donationAmountVulnerable,
                             onValueChange = { donationAmountVulnerable = it },
@@ -286,9 +273,11 @@ fun Donate(navController: NavController) {
                                 .fillMaxWidth()
                         )
                     }
+
                     Spacer(modifier = Modifier.height(8.dp))
+
                     Text(
-                        text = "Every donation helps us grow and support more farmers. \uD83D\uDE4F",
+                        text = "Your contribution makes a difference! \uD83D\uDE4C",
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.Black,
                         textAlign = TextAlign.Center,
@@ -318,29 +307,27 @@ fun Donate(navController: NavController) {
                             )
                         )
                     }
-
                 }
             }
         }
 
-        // Falling Emojis
-        emojis.forEach { emojiOffset ->
+        // Emoji overlay
+        emojis.forEach { emoji ->
             Text(
-                text = emojiList.random(), // Randomly pick an emoji
-                fontSize = 40.sp,
+                text = emojiList.random(),
+                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 24.sp),
                 modifier = Modifier
                     .graphicsLayer(
-                        translationX = emojiOffset.x,
-                        translationY = emojiOffset.y
+                        translationX = emoji.x,
+                        translationY = emoji.y
                     )
             )
         }
     }
-}
+
 
 @Preview(showBackground = true)
 @Composable
-fun DonatePreview() {
-    val navController = rememberNavController()
-    Donate(navController = navController)
+fun PreviewDonate() {
+    Donate(navController = rememberNavController())
 }
