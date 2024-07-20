@@ -26,6 +26,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
+import com.example.smartmavuno.auth.LoginScreen
+import com.example.smartmavuno.auth.SignupScreen
 import com.example.smartmavuno.navigation.Screens
 import java.time.LocalDate
 import java.time.temporal.TemporalQueries
@@ -178,8 +180,13 @@ fun BottomNavComposable(navController: NavHostController) {
             }
             composable(Screens.PaymentScreen.screen) { PaymentOptions(navController) }
             composable(Screens.Farm.screen) { Farms(navController) }
-
-
+            composable(Screens.navbar.screen) { BottomNavComposable(navController) }
+            composable(Screens.Login.screen) { LoginScreen(navController){
+                    s, s2 ->
+            } }
+            composable(Screens.Signup.screen) { SignupScreen(navController){
+                    s, s2, s3 ->
+            } }
         }
     }
 }

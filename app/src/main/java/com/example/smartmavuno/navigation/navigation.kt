@@ -25,8 +25,8 @@ import com.example.smartmavuno.app.onboard
 sealed class Screens(val screen: String) {
     data object Onboarding : Screens("Splashonboard")
     data object Splash : Screens("splash")
-    data object Signup : Screens("signUp")
-    data object Login : Screens("login")
+    data object Signup : Screens("SignupScreen")
+    data object Login : Screens("LoginScreen")
     data object Reset : Screens("resetpassword")
     data object navbar : Screens("BottomNavComposable")
     data object onboard :Screens("onboard")
