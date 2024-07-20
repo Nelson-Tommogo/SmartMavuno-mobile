@@ -207,7 +207,7 @@ fun DonateProductForm(
             OutlinedTextField(
                 value = donationAmount,
                 onValueChange = onAmountChange,
-                label = { Text("Donation Amount") },
+                label = { Text("Product Name") },
                 modifier = Modifier.fillMaxWidth()
             )
 

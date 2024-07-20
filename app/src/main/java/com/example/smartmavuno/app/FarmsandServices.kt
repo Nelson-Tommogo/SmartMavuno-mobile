@@ -19,11 +19,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
+import com.example.smartmavuno.navigation.Screens
 import com.example.smartmavuno.ui.theme.white
 
 @Composable
-fun FarmsandServices() {
+fun FarmsandServices(navController: NavController) {
     val green1 = colorResource(id = R.color.green1)
 
     Column(
@@ -48,7 +51,7 @@ fun FarmsandServices() {
                 modifier = Modifier
                     .size(24.dp)
                     .clickable {
-                        // Handle back navigation click
+                        navController.popBackStack()
                     }
             )
             Spacer(modifier = Modifier.width(6.dp))
@@ -77,7 +80,9 @@ fun FarmsandServices() {
             services.forEachIndexed { index, service ->
                 val onClick: () -> Unit = when (service) {
                     "Maize Farm" -> {
-                        { /* Handle Maize Farm click */ }
+                        {
+                            navController.navigate(Screens.Farm.screen)
+                        }
                     }
                     "Machinery" -> {
                         { /* Handle Machinery click */ }
@@ -172,5 +177,5 @@ fun FarmsandServicesBox(service: String, iconRes: Int, green1: Color, onClick: (
 @Preview(showBackground = true)
 @Composable
 fun FarmsandServicesPreview() {
-    FarmsandServices()
+    FarmsandServices(navController = rememberNavController())
 }

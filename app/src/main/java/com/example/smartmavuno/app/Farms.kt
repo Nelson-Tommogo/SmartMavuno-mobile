@@ -64,6 +64,7 @@ fun Farms(navController: NavController) {
                 modifier = Modifier
                     .size(24.dp)
                     .clickable {
+                        navController.popBackStack()
                     }
             )
             Spacer(modifier = Modifier.width(6.dp))

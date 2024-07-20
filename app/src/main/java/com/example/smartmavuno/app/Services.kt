@@ -41,12 +41,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.ui.theme.white
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Service() {
+fun Service(navController: NavController) {
     val grey = colorResource(id = R.color.grey)
     val green1 = colorResource(id = R.color.green1)
     var searchQuery by remember { mutableStateOf("") }
@@ -64,22 +66,28 @@ fun Service() {
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_arrow_back_24),
-                contentDescription = "Home Icon",
-                tint = green1,
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable {
-                        // Handle back click here
-                    }
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = "Services",
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Black
-            )
+//            Icon(
+//                painter = painterResource(id = R.drawable.baseline_arrow_back_24),
+//                contentDescription = "Home Icon",
+//                tint = green1,
+//                modifier = Modifier
+//                    .size(24.dp)
+//                    .clickable {
+//                        navController.popBackStack()
+//                    }
+//            )
+//            Spacer(modifier = Modifier.width(8.dp))
+            Box(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "Services",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.Black,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+
         }
         // Search Bar
         Box(
@@ -207,5 +215,5 @@ fun ServiceBox(service: String, iconRes: Int, green1: Color, onClick: () -> Unit
 @Preview(showBackground = true)
 @Composable
 fun ServicePagePreview() {
-    Service()
+    Service(navController = rememberNavController())
 }

@@ -228,7 +228,7 @@ fun Donate(navController: NavController) {
                     Spacer(modifier = Modifier.height(10.dp))
                     Button(
                         onClick = {
-                            navController.navigate(Screens.Reset.screen)
+                            navController.navigate(Screens.PaymentScreen.screen)
                         },
                         shape = MaterialTheme.shapes.large,
                         colors = ButtonDefaults.buttonColors(
@@ -316,7 +316,7 @@ fun Donate(navController: NavController) {
                     Spacer(modifier = Modifier.height(10.dp))
                     Button(
                         onClick = {
-                            // Handle the button click here
+                            navController.navigate(Screens.PaymentScreen.screen)
                         },
                         shape = MaterialTheme.shapes.large,
                         colors = ButtonDefaults.buttonColors(

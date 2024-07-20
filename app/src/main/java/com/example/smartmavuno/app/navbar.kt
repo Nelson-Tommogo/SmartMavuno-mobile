@@ -159,12 +159,12 @@ fun BottomNavComposable(navController: NavHostController) {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screens.Home.screen) { Home(navController = navController) }
-            composable(Screens.Service.screen) { Service() }
+            composable(Screens.Service.screen) { Service(navController) }
             composable(Screens.Community.screen) { Community(navController) }
             composable(Screens.Articles.screen) { Articles(navController) }
-            composable(Screens.FarmsandServices.screen) { FarmsandServices() }
+            composable(Screens.FarmsandServices.screen) { FarmsandServices(navController) }
             composable(Screens.WeatherScreen.screen) { WeatherScreen(navController) }
-            composable(Screens.MarketPlace.screen) { MarketplaceScreen() }
+            composable(Screens.MarketPlace.screen) { MarketplaceScreen(navController) }
             composable(Screens.appsettings.screen) { SettingsScreen(navController) }
             composable(Screens.Donate.screen) { Donate(navController) }
             composable(Screens.onboard.screen) { onboard(navController) }
@@ -173,8 +173,12 @@ fun BottomNavComposable(navController: NavHostController) {
             }
             composable(Screens.CreateEventScreen.screen) { CreateEventScreen(navController) }
             composable(Screens.CreateArticleScreen.screen) { ArticleCreationScreen(navController){
+            }
 
-            } }
+            }
+            composable(Screens.PaymentScreen.screen) { PaymentOptions(navController) }
+            composable(Screens.Farm.screen) { Farms(navController) }
+
 
         }
     }

@@ -22,6 +22,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.viewmodel.MarketplaceViewModel
 import com.example.smartmavuno.viewmodel.Service
@@ -32,7 +34,10 @@ import com.example.smartmavuno.ui.theme.white
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MarketplaceScreen(viewModel: MarketplaceViewModel = viewModel()) {
+fun MarketplaceScreen(
+    navController: NavController,
+    viewModel: MarketplaceViewModel = viewModel()
+) {
     val grey = colorResource(id = R.color.grey)
     val green1 = colorResource(id = R.color.green1)
     val green2 = colorResource(id = R.color.green2)
@@ -57,12 +62,12 @@ fun MarketplaceScreen(viewModel: MarketplaceViewModel = viewModel()) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_arrow_back_24),
-                    contentDescription = "Home Icon",
+                    contentDescription = "Back Icon",
                     tint = green1,
                     modifier = Modifier
                         .size(24.dp)
                         .clickable {
-                            // Implement back navigation if needed
+                            navController.popBackStack()
                         }
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -78,7 +83,10 @@ fun MarketplaceScreen(viewModel: MarketplaceViewModel = viewModel()) {
                 tint = green1,
                 modifier = Modifier
                     .size(20.dp)
-                    .clickable { /* Handle cart click here */ }
+                    .clickable {
+                        // Handle cart click here
+                        navController.navigate("cart_screen") // Example navigation
+                    }
             )
         }
 
@@ -277,5 +285,5 @@ fun ServiceBox(service: Service, onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun MarketPlacePreview() {
-    MarketplaceScreen()
+    MarketplaceScreen(navController = rememberNavController())
 }

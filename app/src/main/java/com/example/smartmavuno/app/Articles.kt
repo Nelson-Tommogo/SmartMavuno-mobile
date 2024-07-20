@@ -67,20 +67,13 @@ fun Articles(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = "Back Icon",
-                tint = green1,
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable {
-                        // Handle back navigation
-                    }
-            )
+
             Text(
                 text = "Articles",
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.Black
+                color = Color.Black,
+                modifier = Modifier
+                    .padding(start = 156.dp)
             )
             Icon(
                 painter = painterResource(id = R.drawable.baseline_bookmark_24),
