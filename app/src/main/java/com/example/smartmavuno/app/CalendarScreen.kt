@@ -268,7 +268,7 @@ val daysOfWeek: Array<String>
     @RequiresApi(Build.VERSION_CODES.O)
     get() {
         val daysOfWeek = Array(7) { "" }
-        for (dayOfWeek in DayOfWeek.values()) {
+        for (dayOfWeek in DayOfWeek.entries) {
             val localizedDayName = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())
             daysOfWeek[dayOfWeek.value - 1] = localizedDayName
         }

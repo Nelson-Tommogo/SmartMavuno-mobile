@@ -19,7 +19,6 @@ import com.example.smartmavuno.app.Donate
 import com.example.smartmavuno.app.Farms
 import com.example.smartmavuno.app.FarmsandServices
 import com.example.smartmavuno.app.PaymentOptions
-import com.example.smartmavuno.app.SettingsScreen
 import com.example.smartmavuno.app.onboard
 
 sealed class Screens(val screen: String) {

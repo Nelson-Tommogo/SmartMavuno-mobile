@@ -244,22 +244,27 @@ fun SignupScreen(navController: NavHostController, onSignup: (String, String, St
                 .clip(RoundedCornerShape(15.dp))
                 .background(color = green1)
                 .clickable {
+                    // Check if the password and confirm password match
                     if (password == confirmPassword) {
+                        // Call the onSignup function with email, password, and confirmPassword
                         onSignup(email, password, confirmPassword)
+                        navController.navigate(Screens.Login.screen)
                     } else {
-                        // Handle password mismatch error
+                        // Navigate to the login screen if passwords don't match
+                        navController.navigate(Screens.Login.screen)
                     }
                 }
         ) {
+            // Optionally, you can add content inside the Box
+            // For example, a Text composable
             Text(
                 text = "Sign Up",
+                style = MaterialTheme.typography.bodyMedium,
                 color = Color.White,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
                 modifier = Modifier.align(Alignment.Center)
             )
         }
+
 
         // Social Media Icons
         Row(

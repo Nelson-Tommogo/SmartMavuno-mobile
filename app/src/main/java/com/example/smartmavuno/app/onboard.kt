@@ -208,7 +208,7 @@ fun onboard(navController: NavController) {
                                     if (currentPage < onboardingData.size - 1) {
                                         currentPage++
                                     } else {
-                                        navController.navigate("BottomNavComposable")
+                                        navController.navigate(Screens.Signup.screen)
                                     }
                                 },
                                 shape = MaterialTheme.shapes.large,

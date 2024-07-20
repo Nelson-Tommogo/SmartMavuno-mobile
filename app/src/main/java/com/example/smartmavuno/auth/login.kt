@@ -204,7 +204,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                     .clip(RoundedCornerShape(15.dp))
                     .background(color = green1)
                     .clickable {
-                        navController.navigate(Screens.navbar.screen)
+                        navController.navigate(Screens.Home.screen)
 
                     }
             ) {

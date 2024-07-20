@@ -2,7 +2,6 @@ package com.example.smartmavuno.app
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.widget.CalendarView
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -29,8 +28,6 @@ import com.example.smartmavuno.R
 import com.example.smartmavuno.auth.LoginScreen
 import com.example.smartmavuno.auth.SignupScreen
 import com.example.smartmavuno.navigation.Screens
-import java.time.LocalDate
-import java.time.temporal.TemporalQueries
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -160,7 +157,7 @@ fun BottomNavComposable(navController: NavHostController) {
             startDestination = Screens.Home.screen,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(Screens.Home.screen) { Home(navController = navController) }
+            composable(Screens.Home.screen) { Home(navController) }
             composable(Screens.Service.screen) { Service(navController) }
             composable(Screens.Community.screen) { Community(navController) }
             composable(Screens.Articles.screen) { Articles(navController) }
