@@ -1,32 +1,12 @@
 package com.example.smartmavuno.app
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,14 +14,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.ui.theme.green1
+import com.example.smartmavuno.ui.theme.green3
 import com.example.smartmavuno.ui.theme.grey
 import com.example.smartmavuno.ui.theme.white
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ArticleCreationScreen(onCancel: () -> Unit, onSave: () -> Unit) {
+fun ArticleCreationScreen(
+    navController: NavController,
+    onSave: () -> Unit
+) {
     val coverPhoto = remember { mutableStateOf<Painter?>(null) }
     val title = remember { mutableStateOf("") }
     val content = remember { mutableStateOf("") }
@@ -61,7 +49,7 @@ fun ArticleCreationScreen(onCancel: () -> Unit, onSave: () -> Unit) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = onCancel) {
+            IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_cancel_24),
                     contentDescription = "Cancel",
@@ -70,12 +58,11 @@ fun ArticleCreationScreen(onCancel: () -> Unit, onSave: () -> Unit) {
                 )
             }
             Text(
-                text = "Create Article",
-                style = MaterialTheme.typography.headlineMedium,
+                text = "Create Articles",
+                style = MaterialTheme.typography.headlineSmall,
                 color = Color.Black
             )
-            // Empty space to keep alignment consistent
-            Box(modifier = Modifier.size(24.dp))
+            Spacer(modifier = Modifier.size(24.dp))
         }
 
         // Cover Photo Upload
@@ -91,7 +78,11 @@ fun ArticleCreationScreen(onCancel: () -> Unit, onSave: () -> Unit) {
             contentAlignment = Alignment.Center
         ) {
             if (coverPhoto.value == null) {
-                Text(text = "Upload Cover Photo", color = Color.Black)
+                Text(
+                    text = "Upload Cover Photo",
+                    color = Color.Black,
+                    style = MaterialTheme.typography.bodyLarge
+                )
             } else {
                 Icon(
                     painter = coverPhoto.value!!,
@@ -100,7 +91,7 @@ fun ArticleCreationScreen(onCancel: () -> Unit, onSave: () -> Unit) {
                 )
             }
         }
-
+        Spacer(modifier = Modifier.height(16.dp))
         // Article Title
         TextField(
             value = title.value,
@@ -108,14 +99,17 @@ fun ArticleCreationScreen(onCancel: () -> Unit, onSave: () -> Unit) {
             label = { Text("Article Title") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp),
-            colors = TextFieldDefaults.colors(
+                .padding(top = 16.dp)
+                .background(color = Color.Transparent, shape = RoundedCornerShape(8.dp)),
+            colors = TextFieldDefaults.textFieldColors(
                 focusedTextColor = Color.Black,
+                containerColor = grey,
                 unfocusedTextColor = Color.Black,
                 focusedIndicatorColor = green1,
-                unfocusedIndicatorColor = grey
+                unfocusedIndicatorColor = green3
             )
         )
+        Spacer(modifier = Modifier.height(16.dp))
 
         // Article Content
         TextField(
@@ -126,44 +120,64 @@ fun ArticleCreationScreen(onCancel: () -> Unit, onSave: () -> Unit) {
                 .fillMaxWidth()
                 .padding(top = 16.dp)
                 .height(200.dp),
-            colors = TextFieldDefaults.colors(
+            colors = TextFieldDefaults.textFieldColors(
                 focusedTextColor = Color.Black,
                 unfocusedTextColor = Color.Black,
+                containerColor = grey,
                 focusedIndicatorColor = green1,
                 unfocusedIndicatorColor = grey
             ),
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text)
         )
+        Spacer(modifier = Modifier.height(6.dp))
 
-        // File Attachment Icon and Save Button
+        // File Attachment Row
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = {
-                isFileAttached.value = !isFileAttached.value
-                // Handle file attachment logic here
-            }) {
+            IconButton(
+                onClick = {
+                    isFileAttached.value = !isFileAttached.value
+                    // Handle file attachment logic here
+                },
+                modifier = Modifier.padding(start = 8.dp) // Add padding to start of the IconButton
+            ) {
                 Icon(
-                    painter = painterResource(id = if (isFileAttached.value) R.drawable.baseline_attach_file_24 else R.drawable.baseline_attachment_24),
+                    painter = painterResource(id = R.drawable.baseline_attach_file_24),
                     contentDescription = "Attach File",
                     tint = green1,
                     modifier = Modifier.size(24.dp)
                 )
             }
-            Button(
-                onClick = onSave,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                colors = ButtonDefaults.buttonColors(containerColor = green1)
-            ) {
-                Text(text = "Save", color = white)
-            }
+
+            Spacer(modifier = Modifier.width(8.dp)) // Space between the icon and text
+
+            Text(
+                text = "Upload Article",
+                color = green1,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+
+        // Save Button
+        Spacer(modifier = Modifier.height(6.dp))
+        Button(
+            onClick = {
+                onSave()
+                //implement the save logic, or navigate somewhere
+                navController.navigate("someOtherScreen")
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp)
+                .clip(RoundedCornerShape(8.dp)),
+            colors = ButtonDefaults.buttonColors(containerColor = green1)
+        ) {
+            Text(text = "Save Article", color = white)
         }
     }
 }
@@ -171,8 +185,9 @@ fun ArticleCreationScreen(onCancel: () -> Unit, onSave: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun ArticleCreationScreenPreview() {
+    val navController = rememberNavController()
     ArticleCreationScreen(
-        onCancel = { /* Handle cancel action */ },
+        navController = navController,
         onSave = { /* Handle save action */ }
     )
 }

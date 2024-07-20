@@ -35,14 +35,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
+import com.example.smartmavuno.navigation.Screens
 import com.example.smartmavuno.ui.theme.black
 import com.example.smartmavuno.ui.theme.green3
 import com.example.smartmavuno.ui.theme.grey
 import com.example.smartmavuno.ui.theme.white
 
 @Composable
-fun Articles() {
+fun Articles(
+    navController: NavController
+) {
     val green1 = colorResource(id = R.color.green1)
     val grey = colorResource(id = R.color.grey)
     val white = colorResource(id = R.color.white)
@@ -162,7 +167,7 @@ fun Articles() {
         // Floating Action Button for creating an article
         FloatingActionButton(
             onClick = {
-                // Implement the action to create a new article
+                navController.navigate(Screens.CreateArticleScreen.screen)
             },
             containerColor = green1,
             contentColor = green3,
@@ -218,6 +223,7 @@ fun MyArticles(service: String, green1: Color) {
 @Preview(showBackground = true)
 @Composable
 fun ArticlesPreview() {
-    Articles()
+    val navController = rememberNavController()
+    Articles(navController)
 }
 

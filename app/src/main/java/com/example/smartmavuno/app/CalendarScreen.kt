@@ -34,6 +34,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.model.CalendarUiState
+import com.example.smartmavuno.navigation.Screens
 import com.example.smartmavuno.ui.theme.black
 import com.example.smartmavuno.ui.theme.green3
 import com.example.smartmavuno.util.DateUtils
@@ -73,7 +74,9 @@ fun CalendarScreen(
         )
 
         FloatingActionButton(
-            onClick = { /* Add event */ },
+            onClick = {
+                navController.navigate(Screens.CreateEventScreen.screen)
+            },
             modifier = Modifier
                 .align(Alignment.End)
                 .padding(vertical = 16.dp)

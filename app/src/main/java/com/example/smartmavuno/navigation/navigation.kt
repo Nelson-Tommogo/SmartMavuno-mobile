@@ -7,12 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.smartmavuno.app.ArticleCreationScreen
 import com.example.smartmavuno.auth.LoginScreen
 import com.example.smartmavuno.auth.ResetScreen
 import com.example.smartmavuno.auth.SignupScreen
 import com.example.smartmavuno.auth.SplashScreen
 import com.example.smartmavuno.app.BottomNavComposable
 import com.example.smartmavuno.app.CalendarScreen
+import com.example.smartmavuno.app.CreateEventScreen
 import com.example.smartmavuno.app.Donate
 import com.example.smartmavuno.app.FarmsandServices
 import com.example.smartmavuno.app.SettingsScreen
@@ -37,6 +39,10 @@ sealed class Screens(val screen: String) {
     data object  Farm : Screens("Farms")
     data object  appsettings : Screens ("appsettings")
     data object  CalendarScreen : Screens("CalendarScreen")
+    data object  CreateEventScreen : Screens("CreateEventScreen")
+    data object  CreateArticleScreen : Screens("CreateEventScreen")
+
+
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -91,6 +97,14 @@ fun SetupNavigation(navController: NavHostController) {
 
         composable(Screens.Donate.screen){
             Donate(navController)
+        }
+        composable(Screens.CreateEventScreen.screen){
+            CreateEventScreen(navController)
+        }
+        composable(Screens.CreateArticleScreen.screen){
+            ArticleCreationScreen(navController) {
+
+            }
         }
     }
 }

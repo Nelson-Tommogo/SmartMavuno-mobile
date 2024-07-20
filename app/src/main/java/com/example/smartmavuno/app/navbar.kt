@@ -161,7 +161,7 @@ fun BottomNavComposable(navController: NavHostController) {
             composable(Screens.Home.screen) { Home(navController = navController) }
             composable(Screens.Service.screen) { Service() }
             composable(Screens.Community.screen) { Community(navController) }
-            composable(Screens.Articles.screen) { Articles() }
+            composable(Screens.Articles.screen) { Articles(navController) }
             composable(Screens.FarmsandServices.screen) { FarmsandServices() }
             composable(Screens.WeatherScreen.screen) { WeatherScreen(navController) }
             composable(Screens.MarketPlace.screen) { MarketplaceScreen() }
@@ -171,6 +171,10 @@ fun BottomNavComposable(navController: NavHostController) {
             composable(Screens.CalendarScreen.screen) {
                 CalendarScreen(navController)
             }
+            composable(Screens.CreateEventScreen.screen) { CreateEventScreen(navController) }
+            composable(Screens.CreateArticleScreen.screen) { ArticleCreationScreen(navController){
+
+            } }
 
         }
     }
