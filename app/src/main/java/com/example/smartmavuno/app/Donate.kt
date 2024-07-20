@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
+import com.example.smartmavuno.navigation.Screens
 import com.example.smartmavuno.ui.theme.black
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -203,9 +204,7 @@ fun Donate(navController: NavController) {
                                 .fillMaxWidth()
                         )
                     }
-
                     Spacer(modifier = Modifier.height(6.dp))
-
                     Text(
                         text = "Our Donation ❤️",
                         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
@@ -229,7 +228,7 @@ fun Donate(navController: NavController) {
                     Spacer(modifier = Modifier.height(10.dp))
                     Button(
                         onClick = {
-                            // Handle the button click here
+                            navController.navigate(Screens.Reset.screen)
                         },
                         shape = MaterialTheme.shapes.large,
                         colors = ButtonDefaults.buttonColors(

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,13 +36,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.smartmavuno.R
+import com.example.smartmavuno.ui.theme.black
+import com.example.smartmavuno.ui.theme.green3
 import com.example.smartmavuno.ui.theme.grey
 import com.example.smartmavuno.ui.theme.white
 
 @Composable
 fun Articles() {
     val green1 = colorResource(id = R.color.green1)
-    val green3 = colorResource(id = R.color.green3)
+    val grey = colorResource(id = R.color.grey)
+    val white = colorResource(id = R.color.white)
+    val black = colorResource(id = R.color.black)
 
     Column(
         modifier = Modifier
@@ -50,12 +54,12 @@ fun Articles() {
             .background(white)
             .padding(16.dp)
     ) {
-        // Top Icon and Text
+        // Top Icon and Text with Bookmark Icon
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
-            horizontalArrangement = Arrangement.Start,
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -65,13 +69,23 @@ fun Articles() {
                 modifier = Modifier
                     .size(24.dp)
                     .clickable {
+                        // Handle back navigation
                     }
             )
-            Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = "Articles",
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Black
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_bookmark_24),
+                contentDescription = "Bookmarked Articles",
+                modifier = Modifier
+                    .size(24.dp)
+                    .clickable {
+                        // Handle bookmarked articles navigation
+                    },
+                tint = green1
             )
         }
 
@@ -83,6 +97,7 @@ fun Articles() {
                 .background(grey)
                 .height(200.dp)
                 .clickable {
+                    // Handle trending box click
                 },
             contentAlignment = Alignment.Center
         ) {
@@ -112,7 +127,7 @@ fun Articles() {
                 text = "Recent",
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Black,
-                modifier = Modifier.padding(end = 150.dp)
+                modifier = Modifier.padding(end = 8.dp)
             )
             Icon(
                 imageVector = Icons.Default.ArrowForward,
@@ -125,18 +140,40 @@ fun Articles() {
         // Recent Articles
         val services = listOf(
             "Recent 1",
-            "Recent 2", "Recent 3",
-            "Recent 4", "Recent 5"
+            "Recent 2",
+            "Recent 3",
+            "Recent 4",
+            "Recent 5",
+            "Recent 6"
+
         )
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(8.dp),
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .weight(1f) // This ensures that the grid takes up remaining space
         ) {
             items(services.size) { index ->
                 MyArticles(service = services[index], green1 = green1)
             }
+        }
+
+        // Floating Action Button for creating an article
+        FloatingActionButton(
+            onClick = {
+                // Implement the action to create a new article
+            },
+            containerColor = green1,
+            contentColor = green3,
+            modifier = Modifier
+                .padding(start = 290.dp,  bottom = 6.dp, top = 6.dp)
+
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_add_circle_outline_24),
+                contentDescription = "Create Article"
+            )
         }
     }
 }
@@ -183,3 +220,4 @@ fun MyArticles(service: String, green1: Color) {
 fun ArticlesPreview() {
     Articles()
 }
+

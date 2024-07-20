@@ -1,9 +1,10 @@
 package com.example.smartmavuno.viewmodel
 
 
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class Event(
-    val dateTime: LocalDate,
-    val name: String
+    val dateTime: LocalDateTime,
+    val name: String,
+    val repeat: Boolean
 )

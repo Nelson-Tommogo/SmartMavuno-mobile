@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
@@ -37,12 +37,12 @@ class CalendarViewModel : ViewModel() {
         }
     }
 
-    private fun getEventsForMonth(yearMonth: YearMonth): List<com.example.smartmavuno.viewmodel.Event> {
+    private fun getEventsForMonth(yearMonth: YearMonth): List<Event> {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
         return listOf(
-            Event(LocalDate.parse("2024-07-18T10:00", formatter), "Meeting with Suppliers"),
-            Event(LocalDate.parse("2024-07-20T15:00", formatter), "Product Demo"),
-            Event(LocalDate.parse("2024-07-22T09:30", formatter), "Strategy Review")
+            Event(LocalDateTime.parse("2024-07-18T10:00", formatter), "Meeting with Suppliers", false),
+            Event(LocalDateTime.parse("2024-07-20T15:00", formatter), "Product Demo", false),
+            Event(LocalDateTime.parse("2024-07-22T09:30", formatter), "Strategy Review", false)
         )
     }
 
@@ -55,6 +55,12 @@ class CalendarViewModel : ViewModel() {
     fun toPreviousMonth(prevMonth: YearMonth) {
         viewModelScope.launch {
             updateCalendarState(prevMonth)
+        }
+    }
+
+    fun addEvent(event: Event) {
+        _uiState.update { currentState ->
+            currentState.copy(events = currentState.events + event)
         }
     }
 }

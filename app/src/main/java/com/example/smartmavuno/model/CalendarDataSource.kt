@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.DayOfWeek
+import java.time.LocalTime
 
 class CalendarDataSource {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -34,3 +35,13 @@ fun YearMonth.getDayOfMonthStartingFromMonday(): List<LocalDate> {
         .takeWhile { it.isBefore(firstDayOfNextMonth) }
         .toList()
 }
+
+data class Event(
+    val name: String,
+    val date: LocalDate,
+    val time: LocalTime,
+    val isRepeating: Boolean
+)
+
+
+
