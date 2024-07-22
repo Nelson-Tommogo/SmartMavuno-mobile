@@ -41,7 +41,7 @@ sealed class Screens(val screen: String) {
     data object  appsettings : Screens ("appsettings")
     data object  CalendarScreen : Screens("CalendarScreen")
     data object  CreateEventScreen : Screens("CreateEventScreen")
-    data object  CreateArticleScreen : Screens("CreateEventScreen")
+    data object  CreateArticleScreen : Screens("ArticleCreationScreen")
     data object  PaymentScreen : Screens("PaymentOptions")
 
 

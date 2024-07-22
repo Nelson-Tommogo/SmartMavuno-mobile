@@ -75,7 +75,7 @@ fun CalendarScreen(
 
         FloatingActionButton(
             onClick = {
-                navController.navigate(Screens.CreateEventScreen.screen)
+//                navController.navigate(Screens.CreateEventScreen.screen)
             },
             modifier = Modifier
                 .align(Alignment.End)
