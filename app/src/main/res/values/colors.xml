@@ -11,4 +11,10 @@
     <color name="green4">#B8CAB3</color>
     <color name="grey1">#F2FFE4</color>
     <color name="green5">#729343</color>
+
+
+    <color name="greenad">#427E3E</color>
+    <color name="greenad1">#639A5E</color>
+    <color name="greenad2">#375434</color>
+    <color name="greenad3">#316B2A</color>
 </resources>
