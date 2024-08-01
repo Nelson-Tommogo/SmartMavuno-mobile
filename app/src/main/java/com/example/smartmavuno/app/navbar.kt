@@ -178,11 +178,13 @@ fun BottomNavComposable(navController: NavHostController) {
             composable(Screens.PaymentScreen.screen) { PaymentOptions(navController) }
             composable(Screens.Farm.screen) { Farms(navController) }
             composable(Screens.navbar.screen) { BottomNavComposable(navController) }
-            composable(Screens.Login.screen) { LoginScreen(navController){
-                    s, s2 ->
-            } }
+            composable(Screens.Login.screen) {
+                val navController = rememberNavController()
+                LoginScreen(navController)
+            }
+
             composable(Screens.Signup.screen) { SignupScreen(navController){
-                    s, s2, s3 ->
+                    s, s2, s3, s4 ->
             } }
         }
     }

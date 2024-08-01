@@ -22,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavHostController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.components.CButton
 import com.example.smartmavuno.components.CTextField
@@ -31,7 +31,7 @@ import com.example.smartmavuno.components.DontHaveAccountRow
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    navController: () -> Unit
+    navController: NavHostController
 ) {
 
     // we can copy and paste and do changes for signup screen

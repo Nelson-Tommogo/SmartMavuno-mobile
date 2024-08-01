@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.*
@@ -29,14 +28,33 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.navigation.Screens
+import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ResetScreen(navController: NavHostController, onLogin: (String) -> Unit) {
+fun ResetScreen(navController: NavHostController, param: (Any) -> Unit) {
     var email by remember { mutableStateOf("") }
+    var showDialog by remember { mutableStateOf(false) }
+    var dialogMessage by remember { mutableStateOf("") }
     val green1 = colorResource(id = R.color.green1)
     val green2 = colorResource(id = R.color.green2)
     val white = colorResource(id = R.color.white)
+    val auth = FirebaseAuth.getInstance()
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Password Reset") },
+            text = { Text(dialogMessage) },
+            confirmButton = {
+                TextButton(
+                    onClick = { showDialog = false }
+                ) {
+                    Text("OK")
+                }
+            }
+        )
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -58,7 +76,6 @@ fun ResetScreen(navController: NavHostController, onLogin: (String) -> Unit) {
                     .offset(x = 5.dp)
                     .padding(bottom = 0.dp)
             )
-
 
             Spacer(modifier = Modifier.height(22.dp))
 
@@ -116,11 +133,9 @@ fun ResetScreen(navController: NavHostController, onLogin: (String) -> Unit) {
                 }
             }
 
-
-
             Spacer(modifier = Modifier.height(12.dp))
 
-            // reset Button
+            // Reset Button
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -129,7 +144,21 @@ fun ResetScreen(navController: NavHostController, onLogin: (String) -> Unit) {
                     .clip(RoundedCornerShape(15.dp))
                     .background(color = green1)
                     .clickable {
-                        navController.navigate(Screens.Login.screen)
+                        // Handle reset password
+                        if (email.isNotEmpty() && isValidEmail(email)) {
+                            auth.sendPasswordResetEmail(email)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        dialogMessage = "Password reset email sent successfully"
+                                    } else {
+                                        dialogMessage = task.exception?.message ?: "Error sending password reset email"
+                                    }
+                                    showDialog = true
+                                }
+                        } else {
+                            dialogMessage = "Please enter a valid email address"
+                            showDialog = true
+                        }
                     }
             ) {
                 Text(
@@ -141,8 +170,6 @@ fun ResetScreen(navController: NavHostController, onLogin: (String) -> Unit) {
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
-
-
 
             // Sign Up text
             ClickableText(
@@ -162,9 +189,10 @@ fun ResetScreen(navController: NavHostController, onLogin: (String) -> Unit) {
 }
 
 // Function to validate email format
-private fun isValidEmail(email: String): Boolean {
+fun isValidEmail(email: String): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
+
 
 @Preview
 @Composable

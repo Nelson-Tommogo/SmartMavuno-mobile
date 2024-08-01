@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun SmartMavunoApp() {
     val navController = rememberNavController()
-    BottomNavComposable(navController)
+    SetupNavigation(navController = navController)
 }
 
 

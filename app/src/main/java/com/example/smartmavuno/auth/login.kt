@@ -30,6 +30,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.navigation.Screens
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,9 +39,28 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
+    var dialogMessage by remember { mutableStateOf("") }
+    val coroutineScope = rememberCoroutineScope()
     val green1 = colorResource(id = R.color.green1)
     val green2 = colorResource(id = R.color.green2)
     val white = colorResource(id = R.color.white)
+    val auth = FirebaseAuth.getInstance()
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("SmartMavuno") },
+            text = { Text(dialogMessage) },
+            confirmButton = {
+                TextButton(
+                    onClick = { showDialog = false }
+                ) {
+                    Text("OK")
+                }
+            }
+        )
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -204,100 +225,48 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                     .clip(RoundedCornerShape(15.dp))
                     .background(color = green1)
                     .clickable {
-                        navController.navigate(Screens.Home.screen)
-
+                        coroutineScope.launch {
+                            if (email.isNotEmpty() && password.isNotEmpty() && isValidEmail(email)) {
+                                try {
+                                    auth.signInWithEmailAndPassword(email, password)
+                                        .addOnCompleteListener { task ->
+                                            if (task.isSuccessful) {
+                                                dialogMessage = "User logged in successfully"
+                                                showDialog = true
+                                                navController.navigate(Screens.Reset.screen)
+                                            } else {
+                                                dialogMessage = task.exception?.message ?: "Login failed"
+                                                showDialog = true
+                                            }
+                                        }
+                                } catch (e: Exception) {
+                                    dialogMessage = e.message ?: "An error occurred"
+                                    showDialog = true
+                                }
+                            } else {
+                                dialogMessage = "Please enter a valid email and password"
+                                showDialog = true
+                            }
+                        }
                     }
             ) {
                 Text(
                     text = "Sign In",
-                    color = Color.White,
-                    fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.align(Alignment.Center)
+                    fontSize = 20.sp,
+                    color = white,
+                    modifier = Modifier
+                        .padding(vertical = 12.dp)
+                        .align(Alignment.Center)
                 )
             }
-
-            // Social Media Icons
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                // Google Icon
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(green1)
-                        .padding(8.dp)
-                        .clickable { /* Handle Gmail signup */ }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.google),
-                        contentDescription = "Gmail",
-                        tint = Color.White
-                    )
-                }
-
-                // Twitter Icon
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(green1)
-                        .padding(8.dp)
-                        .clickable { /* Handle Twitter signup */ }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.twittter),
-                        contentDescription = "Twitter",
-                        tint = Color.White
-                    )
-                }
-
-                // Facebook Icon
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(green1)
-                        .padding(8.dp)
-                        .clickable { /* Handle Facebook signup */ }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.facebook),
-                        contentDescription = "Facebook",
-                        tint = Color.White
-                    )
-                }
-            }
-
-            // Sign Up text
-            ClickableText(
-                text = AnnotatedString("\t\t\t Do not Have an Account Yet\n\t\t\t\t\t\t\t SignUp"),
-                onClick = {
-                    navController.navigate(Screens.Signup.screen)
-                },
-                style = TextStyle(
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = green1
-                ),
-                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 110.dp)
-            )
         }
     }
 }
 
-// Function to validate email format
-private fun isValidEmail(email: String): Boolean {
-    return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-}
-
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun LogInPreview() {
-    val navController = rememberNavController()
-    LoginScreen(navController = navController) { email, password ->
-        // Handle signup logic here
+fun PreviewLoginScreen() {
+    LoginScreen(rememberNavController()) { email, password ->
     }
 }

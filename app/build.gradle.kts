@@ -66,27 +66,24 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.constraintlayout.compose)
 
-    //noinspection UseTomlInstead
-    implementation("io.coil-kt:coil-compose:1.4.0")
-    //noinspection UseTomlInstead
-    implementation ("io.coil-kt:coil-compose:1.4.0")
+    // Coil
+    implementation(libs.coil.compose)
 
-    implementation (libs.androidx.navigation.compose.v276)
-
+    // Play Services
     implementation(libs.play.services.vision)
+    implementation(libs.play.services.tflite.support)
+
     // Logging
-    //noinspection UseTomlInstead
-    implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation(libs.timber)
+
     // Coroutines
-    //noinspection UseTomlInstead
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    // State Management
-    //noinspection UseTomlInstead
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+
+    // Firebase
     implementation(libs.firebase.auth.ktx)
-    implementation(libs.firebase.database)
-    implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.database.ktx)
+    implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.storage.ktx)
     implementation(libs.firebase.functions.ktx)
     implementation(libs.firebase.ml.vision)
@@ -94,46 +91,30 @@ dependencies {
     implementation(libs.firebase.crashlytics.ktx)
     implementation(libs.firebase.analytics.ktx)
     implementation(libs.places)
-    implementation(libs.play.services.tflite.support)
     implementation(libs.firebase.crashlytics.buildtools)
-    // Testing
-    //noinspection UseTomlInstead
-    testImplementation("io.mockk:mockk:1.12.0")
-    // Material Design Components
-    //noinspection UseTomlInstead
 
-     //retrofit
+    // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
-    implementation (libs.ui)
-    //noinspection UseTomlInstead
-    implementation ("androidx.compose.material3:material3:1.2.1")
-    //noinspection UseTomlInstead
-    implementation ("androidx.navigation:navigation-compose:2.7.7")
+    // Material Design Components
+    implementation(libs.material)
 
-    androidTestImplementation(libs.androidx.espresso.core)
-    //noinspection UseTomlInstead
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.6.1")
-    //noinspection UseTomlInstead
-    androidTestImplementation("androidx.test.espresso:espresso-intents:3.6.1")
-    //noinspection UseTomlInstead
-    androidTestImplementation("androidx.test.espresso:espresso-accessibility:3.6.1")
-    //noinspection UseTomlInstead
-    androidTestImplementation("androidx.test.espresso:espresso-web:3.6.1")
-
-    //noinspection UseTomlInstead
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
-
-    //noinspection UseTomlInstead
-    implementation("com.google.android.material:material:1.12.0")
+    // Testing
+    testImplementation(libs.mockk)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
+
+    // AndroidX Testing
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.espresso.contrib)
+    androidTestImplementation(libs.androidx.espresso.intents)
+    androidTestImplementation(libs.androidx.espresso.accessibility)
+    androidTestImplementation(libs.androidx.espresso.web)
+    androidTestImplementation(libs.androidx.espresso.core.v361)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+
+    // Debugging
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-
 }
