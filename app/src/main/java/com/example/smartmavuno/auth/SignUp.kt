@@ -30,6 +30,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.navigation.Screens
+import com.example.smartmavuno.ui.theme.black
 import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,7 +79,7 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
             modifier = Modifier
                 .padding(top = 4.dp, bottom = 12.dp)
                 .offset(x = 80.dp),
-            color = green1
+            color = black
         )
 
         Text(
@@ -89,7 +90,7 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
                 .padding(bottom = 12.dp)
                 .width(35.dp)
                 .offset(x = 170.dp),
-            color = green1
+            color = black
         )
 
         // Username Field
@@ -111,16 +112,16 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
                     TextField(
                         value = username,
                         onValueChange = { username = it },
-                        placeholder = { Text("Username", color = green1) },
+                        placeholder = { Text("Username", color = black) },
                         trailingIcon = {
                             Image(
                                 painter = painterResource(id = R.drawable.baseline_supervised_user_circle_24),
                                 contentDescription = "Username Icon",
                                 modifier = Modifier.padding(horizontal = 12.dp),
-                                colorFilter = ColorFilter.tint(green1)
+                                colorFilter = ColorFilter.tint(green2)
                             )
                         },
-                        textStyle = TextStyle(color = green1),
+                        textStyle = TextStyle(color = black),
                         colors = TextFieldDefaults.textFieldColors(
                             cursorColor = green2,
                             containerColor = Color.Transparent,
@@ -157,16 +158,16 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
                     TextField(
                         value = email,
                         onValueChange = { email = it },
-                        placeholder = { Text("Email", color = green1) },
+                        placeholder = { Text("Email", color = black) },
                         trailingIcon = {
                             Image(
                                 painter = painterResource(id = R.drawable.baseline_email_24),
                                 contentDescription = "Email Icon",
                                 modifier = Modifier.padding(horizontal = 12.dp),
-                                colorFilter = ColorFilter.tint(green1)
+                                colorFilter = ColorFilter.tint(green2)
                             )
                         },
-                        textStyle = TextStyle(color = green1),
+                        textStyle = TextStyle(color = black),
                         colors = TextFieldDefaults.textFieldColors(
                             cursorColor = green2,
                             containerColor = Color.Transparent,
@@ -203,7 +204,7 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
                     TextField(
                         value = password,
                         onValueChange = { password = it },
-                        placeholder = { Text("Password", color = green1) },
+                        placeholder = { Text("Password", color = black) },
                         trailingIcon = {
                             val icon = if (passwordVisible) {
                                 painterResource(id = R.drawable.baseline_remove_red_eye_24)
@@ -216,10 +217,10 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
                                 modifier = Modifier
                                     .padding(horizontal = 12.dp)
                                     .clickable { passwordVisible = !passwordVisible },
-                                colorFilter = ColorFilter.tint(green1)
+                                colorFilter = ColorFilter.tint(green2)
                             )
                         },
-                        textStyle = TextStyle(color = green1),
+                        textStyle = TextStyle(color = black),
                         colors = TextFieldDefaults.textFieldColors(
                             cursorColor = green2,
                             containerColor = Color.Transparent,
@@ -256,7 +257,7 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
                     TextField(
                         value = confirmPassword,
                         onValueChange = { confirmPassword = it },
-                        placeholder = { Text("Confirm Password", color = green1) },
+                        placeholder = { Text("Confirm Password", color = black) },
                         trailingIcon = {
                             val icon = if (passwordVisible) {
                                 painterResource(id = R.drawable.baseline_remove_red_eye_24)
@@ -269,10 +270,10 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
                                 modifier = Modifier
                                     .padding(horizontal = 12.dp)
                                     .clickable { passwordVisible = !passwordVisible },
-                                colorFilter = ColorFilter.tint(green1)
+                                colorFilter = ColorFilter.tint(green2)
                             )
                         },
-                        textStyle = TextStyle(color = green1),
+                        textStyle = TextStyle(color = black),
                         colors = TextFieldDefaults.textFieldColors(
                             cursorColor = green2,
                             containerColor = Color.Transparent,
@@ -305,12 +306,10 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
                         .addOnCompleteListener { task ->
                             showLoadingDialog = false
                             if (task.isSuccessful) {
-                                signUpMessage = "Sign-up successful!"
                                 showSuccessDialog = true
-                                // Navigate to the login screen or any other screen after successful sign-up
-                                navController.navigate(Screens.Login.screen)
+                                param(username, email, password, confirmPassword)
                             } else {
-                                signUpMessage = task.exception?.message ?: "Sign-up failed."
+                                signUpMessage = "Sign Up Failed: ${task.exception?.message}"
                                 showFailureDialog = true
                             }
                         }
@@ -319,7 +318,7 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = green1),
+            colors = ButtonDefaults.buttonColors(containerColor = green2),
             shape = RoundedCornerShape(10.dp)
         ) {
             Text(
@@ -329,8 +328,19 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
                 color = white
             )
         }
-        
-        Spacer(modifier = Modifier.height(20.dp))
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // "Or Sign Up Using" Text
+        Text(
+            text = "Or Sign Up Using",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = black,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         // Social Media Icons
         Row(
@@ -343,7 +353,7 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
             Box(
                 modifier = Modifier
                     .clip(CircleShape)
-                    .background(green1)
+                    .background(green2)
                     .padding(8.dp)
                     .clickable { /* Handle Gmail signup */ }
             ) {
@@ -358,7 +368,7 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
             Box(
                 modifier = Modifier
                     .clip(CircleShape)
-                    .background(green1)
+                    .background(green2)
                     .padding(8.dp)
                     .clickable { /* Handle Twitter signup */ }
             ) {
@@ -373,7 +383,7 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
             Box(
                 modifier = Modifier
                     .clip(CircleShape)
-                    .background(green1)
+                    .background(green2)
                     .padding(8.dp)
                     .clickable { /* Handle Facebook signup */ }
             ) {
@@ -385,80 +395,75 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
             }
         }
 
+        Spacer(modifier = Modifier.height(10.dp))
 
-        Spacer(modifier = Modifier.height(20.dp))
-
-        // Navigation to Login Screen
-        ClickableText(
-            text = AnnotatedString("Already have an account? Log In"),
-            onClick = { offset ->
-                navController.navigate(Screens.Login.screen)
-            },
-            style = TextStyle(
-                color = green1,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            ClickableText(
+                text = AnnotatedString("Already have an account? Log In"),
+                onClick = {
+                    navController.navigate(Screens.Login.screen)
+                },
+                style = TextStyle(
+                    color = black,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
             )
-        )
+        }
     }
 
-    // Dialogs
+    // Loading Dialog
     if (showLoadingDialog) {
         AlertDialog(
-            onDismissRequest = { showLoadingDialog = false },
-            title = { Text("Signing Up") },
-            text = { Text("Please wait while we create your account.") },
-            confirmButton = {
-                Button(onClick = { showLoadingDialog = false }) {
-                    Text("OK")
-                }
-            }
+            onDismissRequest = {},
+            confirmButton = {},
+            dismissButton = {},
+            title = { Text(text = "Signing Up...") },
+            text = { Text(text = "Please wait while we create your account.") }
         )
     }
 
+    // Success Dialog
     if (showSuccessDialog) {
         AlertDialog(
             onDismissRequest = { showSuccessDialog = false },
-            title = { Text("Success") },
-            text = { Text(signUpMessage) },
             confirmButton = {
-                Button(onClick = { showSuccessDialog = false }) {
+                Button(
+                    onClick = {
+                        showSuccessDialog = false
+                        navController.navigate(Screens.Login.screen)
+                    }
+                ) {
                     Text("OK")
                 }
-            }
+            },
+            title = { Text(text = "Sign Up Successful") },
+            text = { Text(text = "Your account has been created successfully!") }
         )
     }
 
+    // Failure Dialog
     if (showFailureDialog) {
         AlertDialog(
             onDismissRequest = { showFailureDialog = false },
-            title = { Text("Error") },
-            text = { Text(signUpMessage) },
             confirmButton = {
-                Button(onClick = { showFailureDialog = false }) {
+                Button(
+                    onClick = { showFailureDialog = false }
+                ) {
                     Text("OK")
                 }
-            }
+            },
+            title = { Text(text = "Sign Up Failed") },
+            text = { Text(text = signUpMessage) }
         )
     }
-}
-
-fun AlertDialog(
-    onDismissRequest: () -> Unit,
-    title: @Composable () -> Unit,
-    text: @Composable () -> Unit,
-    buttons: @Composable () -> Unit
-) {
-    TODO("Not yet implemented")
 }
 
 @Preview(showBackground = true)
 @Composable
 fun SignupScreenPreview() {
-    val navController = rememberNavController()
-    val dummyParam: (Any, Any, Any, Any) -> Unit = { _, _, _, _ -> }
-
-    SignupScreen(navController = navController, param = dummyParam)
+    SignupScreen(navController = rememberNavController(), param = { _, _, _, _ -> })
 }
-
-

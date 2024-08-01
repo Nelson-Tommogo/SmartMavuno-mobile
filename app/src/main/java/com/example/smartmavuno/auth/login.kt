@@ -30,9 +30,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.navigation.Screens
+import com.example.smartmavuno.ui.theme.black
+import com.example.smartmavuno.ui.theme.green3
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> Unit) {
@@ -53,9 +54,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
             title = { Text("SmartMavuno") },
             text = { Text(dialogMessage) },
             confirmButton = {
-                TextButton(
-                    onClick = { showDialog = false }
-                ) {
+                TextButton(onClick = { showDialog = false }) {
                     Text("OK")
                 }
             }
@@ -67,6 +66,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
             .fillMaxSize()
             .background(color = white)
             .padding(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
             Spacer(modifier = Modifier.height(130.dp))
@@ -82,15 +82,14 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                     .offset(x = 5.dp)
                     .padding(bottom = 0.dp)
             )
-
             Text(
                 text = "Welcome to SmartMavuno",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .padding(top = 4.dp, bottom = 12.dp)
-                    .offset(x = 80.dp),
-                color = green1
+                    .padding(top = 4.dp, bottom = 12.dp),
+                color = black,
+                textAlign = TextAlign.Center
             )
 
             Text(
@@ -98,9 +97,9 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .padding(bottom = 12.dp)
-                    .offset(x = 170.dp),
-                color = green1
+                    .padding(bottom = 12.dp),
+                color = black,
+                textAlign = TextAlign.Center
             )
 
             // Email Field
@@ -122,18 +121,18 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                         TextField(
                             value = email,
                             onValueChange = { email = it },
-                            placeholder = { Text("Email", color = green1) },
+                            placeholder = { Text("Email", color = black) },
                             trailingIcon = {
                                 Image(
                                     painter = painterResource(id = R.drawable.baseline_email_24),
                                     contentDescription = "Email Icon",
                                     modifier = Modifier.padding(horizontal = 12.dp),
-                                    colorFilter = ColorFilter.tint(green1)
+                                    colorFilter = ColorFilter.tint(green2)
                                 )
                             },
                             textStyle = TextStyle(color = green1),
                             colors = TextFieldDefaults.textFieldColors(
-                                cursorColor = green2,
+                                cursorColor = black,
                                 containerColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent,
                                 focusedIndicatorColor = Color.Transparent
@@ -168,7 +167,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                         TextField(
                             value = password,
                             onValueChange = { password = it },
-                            placeholder = { Text("Password", color = green1) },
+                            placeholder = { Text("Password", color = black) },
                             trailingIcon = {
                                 val icon = if (passwordVisible) {
                                     painterResource(id = R.drawable.baseline_remove_red_eye_24)
@@ -181,7 +180,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                                     modifier = Modifier
                                         .padding(horizontal = 12.dp)
                                         .clickable { passwordVisible = !passwordVisible },
-                                    colorFilter = ColorFilter.tint(green1)
+                                    colorFilter = ColorFilter.tint(green2)
                                 )
                             },
                             textStyle = TextStyle(color = green1),
@@ -211,10 +210,12 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                 style = TextStyle(
                     fontSize = 10.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = green1
+                    color = black
                 ),
                 modifier = Modifier.padding(top = 8.dp, bottom = 6.dp, start = 250.dp)
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             // Login Button
             Box(
@@ -223,7 +224,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                     .height(48.dp)
                     .padding(horizontal = 16.dp)
                     .clip(RoundedCornerShape(15.dp))
-                    .background(color = green1)
+                    .background(color = green2)
                     .clickable {
                         coroutineScope.launch {
                             if (email.isNotEmpty() && password.isNotEmpty() && isValidEmail(email)) {
@@ -248,18 +249,44 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                                 showDialog = true
                             }
                         }
-                    }
+                    },
+                contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = "Sign In",
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
-                    color = white,
-                    modifier = Modifier
-                        .padding(vertical = 12.dp)
-                        .align(Alignment.Center)
+                    color = white
                 )
             }
+            Spacer(modifier = Modifier.height(8.dp))
+
+            ClickableText(
+                text = AnnotatedString("Don't Have an Account Yet?"),
+                onClick = {
+                    navController.navigate(Screens.Signup.screen)
+                },
+                style = TextStyle(
+                    color = black,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Thin
+                ),
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+
+            ClickableText(
+                text = AnnotatedString("Register Now"),
+                onClick = {
+                    navController.navigate(Screens.Signup.screen)
+                },
+                style = TextStyle(
+                    color = black,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                ),
+                modifier = Modifier.padding(bottom = 6.dp)
+            )
         }
     }
 }
@@ -268,5 +295,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
 @Composable
 fun PreviewLoginScreen() {
     LoginScreen(rememberNavController()) { email, password ->
+        // Handle login here
     }
 }
+

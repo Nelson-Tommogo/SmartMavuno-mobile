@@ -28,6 +28,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.navigation.Screens
+import com.example.smartmavuno.ui.theme.black
 import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -77,6 +78,7 @@ fun ResetScreen(navController: NavHostController, param: (Any) -> Unit) {
                     .padding(bottom = 0.dp)
             )
 
+
             Spacer(modifier = Modifier.height(22.dp))
 
             Text(
@@ -86,7 +88,7 @@ fun ResetScreen(navController: NavHostController, param: (Any) -> Unit) {
                 modifier = Modifier
                     .padding(bottom = 12.dp)
                     .offset(x = 130.dp),
-                color = green1
+                color = black
             )
 
             // Email Field
@@ -108,13 +110,13 @@ fun ResetScreen(navController: NavHostController, param: (Any) -> Unit) {
                         TextField(
                             value = email,
                             onValueChange = { email = it },
-                            placeholder = { Text("Email Address", color = green1) },
+                            placeholder = { Text("Email Address", color = black) },
                             trailingIcon = {
                                 Image(
                                     painter = painterResource(id = R.drawable.baseline_email_24),
                                     contentDescription = "Email Icon",
                                     modifier = Modifier.padding(horizontal = 12.dp),
-                                    colorFilter = ColorFilter.tint(green1)
+                                    colorFilter = ColorFilter.tint(green2)
                                 )
                             },
                             textStyle = TextStyle(color = green1),
@@ -142,7 +144,7 @@ fun ResetScreen(navController: NavHostController, param: (Any) -> Unit) {
                     .height(48.dp)
                     .padding(horizontal = 16.dp)
                     .clip(RoundedCornerShape(15.dp))
-                    .background(color = green1)
+                    .background(color = green2)
                     .clickable {
                         // Handle reset password
                         if (email.isNotEmpty() && isValidEmail(email)) {
@@ -180,7 +182,7 @@ fun ResetScreen(navController: NavHostController, param: (Any) -> Unit) {
                 style = TextStyle(
                     fontSize = 10.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = green1
+                    color = black
                 ),
                 modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 110.dp)
             )
