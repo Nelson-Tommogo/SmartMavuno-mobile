@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
@@ -32,12 +31,14 @@ import com.example.smartmavuno.R
 import com.example.smartmavuno.navigation.Screens
 import com.example.smartmavuno.ui.theme.black
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -> Unit) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+    var phoneNumber by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
@@ -45,7 +46,15 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
     var showLoadingDialog by remember { mutableStateOf(false) }
     var showSuccessDialog by remember { mutableStateOf(false) }
     var showFailureDialog by remember { mutableStateOf(false) }
+    var accountType by remember { mutableStateOf("Basic User") }
+    var serviceProviderName by remember { mutableStateOf("") }
+    var facilityName by remember { mutableStateOf("") }
+    var agencyName by remember { mutableStateOf("") }
+    var location by remember { mutableStateOf("") }
+    var bio by remember { mutableStateOf("") }
+
     val auth = FirebaseAuth.getInstance()
+    val firestore = FirebaseFirestore.getInstance()
     val green1 = colorResource(id = R.color.green1)
     val green2 = colorResource(id = R.color.green2)
     val white = colorResource(id = R.color.white)
@@ -93,7 +102,7 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
             color = black
         )
 
-        // Username Field
+        // Username FieldF
         Box(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -163,6 +172,52 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
                             Image(
                                 painter = painterResource(id = R.drawable.baseline_email_24),
                                 contentDescription = "Email Icon",
+                                modifier = Modifier.padding(horizontal = 12.dp),
+                                colorFilter = ColorFilter.tint(green2)
+                            )
+                        },
+                        textStyle = TextStyle(color = black),
+                        colors = TextFieldDefaults.textFieldColors(
+                            cursorColor = green2,
+                            containerColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent
+                        ),
+                        visualTransformation = VisualTransformation.None,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 0.dp)
+                    )
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // Phone Number Field
+        Box(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Surface(
+                color = Color.LightGray,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier
+                    .height(68.dp)
+                    .padding(horizontal = 6.dp)
+                    .padding(vertical = 5.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TextField(
+                        value = phoneNumber,
+                        onValueChange = { phoneNumber = it },
+                        placeholder = { Text("Phone Number", color = black) },
+                        trailingIcon = {
+                            Image(
+                                painter = painterResource(id = R.drawable.baseline_local_phone_24),
+                                contentDescription = "Phone Number Icon",
                                 modifier = Modifier.padding(horizontal = 12.dp),
                                 colorFilter = ColorFilter.tint(green2)
                             )
@@ -266,7 +321,7 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
                             }
                             Image(
                                 painter = icon,
-                                contentDescription = "Password Icon",
+                                contentDescription = "Confirm Password Icon",
                                 modifier = Modifier
                                     .padding(horizontal = 12.dp)
                                     .clickable { passwordVisible = !passwordVisible },
@@ -289,181 +344,369 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // Account Type Selector
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .background(color = Color.LightGray, shape = RoundedCornerShape(8.dp))
+                .padding(8.dp)
+        ) {
+            Column {
+                Text(
+                    text = "Select Account Type:",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = black
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Row {
+                    RadioButton(
+                        selected = accountType == "Basic User",
+                        onClick = { accountType = "Basic User" },
+                        colors = RadioButtonDefaults.colors(green2)
+                    )
+                    Text(text = "Basic User", modifier = Modifier.align(Alignment.CenterVertically))
+                }
+                Row {
+                    RadioButton(
+                        selected = accountType == "Service Provider",
+                        onClick = { accountType = "Service Provider" },
+                        colors = RadioButtonDefaults.colors(green2)
+                    )
+                    Text(text = "Service Provider", modifier = Modifier.align(Alignment.CenterVertically))
+                }
+                Row {
+                    RadioButton(
+                        selected = accountType == "Market Vendor",
+                        onClick = { accountType = "Market Vendor" },
+                        colors = RadioButtonDefaults.colors(green2)
+                    )
+                    Text(text = "Market Vendor", modifier = Modifier.align(Alignment.CenterVertically))
+                }
+                Row {
+                    RadioButton(
+                        selected = accountType == "Financial Institution",
+                        onClick = { accountType = "Financial Institution" },
+                        colors = RadioButtonDefaults.colors(green2)
+                    )
+                    Text(text = "Financial Institution", modifier = Modifier.align(Alignment.CenterVertically))
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        if (accountType == "Service Provider") {
+            Box(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Surface(
+                    color = Color.LightGray,
+                    shape = MaterialTheme.shapes.medium,
+                    modifier = Modifier
+                        .height(68.dp)
+                        .padding(horizontal = 6.dp)
+                        .padding(vertical = 5.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        TextField(
+                            value = serviceProviderName,
+                            onValueChange = { serviceProviderName = it },
+                            placeholder = { Text("Service Provider Name", color = Color.Gray) },
+                            textStyle = TextStyle(color = Color.Black),
+                            singleLine = true,
+                            colors = TextFieldDefaults.textFieldColors(
+                                containerColor = Color.Transparent,
+                                focusedIndicatorColor = green2,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                cursorColor = green2
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 0.dp)
+                        )
+                    }
+                }
+            }
+
+        }
+
+        if (accountType == "Market Vendor") {
+            Box(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Surface(
+                    color = Color.LightGray,
+                    shape = MaterialTheme.shapes.medium,
+                    modifier = Modifier
+                        .height(68.dp)
+                        .padding(horizontal = 6.dp)
+                        .padding(vertical = 5.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        TextField(
+                            value = facilityName,
+                            onValueChange = { facilityName = it },
+                            placeholder = { Text("Facility Name", color = Color.Gray) },
+                            textStyle = TextStyle(color = Color.Black),
+                            singleLine = true,
+                            colors = TextFieldDefaults.textFieldColors(
+                                containerColor = Color.Transparent,
+                                focusedIndicatorColor = green2,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                cursorColor = green2
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 0.dp)
+                        )
+                    }
+                }
+            }
+
+
+        }
+
+        if (accountType == "Financial Institution") {
+            Box(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Surface(
+                    color = Color.LightGray,
+                    shape = MaterialTheme.shapes.medium,
+                    modifier = Modifier
+                        .height(68.dp)
+                        .padding(horizontal = 6.dp)
+                        .padding(vertical = 5.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        TextField(
+                            value = agencyName,
+                            onValueChange = { agencyName = it },
+                            placeholder = { Text("Agency Name", color = Color.Gray) },
+                            singleLine = true,
+                            textStyle = TextStyle(color = Color.Black),
+                            colors = TextFieldDefaults.textFieldColors(
+                                containerColor = Color.Transparent,
+                                focusedIndicatorColor = green2,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                cursorColor = green2
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 0.dp)
+                        )
+                    }
+                }
+            }
+
+
+        }
+
+        Box(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Surface(
+                color = Color.LightGray,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier
+                    .height(68.dp)
+                    .padding(horizontal = 6.dp)
+                    .padding(vertical = 5.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TextField(
+                        value = location,
+                        onValueChange = { location = it },
+                        placeholder = { Text("Location", color = Color.Gray) },
+                        singleLine = true,
+                        textStyle = TextStyle(color = Color.Black),
+                        colors = TextFieldDefaults.textFieldColors(
+                            containerColor = Color.Transparent,
+                            focusedIndicatorColor = green2,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            cursorColor = green2
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 0.dp)
+                    )
+                }
+            }
+        }
+
+
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Box(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Surface(
+                color = Color.LightGray,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier
+                    .height(100.dp)
+                    .padding(horizontal = 6.dp)
+                    .padding(vertical = 5.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TextField(
+                        value = bio,
+                        onValueChange = { bio = it },
+                        placeholder = { Text("Bio", color = Color.Gray) },
+                        textStyle = TextStyle(color = Color.Black),
+                        colors = TextFieldDefaults.textFieldColors(
+                            containerColor = Color.Transparent,
+                            focusedIndicatorColor = green2,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            cursorColor = green2
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 0.dp)
+                    )
+                }
+            }
+        }
+
+
+
+        Spacer(modifier = Modifier.height(12.dp))
 
         // Sign Up Button
         Button(
             onClick = {
-                if (username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                    signUpMessage = "All fields are required."
-                    showFailureDialog = true
-                } else if (password != confirmPassword) {
-                    signUpMessage = "Passwords do not match."
-                    showFailureDialog = true
-                } else {
+                if (password == confirmPassword) {
                     showLoadingDialog = true
                     auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task ->
                             showLoadingDialog = false
                             if (task.isSuccessful) {
-                                showSuccessDialog = true
-                                param(username, email, password, confirmPassword)
+                                val userId = auth.currentUser?.uid
+                                val user = hashMapOf(
+                                    "username" to username,
+                                    "email" to email,
+                                    "phoneNumber" to phoneNumber,
+                                    "accountType" to accountType,
+                                    "location" to location,
+                                    "bio" to bio
+                                )
+
+                                when (accountType) {
+                                    "Service Provider" -> user["serviceProviderName"] = serviceProviderName
+                                    "Market Vendor" -> user["facilityName"] = facilityName
+                                    "Financial Institution" -> user["agencyName"] = agencyName
+                                }
+
+                                userId?.let {
+                                    firestore.collection("users").document(it).set(user)
+                                        .addOnSuccessListener {
+                                            showSuccessDialog = true
+                                        }
+                                        .addOnFailureListener {
+                                            showFailureDialog = true
+                                        }
+                                }
                             } else {
-                                signUpMessage = "Sign Up Failed: ${task.exception?.message}"
+                                signUpMessage = task.exception?.message ?: "Sign Up Failed"
                                 showFailureDialog = true
                             }
                         }
+                } else {
+                    signUpMessage = "Passwords do not match"
+                    showFailureDialog = true
                 }
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = green2),
-            shape = RoundedCornerShape(10.dp)
+                .height(50.dp)
+                .clip(shape = RoundedCornerShape(10.dp)),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = green2 // Set the button container color to green2
+            )
         ) {
-            Text(
-                text = "Sign Up",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = white
+            Text(text = "Sign Up", color = white, fontSize = 16.sp)
+        }
+
+
+        if (showLoadingDialog) {
+            AlertDialog(
+                onDismissRequest = { },
+                title = { Text(text = "Signing Up...") },
+                text = { CircularProgressIndicator(color = green2) },
+                confirmButton = { }
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        if (showSuccessDialog) {
+            AlertDialog(
+                onDismissRequest = {
+                    showSuccessDialog = false
+                    navController.navigate(Screens.Login.screen)
+                },
+                title = { Text(text = "Success") },
+                text = { Text(text = "You have successfully signed up!") },
+                confirmButton = {
+                    Button(onClick = {
+                        showSuccessDialog = false
+                        navController.navigate(Screens.Login.screen)
+                    }) {
+                        Text(text = "OK")
+                    }
+                }
+            )
+        }
 
-        // "Or Sign Up Using" Text
-        Text(
-            text = "Or Sign Up Using",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = black,
+        if (showFailureDialog) {
+            AlertDialog(
+                onDismissRequest = { showFailureDialog = false },
+                title = { Text(text = "Error") },
+                text = { Text(text = signUpMessage) },
+                confirmButton = {
+                    Button(onClick = { showFailureDialog = false }) {
+                        Text(text = "OK")
+                    }
+                }
+            )
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        ClickableText(
+            text = AnnotatedString("Already have an account? Log in"),
+            style = TextStyle(color = green2),
+            onClick = {
+                navController.navigate(Screens.Login.screen)
+            },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Social Media Icons
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            // Google Icon
-            Box(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(green2)
-                    .padding(8.dp)
-                    .clickable { /* Handle Gmail signup */ }
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.google),
-                    contentDescription = "Gmail",
-                    tint = Color.White
-                )
-            }
-
-            // Twitter Icon
-            Box(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(green2)
-                    .padding(8.dp)
-                    .clickable { /* Handle Twitter signup */ }
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.twittter),
-                    contentDescription = "Twitter",
-                    tint = Color.White
-                )
-            }
-
-            // Facebook Icon
-            Box(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(green2)
-                    .padding(8.dp)
-                    .clickable { /* Handle Facebook signup */ }
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.facebook),
-                    contentDescription = "Facebook",
-                    tint = Color.White
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            ClickableText(
-                text = AnnotatedString("Already have an account? Log In"),
-                onClick = {
-                    navController.navigate(Screens.Login.screen)
-                },
-                style = TextStyle(
-                    color = black,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            )
-        }
-    }
-
-    // Loading Dialog
-    if (showLoadingDialog) {
-        AlertDialog(
-            onDismissRequest = {},
-            confirmButton = {},
-            dismissButton = {},
-            title = { Text(text = "Signing Up...") },
-            text = { Text(text = "Please wait while we create your account.") }
-        )
-    }
-
-    // Success Dialog
-    if (showSuccessDialog) {
-        AlertDialog(
-            onDismissRequest = { showSuccessDialog = false },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        showSuccessDialog = false
-                        navController.navigate(Screens.Login.screen)
-                    }
-                ) {
-                    Text("OK")
-                }
-            },
-            title = { Text(text = "Sign Up Successful") },
-            text = { Text(text = "Your account has been created successfully!") }
-        )
-    }
-
-    // Failure Dialog
-    if (showFailureDialog) {
-        AlertDialog(
-            onDismissRequest = { showFailureDialog = false },
-            confirmButton = {
-                Button(
-                    onClick = { showFailureDialog = false }
-                ) {
-                    Text("OK")
-                }
-            },
-            title = { Text(text = "Sign Up Failed") },
-            text = { Text(text = signUpMessage) }
-        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun SignupScreenPreview() {
-    SignupScreen(navController = rememberNavController(), param = { _, _, _, _ -> })
+    val navController = rememberNavController()
+    SignupScreen(navController) { _, _, _, _ -> }
 }
