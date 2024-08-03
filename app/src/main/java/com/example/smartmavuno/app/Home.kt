@@ -41,6 +41,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.appActivities.showGeneralNotification
 import com.example.smartmavuno.navigation.Screens
+import com.example.smartmavuno.ui.theme.green2
 import com.example.smartmavuno.ui.theme.grey
 import kotlinx.coroutines.delay
 import java.time.LocalTime
@@ -97,7 +98,7 @@ fun NotificationBox(navController: NavHostController) {
                     .height(200.dp)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp))
-                    .background(green1)
+                    .background(green2)
                     .padding(16.dp),
                 contentAlignment = Alignment.CenterStart
             ) {
@@ -388,7 +389,7 @@ fun RecentProducts(navController: NavHostController) {
                         Text(
                             text = product.discountedPrice,
                             style = MaterialTheme.typography.bodySmall,
-                            color = green1,
+                            color = green2,
                             modifier = Modifier.padding(top = 4.dp)
                         )
                         Row(
@@ -414,7 +415,7 @@ fun RecentProducts(navController: NavHostController) {
                                 navController.navigate(Screens.MarketPlace.screen)
                             },
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = if (product.isInCart) Color.Gray else green1
+                                containerColor = if (product.isInCart) Color.Gray else green2
                             ),
                             modifier = Modifier
                                 .padding(top = 8.dp)

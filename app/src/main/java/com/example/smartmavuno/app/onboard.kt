@@ -70,8 +70,8 @@ fun onboard(navController: NavController) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White) // Background color of the box
-                .padding(24.dp) // Padding around the content
+                .background(Color.White)
+                .padding(24.dp)
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -193,7 +193,7 @@ fun onboard(navController: NavController) {
                                         append("⏩")
                                     },
                                     onClick = {
-                                        navController.navigate("login")
+                                        navController.navigate(Screens.Login.screen)
                                     },
                                     modifier = Modifier.align(Alignment.Center)
                                 )

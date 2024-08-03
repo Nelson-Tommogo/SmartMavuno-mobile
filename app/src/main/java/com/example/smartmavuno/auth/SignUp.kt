@@ -8,6 +8,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -53,8 +55,9 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
     var location by remember { mutableStateOf("") }
     var bio by remember { mutableStateOf("") }
 
+
     val auth = FirebaseAuth.getInstance()
-    val firestore = FirebaseFirestore.getInstance()
+    val firestore: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
     val green1 = colorResource(id = R.color.green1)
     val green2 = colorResource(id = R.color.green2)
     val white = colorResource(id = R.color.white)
@@ -64,9 +67,26 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .background(color = white)
-            .padding(10.dp)
+            .padding(16.dp)
     ) {
-        Spacer(modifier = Modifier.height(80.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 6.dp)
+                .background(Color.LightGray)
+        ) {
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = "Back",
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .size(48.dp)
+                    .padding(start = 1.dp)
+                    .clickable {
+                        navController.popBackStack()
+                    }
+            )
+        }
 
         Image(
             painter = painterResource(id = R.drawable.logo_color),
@@ -262,7 +282,7 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
                         placeholder = { Text("Password", color = black) },
                         trailingIcon = {
                             val icon = if (passwordVisible) {
-                                painterResource(id = R.drawable.baseline_remove_red_eye_24)
+                                painterResource(id = R.drawable.baseline_hide_source_24)
                             } else {
                                 painterResource(id = R.drawable.baseline_remove_red_eye_24)
                             }
@@ -315,7 +335,7 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
                         placeholder = { Text("Confirm Password", color = black) },
                         trailingIcon = {
                             val icon = if (passwordVisible) {
-                                painterResource(id = R.drawable.baseline_remove_red_eye_24)
+                                painterResource(id = R.drawable.baseline_hide_source_24)
                             } else {
                                 painterResource(id = R.drawable.baseline_remove_red_eye_24)
                             }

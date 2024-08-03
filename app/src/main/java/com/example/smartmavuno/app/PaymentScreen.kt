@@ -27,6 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.ui.theme.black
 import com.example.smartmavuno.ui.theme.green1
+import com.example.smartmavuno.ui.theme.green2
 import com.example.smartmavuno.ui.theme.green3
 
 data class Bank(val name: String, val iconResId: Int)
@@ -55,7 +56,7 @@ fun PaymentOptions(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(green1)
+            .background(green2)
             .padding(16.dp)
     ) {
         Box(
@@ -237,7 +238,7 @@ fun DonateProductForm(
                 },
                 shape = MaterialTheme.shapes.large,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = green1 // Custom button color
+                    containerColor = green2
                 ),
                 modifier = Modifier
                     .fillMaxWidth()

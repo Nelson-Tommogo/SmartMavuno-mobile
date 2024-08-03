@@ -31,7 +31,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
 import com.example.smartmavuno.navigation.Screens
 import com.example.smartmavuno.ui.theme.black
-import com.example.smartmavuno.ui.theme.green3
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
@@ -130,7 +129,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                                     colorFilter = ColorFilter.tint(green2)
                                 )
                             },
-                            textStyle = TextStyle(color = green1),
+                            textStyle = TextStyle(color = black),
                             colors = TextFieldDefaults.textFieldColors(
                                 cursorColor = black,
                                 containerColor = Color.Transparent,
@@ -170,7 +169,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                             placeholder = { Text("Password", color = black) },
                             trailingIcon = {
                                 val icon = if (passwordVisible) {
-                                    painterResource(id = R.drawable.baseline_remove_red_eye_24)
+                                    painterResource(id = R.drawable.baseline_hide_source_24)
                                 } else {
                                     painterResource(id = R.drawable.baseline_remove_red_eye_24)
                                 }
@@ -183,7 +182,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                                     colorFilter = ColorFilter.tint(green2)
                                 )
                             },
-                            textStyle = TextStyle(color = green1),
+                            textStyle = TextStyle(color = black),
                             colors = TextFieldDefaults.textFieldColors(
                                 cursorColor = green2,
                                 containerColor = Color.Transparent,
