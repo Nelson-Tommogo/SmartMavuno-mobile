@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
+import com.example.smartmavuno.navigation.Screens
 import com.example.smartmavuno.ui.theme.white
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -156,7 +157,9 @@ fun Service(navController: NavController) {
                     onClick = {
                         // Handle service box click here
                         when (services[index]) {
-                            "Land Leasing" -> { /* Handle Land Leasing click */ }
+                            "Land Leasing" -> {
+                                navController.navigate(Screens.Landowner.route)
+                            }
                             "Agricultural Consultancies" -> { /* Handle Agricultural Consultancies click */ }
                             "Farm Labour" -> { /* Handle Farm Labour click */ }
                             "Equipment Rental" -> { /* Handle Equipment Rental click */ }

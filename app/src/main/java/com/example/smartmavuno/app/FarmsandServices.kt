@@ -81,7 +81,7 @@ fun FarmsandServices(navController: NavController) {
                 val onClick: () -> Unit = when (service) {
                     "Maize Farm" -> {
                         {
-                            navController.navigate(Screens.Farm.screen)
+                            navController.navigate(Screens.Farm.route)
                         }
                     }
                     "Machinery" -> {

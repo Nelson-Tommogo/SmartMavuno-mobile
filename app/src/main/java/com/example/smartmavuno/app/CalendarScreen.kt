@@ -75,6 +75,7 @@ fun CalendarScreen(
 
         FloatingActionButton(
             onClick = {
+                navController.navigate(Screens.CreateEventScreen.route)
 //                navController.navigate(Screens.CreateEventScreen.screen)
             },
             modifier = Modifier
@@ -198,7 +199,7 @@ fun ContentItem(
                 } else {
                     Color.Transparent
                 },
-                shape = RoundedCornerShape(8.dp) // Adjust the radius as needed
+                shape = RoundedCornerShape(8.dp)
             )
             .clickable { onClickListener(date) }
             .padding(8.dp)

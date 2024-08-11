@@ -28,6 +28,7 @@ import com.example.smartmavuno.R
 import com.example.smartmavuno.auth.LoginScreen
 import com.example.smartmavuno.auth.SignupScreen
 import com.example.smartmavuno.navigation.Screens
+import com.example.smartmavuno.ui.theme.white
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -45,15 +46,19 @@ fun BottomNavComposable(navController: NavHostController) {
                 containerColor = grey,
                 modifier = Modifier
                     .height(bottomAppBarHeight)
-                    .padding(horizontal = 0.dp, vertical = 2.dp)
+                    .padding(horizontal = 25.dp, vertical = 5.dp)
                     .clip(shape = RoundedCornerShape(13.dp)),
                 contentColor = green2
             ) {
                 IconButton(
                     onClick = {
                         selected = "Home"
-                        navController.navigate(Screens.Home.screen) {
-                            popUpTo(0)
+                        navController.navigate(Screens.Home.route) {
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
                     },
                     modifier = Modifier.weight(1f)
@@ -63,12 +68,12 @@ fun BottomNavComposable(navController: NavHostController) {
                             Icons.Default.Home,
                             contentDescription = "HomeIcon",
                             modifier = Modifier.size(26.dp),
-                            tint = if (selected == "Home") green2 else colorResource(id = R.color.grey1)
+                            tint = if (selected == "Home") white else colorResource(id = R.color.green2)
                         )
                         Text(
                             text = "Home",
                             fontSize = 12.sp,
-                            color = if (selected == "Home") green2 else colorResource(id = R.color.grey1),
+                            color = if (selected == "Home") white else colorResource(id = R.color.green2),
                             textAlign = TextAlign.Center
                         )
                     }
@@ -77,13 +82,16 @@ fun BottomNavComposable(navController: NavHostController) {
                 IconButton(
                     onClick = {
                         selected = "com.example.smartmavuno.model.Service"
-                        navController.navigate(Screens.Service.screen) {
-                            popUpTo(0)
+                        navController.navigate(Screens.Service.route) {
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
                     },
                     modifier = Modifier.weight(1f)
-                )
-                {
+                ) {
                     Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally) {
                         Image(
                             painter = painterResource(id = R.drawable.baseline_miscellaneous_services_24),
@@ -103,8 +111,12 @@ fun BottomNavComposable(navController: NavHostController) {
                 IconButton(
                     onClick = {
                         selected = "Community"
-                        navController.navigate(Screens.Community.screen) {
-                            popUpTo(0)
+                        navController.navigate(Screens.Community.route) {
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
                     },
                     modifier = Modifier.weight(1f)
@@ -128,8 +140,12 @@ fun BottomNavComposable(navController: NavHostController) {
                 IconButton(
                     onClick = {
                         selected = "Articles"
-                        navController.navigate(Screens.Articles.screen) {
-                            popUpTo(0)
+                        navController.navigate(Screens.Articles.route) {
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
                     },
                     modifier = Modifier.weight(1f)
@@ -154,39 +170,43 @@ fun BottomNavComposable(navController: NavHostController) {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Screens.Home.screen,
+            startDestination = Screens.Home.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(Screens.Home.screen) { Home(navController) }
-            composable(Screens.Service.screen) { Service(navController) }
-            composable(Screens.Community.screen) { Community(navController) }
-            composable(Screens.Articles.screen) { Articles(navController) }
-            composable(Screens.FarmsandServices.screen) { FarmsandServices(navController) }
-            composable(Screens.WeatherScreen.screen) { WeatherScreen(navController) }
-            composable(Screens.MarketPlace.screen) { MarketplaceScreen(navController) }
-            composable(Screens.appsettings.screen) { SettingsScreen(navController) }
-            composable(Screens.Donate.screen) { Donate(navController) }
-            composable(Screens.onboard.screen) { onboard(navController) }
-            composable(Screens.CalendarScreen.screen) {
-                CalendarScreen(navController)
-            }
-            composable(Screens.CreateEventScreen.screen) { CreateEventScreen(navController) }
-            composable(Screens.CreateArticleScreen.screen) { ArticleCreationScreen(navController){
+            composable(Screens.Home.route) { Home(navController) }
+            composable(Screens.Service.route) { Service(navController) }
+            composable(Screens.Community.route) { Community(navController) }
+            composable(Screens.Articles.route) { Articles(navController) }
+            composable(Screens.FarmsandServices.route) { FarmsandServices(navController) }
+            composable(Screens.WeatherScreen.route) { WeatherScreen(navController) }
+            composable(Screens.MarketPlace.route) { MarketplaceScreen(navController) }
+            composable(Screens.AppSettings.route) { SettingsScreen(navController) }
+            composable(Screens.Donate.route) { Donate(navController) }
+            composable(Screens.Landowner.route) {
+                LandOwner(
+                    navController = navController,
+                    onImageOrVideoCaptured = { imageOrVideoUrl: (String) -> Unit ->
+                    }.toString(),
+                    onSubmit = {
+                    }.toString()
+                )
             }
 
+
+            composable(Screens.Onboard.route) { onboard(navController) }
+            composable(Screens.CalendarScreen.route) { CalendarScreen(navController) }
+            composable(Screens.CreateEventScreen.route) { CreateEventScreen(navController) }
+            composable(Screens.CreateArticleScreen.route) { ArticleCreationScreen(navController){}
             }
-            composable(Screens.PaymentScreen.screen) { PaymentOptions(navController) }
-            composable(Screens.Farm.screen) { Farms(navController) }
-            composable(Screens.navbar.screen) { BottomNavComposable(navController) }
-            composable(Screens.Login.screen) {
-                val navController = rememberNavController()
+            composable(Screens.PaymentScreen.route) { PaymentOptions(navController) }
+            composable(Screens.Farm.route) { Farms(navController) }
+            composable(Screens.Navbar.route) { BottomNavComposable(navController) }
+            composable(Screens.Login.route) {
                 LoginScreen(navController)
             }
-
-            composable(Screens.Signup.screen) { SignupScreen(navController){
+            composable(Screens.Signup.route) { SignupScreen(navController){
                     s, s2, s3, s4 ->
-            } }
-        }
+            } }        }
     }
 }
 

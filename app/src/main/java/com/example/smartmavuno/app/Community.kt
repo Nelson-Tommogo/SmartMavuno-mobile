@@ -106,7 +106,7 @@ fun Community(navController: NavController) {
                     onClick = {
 
                         selectedButton.value = "Donations"
-                        navController.navigate(Screens.Donate.screen)
+                        navController.navigate(Screens.Donate.route)
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (selectedButton.value == "Donations") green1 else grey

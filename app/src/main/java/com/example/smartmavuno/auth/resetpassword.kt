@@ -177,7 +177,7 @@ fun ResetScreen(navController: NavHostController, param: (Any) -> Unit) {
             ClickableText(
                 text = AnnotatedString("\t\t\t Remembered Your Account?\n\t\t\t\t\t Go Back and Login"),
                 onClick = {
-                    navController.navigate(Screens.Login.screen)
+                    navController.navigate(Screens.Login.route)
                 },
                 style = TextStyle(
                     fontSize = 10.sp,

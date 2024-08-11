@@ -98,7 +98,7 @@ fun NotificationBox(navController: NavHostController) {
                     .height(200.dp)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp))
-                    .background(green2)
+                    .background(green1)
                     .padding(16.dp),
                 contentAlignment = Alignment.CenterStart
             ) {
@@ -169,11 +169,7 @@ fun NotificationBox(navController: NavHostController) {
                         )
                     }
                 }
-
-
-
             }
-
 
             Spacer(modifier = Modifier.height(10.dp))
             Box(
@@ -258,21 +254,21 @@ fun Links(navController: NavHostController) {
                     modifier = Modifier.clickable {
                         when (icon.second) {
                             "Farm" -> {
-                                navController.navigate(Screens.FarmsandServices.screen)
+                                navController.navigate(Screens.FarmsandServices.route)
                             }
                             "Progress" -> {
 
                             }
                             "Calendar" -> {
-                                navController.navigate(Screens.CalendarScreen.screen)
+                                navController.navigate(Screens.CalendarScreen.route)
 
                             }
                             "Weather" -> {
-                                navController.navigate(Screens.WeatherScreen.screen)
+                                navController.navigate(Screens.WeatherScreen.route)
 
                             }
                             "Market Place" -> {
-                                navController.navigate(Screens.MarketPlace.screen)
+                                navController.navigate(Screens.MarketPlace.route)
 
                             }
                         }
@@ -412,7 +408,7 @@ fun RecentProducts(navController: NavHostController) {
                         Button(
                             onClick = {
                                 product.isInCart = !product.isInCart
-                                navController.navigate(Screens.MarketPlace.screen)
+                                navController.navigate(Screens.MarketPlace.route)
                             },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = if (product.isInCart) Color.Gray else green2
@@ -509,7 +505,7 @@ fun Methods(navController: NavHostController) {
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Black,
                 modifier = Modifier.clickable {
-                     navController.navigate(Screens.Articles.screen)
+                     navController.navigate(Screens.Articles.route)
                 }
             )
         }

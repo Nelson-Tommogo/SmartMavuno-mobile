@@ -204,7 +204,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
             ClickableText(
                 text = AnnotatedString("Forgot Password?"),
                 onClick = {
-                    navController.navigate(Screens.Reset.screen)
+                    navController.navigate(Screens.Reset.route)
                 },
                 style = TextStyle(
                     fontSize = 10.sp,
@@ -233,7 +233,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
                                             if (task.isSuccessful) {
                                                 dialogMessage = "User logged in successfully"
                                                 showDialog = true
-                                                navController.navigate(Screens.Reset.screen)
+                                                navController.navigate(Screens.Navbar.route)
                                             } else {
                                                 dialogMessage = task.exception?.message ?: "Login failed"
                                                 showDialog = true
@@ -263,7 +263,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
             ClickableText(
                 text = AnnotatedString("Don't Have an Account Yet?"),
                 onClick = {
-                    navController.navigate(Screens.Signup.screen)
+                    navController.navigate(Screens.Signup.route)
                 },
                 style = TextStyle(
                     color = black,
@@ -277,7 +277,7 @@ fun LoginScreen(navController: NavHostController, onLogin: (String, String) -> U
             ClickableText(
                 text = AnnotatedString("Register Now"),
                 onClick = {
-                    navController.navigate(Screens.Signup.screen)
+                    navController.navigate(Screens.Signup.route)
                 },
                 style = TextStyle(
                     color = black,

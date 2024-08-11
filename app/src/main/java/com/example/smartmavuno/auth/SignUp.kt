@@ -1,5 +1,6 @@
 package com.example.smartmavuno.auth
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,6 +35,7 @@ import com.example.smartmavuno.navigation.Screens
 import com.example.smartmavuno.ui.theme.black
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,7 +60,6 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
 
     val auth = FirebaseAuth.getInstance()
     val firestore: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
-    val green1 = colorResource(id = R.color.green1)
     val green2 = colorResource(id = R.color.green2)
     val white = colorResource(id = R.color.white)
 
@@ -622,6 +623,7 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
                             showLoadingDialog = false
                             if (task.isSuccessful) {
                                 val userId = auth.currentUser?.uid
+                                Log.d("SignUp", "User created with ID: $userId")
                                 val user = hashMapOf(
                                     "username" to username,
                                     "email" to email,
@@ -640,19 +642,28 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
                                 userId?.let {
                                     firestore.collection("users").document(it).set(user)
                                         .addOnSuccessListener {
+                                            Timber.tag("Firestore")
+                                                .d("User document successfully written!")
                                             showSuccessDialog = true
                                         }
-                                        .addOnFailureListener {
+                                        .addOnFailureListener { e ->
+                                            Timber.tag("Firestore")
+                                                .e(e, "Error writing user document")
                                             showFailureDialog = true
                                         }
+                                } ?: run {
+                                Timber.tag("SignUp").e("User ID is null after successful authentication")
+                                    showFailureDialog = true
                                 }
                             } else {
                                 signUpMessage = task.exception?.message ?: "Sign Up Failed"
+                                Timber.tag("SignUp").e("Authentication failed: %s", signUpMessage)
                                 showFailureDialog = true
                             }
                         }
                 } else {
                     signUpMessage = "Passwords do not match"
+                    Timber.tag("SignUp").e("Passwords do not match")
                     showFailureDialog = true
                 }
             },
@@ -661,11 +672,12 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
                 .height(50.dp)
                 .clip(shape = RoundedCornerShape(10.dp)),
             colors = ButtonDefaults.buttonColors(
-                containerColor = green2 // Set the button container color to green2
+                containerColor = green2
             )
         ) {
             Text(text = "Sign Up", color = white, fontSize = 16.sp)
         }
+
 
 
         if (showLoadingDialog) {
@@ -681,14 +693,14 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
             AlertDialog(
                 onDismissRequest = {
                     showSuccessDialog = false
-                    navController.navigate(Screens.Login.screen)
+                    navController.navigate(Screens.Login.route)
                 },
                 title = { Text(text = "Success") },
                 text = { Text(text = "You have successfully signed up!") },
                 confirmButton = {
                     Button(onClick = {
                         showSuccessDialog = false
-                        navController.navigate(Screens.Login.screen)
+                        navController.navigate(Screens.Login.route)
                     }) {
                         Text(text = "OK")
                     }
@@ -715,7 +727,7 @@ fun SignupScreen(navController: NavHostController, param: (Any, Any, Any, Any) -
             text = AnnotatedString("Already have an account? Log in"),
             style = TextStyle(color = green2),
             onClick = {
-                navController.navigate(Screens.Login.screen)
+                navController.navigate(Screens.Login.route)
             },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )

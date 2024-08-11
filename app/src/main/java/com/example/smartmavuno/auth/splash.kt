@@ -37,13 +37,13 @@ fun SplashScreen(navController: NavHostController, onAnimationEnd: () -> Unit) {
     LaunchedEffect(true) {
         // Zoom in
         expanded = true
-        delay(800)
+        delay(1000)
         // Zoom out
         expanded = false
-        delay(800)
+        delay(1000)
 
         // navigates to onboarding screens
-        navController.navigate(Screens.Onboarding.screen)    }
+        navController.navigate(Screens.Onboarding.route)    }
 
     val transition = updateTransition(targetState = if (expanded) 1f else 0f, label = "scaleAndAlphaTransition")
 

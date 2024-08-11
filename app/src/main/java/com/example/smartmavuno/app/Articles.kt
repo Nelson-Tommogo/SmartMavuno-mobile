@@ -160,7 +160,7 @@ fun Articles(
         // Floating Action Button for creating an article
         FloatingActionButton(
             onClick = {
-                navController.navigate(Screens.CreateArticleScreen.screen)
+                navController.navigate(Screens.CreateArticleScreen.route)
             },
             containerColor = green1,
             contentColor = green3,
