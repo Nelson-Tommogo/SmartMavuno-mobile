@@ -214,7 +214,7 @@ fun NotificationBox(navController: NavHostController) {
 
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun getGreeting(currentTime: java.time.LocalTime): String {
+fun getGreeting(currentTime: LocalTime): String {
     return when (currentTime.hour) {
         in 0..11 -> "Good Morning"
         in 12..16 -> "Good Afternoon"
@@ -509,9 +509,7 @@ fun Methods(navController: NavHostController) {
                 }
             )
         }
-
         val state = rememberLazyListState(initialFirstVisibleItemIndex = listState)
-
         LazyRow(
             state = state,
             modifier = Modifier.fillMaxWidth(),

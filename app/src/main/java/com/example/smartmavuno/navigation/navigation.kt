@@ -1,5 +1,6 @@
 package com.example.smartmavuno.navigation
 
+import com.example.smartmavuno.app.MarketplaceScreen
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable

@@ -1,282 +1,232 @@
 package com.example.smartmavuno.app
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
-import com.example.smartmavuno.viewmodel.MarketplaceViewModel
-import com.example.smartmavuno.viewmodel.Service
-import com.example.smartmavuno.viewmodel.SortBy
-import com.example.smartmavuno.ui.theme.green1
-import com.example.smartmavuno.ui.theme.green3
-import com.example.smartmavuno.ui.theme.white
+import kotlinx.coroutines.delay
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MarketplaceScreen(
-    navController: NavController,
-    viewModel: MarketplaceViewModel = viewModel()
-) {
-    val grey = colorResource(id = R.color.grey)
-    val green1 = colorResource(id = R.color.green1)
-    val green2 = colorResource(id = R.color.green2)
-    val green3 = colorResource(id = R.color.green3)
+fun MarketplaceScreen(navController: NavController) {
     var searchQuery by remember { mutableStateOf("") }
-    var showFilterMenu by remember { mutableStateOf(false) }
+    val categories = listOf(
+        "Vegetables", "Fruits", "Cereals & Grains", "Poultry", "Spices", "Dairy Products"
+    )
+    val filteredCategories = categories.filter {
+        it.contains(searchQuery, ignoreCase = true)
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(white)
-            .padding(16.dp)
+            .background(Color.White)
     ) {
-        // Top Bar
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_arrow_back_24),
-                    contentDescription = "Back Icon",
-                    tint = green1,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clickable {
-                            navController.popBackStack()
-                        }
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "MarketPlace",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Black
-                )
-            }
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_shopping_cart_24),
-                contentDescription = "Cart Icon",
-                tint = green1,
-                modifier = Modifier
-                    .size(20.dp)
-                    .clickable {
-                        // Handle cart click here
-                        navController.navigate("cart_screen") // Example navigation
-                    }
-            )
+        // Top bar remains constant
+        MarketplaceTopBar(navController = navController, searchQuery) {
+            searchQuery = it
         }
 
-        // Search Bar
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Scrollable content
+        val scrollState = rememberScrollState()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+                .padding(16.dp)
+        ) {
+            AdBanner()
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Category Boxes
+            if (filteredCategories.isEmpty() && searchQuery.isNotEmpty()) {
+                Text(
+                    text = "Not Found",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color.Gray,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+            } else {
+                CategoryList(filteredCategories.ifEmpty { categories }, navController)
+            }
+        }
+    }
+}
+
+
+@Composable
+fun MarketplaceTopBar(navController: NavController, searchQuery: String, onSearch: (String) -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Back Button
+        IconButton(onClick = { navController.popBackStack() }) {
+            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+        }
+
+        // Title
+        Text(
+            text = "Categories",
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.weight(1f),
+            textAlign = TextAlign.Center
+        )
+
+        IconButton(onClick = {
+
+        }) {
+            Icon(Icons.Default.Search, contentDescription = "Search")
+        }
+    }
+}
+
+@Composable
+fun AdBanner() {
+    val cropImages = listOf(
+        R.drawable.veges,
+        R.drawable.fruits,
+        R.drawable.grains
+    )
+
+    val adTexts = listOf(
+        "Get fresh vegetables now\n Order Now!!!",
+        "High-quality and Farm Fresh fruits available at your fingertips",
+        "Order your grains today and enjoy with your family!!"
+    )
+
+    var currentImageIndex by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(currentImageIndex) {
+        delay(3000L)
+        currentImageIndex = (currentImageIndex + 1) % cropImages.size
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(150.dp)
+            .clip(RoundedCornerShape(8.dp))
+    ) {
+        Image(
+            painter = painterResource(id = cropImages[currentImageIndex]),
+            contentDescription = "Crop Ad",
+            modifier = Modifier.fillMaxWidth(),
+            contentScale = ContentScale.Crop
+        )
+
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-                .background(green1)
-                .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(8.dp))
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.4f))
+                .padding(8.dp),
+            contentAlignment = Alignment.BottomCenter
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(54.dp)
-                    .padding(horizontal = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(36.dp)
-                        .background(green3, shape = RoundedCornerShape(10))
-                        .padding(6.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_search_24),
-                        contentDescription = "Search Icon",
-                        tint = green1,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-
-                Spacer(modifier = Modifier.width(8.dp))
-                TextField(
-                    value = searchQuery,
-                    onValueChange = { newValue ->
-                        searchQuery = newValue
-                        viewModel.filterByName(newValue)
-                    },
-                    placeholder = { Text("Search Service", color = Color.Black) },
-                    modifier = Modifier
-                        .weight(1f)
-                        .background(green1)
-                        .padding(horizontal = 8.dp),
-                    textStyle = TextStyle(color = Color.Black),
-                    colors = TextFieldDefaults.textFieldColors(
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        cursorColor = Color.Black,
-                    )
-                )
-                Box(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .background(Color.LightGray, shape = RoundedCornerShape(4.dp))
-                        .clickable { showFilterMenu = !showFilterMenu }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_sort_24),
-                        contentDescription = "Filter Icon",
-                        tint = green1,
-                        modifier = Modifier.size(24.dp)
-                    )
-                    DropdownMenu(
-                        expanded = showFilterMenu,
-                        onDismissRequest = { showFilterMenu = false }
-                    ) {
-                        DropdownMenuItem(
-                            text = { Text("Sort by Ratings") },
-                            onClick = {
-                                viewModel.updateSortBy(SortBy.Ratings)
-                                showFilterMenu = false
-                            }
-                        )
-                        DropdownMenuItem(
-                            text = { Text("Sort by Price") },
-                            onClick = {
-                                viewModel.updateSortBy(SortBy.Price)
-                                showFilterMenu = false
-                            }
-                        )
-                        DropdownMenuItem(
-                            text = { Text("Sort by Frequently Ordered") },
-                            onClick = {
-                                viewModel.updateSortBy(SortBy.FrequentlyOrdered)
-                                showFilterMenu = false
-                            }
-                        )
-                    }
-                }
-            }
+            Text(
+                text = adTexts[currentImageIndex],
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.White,
+                textAlign = TextAlign.Center
+            )
         }
+    }
+}
 
-        // Display Products or "Product not available" message
-        if (viewModel.filteredResultsAvailable) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(8.dp),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(grey)
-            ) {
-                items(viewModel.services.size) { index ->
-                    ServiceBox(
-                        service = viewModel.services[index],
-                        onClick = {
-                            viewModel.addToCart(viewModel.services[index])
-                        }
-                    )
-                }
-            }
-        } else {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "Product not available",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Black
-                )
+
+@Composable
+fun CategoryList(filteredCategories: List<String>, navController: NavController) {
+    val categoriesWithImages = listOf(
+        "Vegetables" to R.drawable.vegetables,
+        "Fruits" to R.drawable.fruit,
+        "Cereals & Grains" to R.drawable.corn,
+        "Poultry Products" to R.drawable.egs,
+        "Spices" to R.drawable.croptwo,
+        "Dairy Products" to R.drawable.crop5
+    )
+
+    val categoriesToDisplay = if (filteredCategories.isEmpty()) {
+        categoriesWithImages
+    } else {
+        categoriesWithImages.filter { it.first in filteredCategories }
+    }
+
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        categoriesToDisplay.forEach { (category, imageResId) ->
+            CategoryItem(category = category, imageResId = imageResId) {
+                navController.navigate("category_detail/$category")
             }
         }
     }
 }
 
 @Composable
-fun ServiceBox(service: Service, onClick: () -> Unit) {
+fun CategoryItem(category: String, imageResId: Int, onClick: () -> Unit) {
     Box(
         modifier = Modifier
-            .padding(5.dp)
-            .height(150.dp)
-            .width(200.dp)
-            .clip(RoundedCornerShape(6.dp))
-            .background(green3)
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center
+            .fillMaxWidth()
+            .height(100.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(Color.White)
+            .clickable { onClick() }
+            .shadow(4.dp),
+        contentAlignment = Alignment.CenterStart
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                painter = painterResource(id = service.iconRes),
-                contentDescription = service.name,
-                modifier = Modifier.size(50.dp),
-                tint = Color.Unspecified
-            )
-            Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = service.name,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Black,
-                textAlign = TextAlign.Center
+                text = category,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .weight(1f),
             )
-            Spacer(modifier = Modifier.height(4.dp))
-            if (service.originalPrice.isNotEmpty() && service.originalPrice != service.price) {
-                Text(
-                    text = "Ksh. ${service.originalPrice}",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        textDecoration = TextDecoration.LineThrough,
-                        color = Color.Gray
-                    ),
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.height(2.dp))
-            }
-            Box(
+
+            Image(
+                painter = painterResource(id = imageResId),
+                contentDescription = category,
                 modifier = Modifier
-                    .background(green1, shape = CircleShape)
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-            ) {
-                Text(
-                    text = "Ksh. ${service.price}",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = Color.White
-                    ),
-                    textAlign = TextAlign.Center
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_shopping_cart_24),
-                contentDescription = "Add to Cart Icon",
-                tint = green1,
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable(onClick = onClick)
+                    .size(80.dp)
+                    .weight(1f),
+                contentScale = ContentScale.Crop
             )
         }
     }
@@ -284,6 +234,9 @@ fun ServiceBox(service: Service, onClick: () -> Unit) {
 
 @Preview(showBackground = true)
 @Composable
-fun MarketPlacePreview() {
-    MarketplaceScreen(navController = rememberNavController())
+fun MarketplaceScreenPreview() {
+    Surface {
+        val navController = rememberNavController()
+        MarketplaceScreen(navController = navController)
+    }
 }

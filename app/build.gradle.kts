@@ -110,6 +110,7 @@ dependencies {
 
     // Material Design Components
     implementation(libs.material)
+    implementation(libs.play.services.analytics.impl)
 
     // Testing
     testImplementation(libs.mockk)

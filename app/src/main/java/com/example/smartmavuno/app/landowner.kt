@@ -19,22 +19,26 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.VisualTransformation
+import com.example.smartmavuno.ui.theme.black
+import com.example.smartmavuno.ui.theme.green1
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LandOwner(
     navController: NavController,
     onImageOrVideoCaptured: String,
     onSubmit: String
 ) {
-    val landDescription = remember { mutableStateOf("") }
-    val landSize = remember { mutableStateOf("Acres") }
-    val location = remember { mutableStateOf("") }
-    val currentUse = remember { mutableStateOf("") }
-    val leaseDuration = remember { mutableStateOf("1 Year") }
-    val leasePayment = remember { mutableStateOf("Per Year") }
-    val additionalConditions = remember { mutableStateOf("") }
-    val price = remember { mutableStateOf("") }
-
+    var landDescription by remember { mutableStateOf("") }
+    var landSize by remember { mutableStateOf("Acres") }
+    var location by remember { mutableStateOf("") }
+    var currentUse by remember { mutableStateOf("") }
+    var leaseDuration by remember { mutableStateOf("1 Year") }
+    var leasePayment by remember { mutableStateOf("Per Year") }
+    var additionalConditions by remember { mutableStateOf("") }
+    var price by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -46,11 +50,21 @@ fun LandOwner(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
-            label = { Text("Land Description") },
-            value = landDescription.value,
-            onValueChange = { landDescription.value = it },
-            modifier = Modifier.fillMaxWidth()
+        TextField(
+            value = landDescription,
+            onValueChange = { landDescription = it },
+            placeholder = { Text("Land Description", color = black) },
+            textStyle = TextStyle(color = green1),
+            colors = TextFieldDefaults.textFieldColors(
+                cursorColor = green1,
+                containerColor = Color.LightGray,
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent
+            ),
+            visualTransformation = VisualTransformation.None,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -67,37 +81,70 @@ fun LandOwner(
             Column {
                 Text("Select Land Size", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 Spacer(modifier = Modifier.height(8.dp))
-                LandSizeOptions(selectedOption = landSize.value) { selectedOption ->
-                    landSize.value = selectedOption
+                LandSizeOptions(selectedOption = landSize) { selectedOption ->
+                    landSize = selectedOption
                 }
             }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
-            label = { Text("Enter Size") },
-            value = additionalConditions.value,
-            onValueChange = { additionalConditions.value = it },
-            modifier = Modifier.fillMaxWidth()
+        // Land Size Input
+        TextField(
+            value = price,
+            onValueChange = { price = it },
+            placeholder = { Text("Enter Size", color = black) },
+            textStyle = TextStyle(color = green1),
+            colors = TextFieldDefaults.textFieldColors(
+                cursorColor = green1,
+                containerColor = Color.LightGray,
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent
+            ),
+            visualTransformation = VisualTransformation.None,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
-            label = { Text("Location (address or GPS coordinates)") },
-            value = location.value,
-            onValueChange = { location.value = it },
-            modifier = Modifier.fillMaxWidth()
+        // Location TextField
+        TextField(
+            value = location,
+            onValueChange = { location = it },
+            placeholder = { Text("Location (address or GPS coordinates)", color = black) },
+            textStyle = TextStyle(color = green1),
+            colors = TextFieldDefaults.textFieldColors(
+                cursorColor = green1,
+                containerColor = Color.LightGray,
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent
+            ),
+            visualTransformation = VisualTransformation.None,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
-            label = { Text("Current Use of Land") },
-            value = currentUse.value,
-            onValueChange = { currentUse.value = it },
-            modifier = Modifier.fillMaxWidth()
+        // Current Use of Land TextField
+        TextField(
+            value = currentUse,
+            onValueChange = { currentUse = it },
+            placeholder = { Text("Current Use of Land", color = black) },
+            textStyle = TextStyle(color = green1),
+            colors = TextFieldDefaults.textFieldColors(
+                cursorColor = green1,
+                containerColor = Color.LightGray,
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent
+            ),
+            visualTransformation = VisualTransformation.None,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -114,8 +161,8 @@ fun LandOwner(
             Column {
                 Text("Select Lease Duration", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 Spacer(modifier = Modifier.height(8.dp))
-                LeaseDurationOptions(selectedOption = leaseDuration.value) { selectedOption ->
-                    leaseDuration.value = selectedOption
+                LeaseDurationOptions(selectedOption = leaseDuration) { selectedOption ->
+                    leaseDuration = selectedOption
                 }
             }
         }
@@ -134,34 +181,59 @@ fun LandOwner(
             Column {
                 Text("Select Lease Payment", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 Spacer(modifier = Modifier.height(8.dp))
-                LeasePaymentOptions(selectedOption = leasePayment.value) { selectedOption ->
-                    leasePayment.value = selectedOption
+                LeasePaymentOptions(selectedOption = leasePayment) { selectedOption ->
+                    leasePayment = selectedOption
                 }
             }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        OutlinedTextField(
-            label = { Text("Enter Land Price") },
-            value = additionalConditions.value,
-            onValueChange = { additionalConditions.value = it },
-            modifier = Modifier.fillMaxWidth()
+        // Lease Cost TextField
+        TextField(
+            value = price,
+            onValueChange = { price = it },
+            placeholder = { Text("Enter Land Lease Cost", color = black) },
+            textStyle = TextStyle(color = green1),
+            colors = TextFieldDefaults.textFieldColors(
+                cursorColor = green1,
+                containerColor = Color.LightGray,
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent
+            ),
+            visualTransformation = VisualTransformation.None,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
-        OutlinedTextField(
-            label = { Text("Additional Conditions or Restrictions") },
-            value = additionalConditions.value,
-            onValueChange = { additionalConditions.value = it },
-            modifier = Modifier.fillMaxWidth()
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Additional Conditions TextField
+        TextField(
+            value = additionalConditions,
+            onValueChange = { additionalConditions = it },
+            placeholder = { Text("Additional Conditions or Restrictions", color = black) },
+            textStyle = TextStyle(color = green1),
+            colors = TextFieldDefaults.textFieldColors(
+                cursorColor = green1,
+                containerColor = Color.LightGray,
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent
+            ),
+            visualTransformation = VisualTransformation.None,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
         )
+
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
             onClick = {
-                // Handle image or video capture logic
+                // Handle Image/Video capture
             },
+            colors = ButtonDefaults.buttonColors(containerColor = green1),
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Upload or Capture Land Pictures/Videos")
@@ -169,7 +241,13 @@ fun LandOwner(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Button(onClick = { onSubmit }, modifier = Modifier.fillMaxWidth()) {
+        Button(
+            onClick = {
+                // Handle form submission
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = green1),
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Text("Submit Lease Details")
         }
     }
@@ -219,7 +297,7 @@ fun LeaseDurationOptions(selectedOption: String, onOptionSelected: (String) -> U
 
 @Composable
 fun LeasePaymentOptions(selectedOption: String, onOptionSelected: (String) -> Unit) {
-    val options = listOf("Per Year", "Per Quarter", "Per Month", "Per Acre", "Per Hectare")
+    val options = listOf("Per Month", "Per Year", "One-time Payment")
     options.forEach { option ->
         Row(
             modifier = Modifier
@@ -238,118 +316,8 @@ fun LeasePaymentOptions(selectedOption: String, onOptionSelected: (String) -> Un
     }
 }
 
-
-fun onImageOrVideoCaptured(toString: String) {
-    TODO("Not yet implemented")
-}
-
-@Composable
-fun CustomDialog(
-    dialogType: String,
-    selectedOption: String,
-    onDismiss: () -> Unit,
-    onOptionSelected: (String) -> Unit
-) {
-    Dialog(onDismissRequest = { onDismiss() }) {
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                Text(
-                    text = when (dialogType) {
-                        "Land Size" -> "Select Land Size"
-                        "Lease Duration" -> "Select Lease Duration"
-                        "Lease Payment" -> "Select Lease Payment"
-                        "Image/Video" -> "Choose an Option"
-                        else -> ""
-                    },
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                        .background(Color.LightGray)
-                ) {
-                    Column(modifier = Modifier.padding(8.dp)) {
-                        when (dialogType) {
-                            "Land Size" -> {
-                                RadioButtonOption("Acres", selectedOption, onOptionSelected)
-                                RadioButtonOption("Hectares", selectedOption, onOptionSelected)
-                                RadioButtonOption("Square Meters", selectedOption, onOptionSelected)
-                                RadioButtonOption("Square Kilometers", selectedOption, onOptionSelected)
-                                RadioButtonOption("Square Feet", selectedOption, onOptionSelected)
-                            }
-                            "Lease Duration" -> {
-                                RadioButtonOption("1 Year", selectedOption, onOptionSelected)
-                                RadioButtonOption("2 Years", selectedOption, onOptionSelected)
-                                RadioButtonOption("3 Years", selectedOption, onOptionSelected)
-                                RadioButtonOption("5 Years", selectedOption, onOptionSelected)
-                                RadioButtonOption("10 Years", selectedOption, onOptionSelected)
-                            }
-                            "Lease Payment" -> {
-                                RadioButtonOption("Per Year", selectedOption, onOptionSelected)
-                                RadioButtonOption("Per Quarter", selectedOption, onOptionSelected)
-                                RadioButtonOption("Per Month", selectedOption, onOptionSelected)
-                                RadioButtonOption("Per Acre", selectedOption, onOptionSelected)
-                                RadioButtonOption("Per Hectare", selectedOption, onOptionSelected)
-                            }
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Button(
-                    onClick = { onDismiss() },
-                    modifier = Modifier.align(Alignment.End)
-                ) {
-                    Text("Done")
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun RadioButtonOption(
-    text: String,
-    selectedOption: String,
-    onOptionSelected: (String) -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onOptionSelected(text) },
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        RadioButton(
-            selected = text == selectedOption,
-            onClick = { onOptionSelected(text) }
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(text = text)
-    }
-}
-
-
 @Preview(showBackground = true)
 @Composable
 fun LandOwnerPreview() {
-    // Replace this with actual NavController in a real implementation
-    LandOwner(
-        navController = NavController(LocalContext.current),
-        onImageOrVideoCaptured = {}.toString(),
-        onSubmit = {}.toString()
-    )
+    LandOwner(navController = NavController(LocalContext.current), onImageOrVideoCaptured = "", onSubmit = "")
 }

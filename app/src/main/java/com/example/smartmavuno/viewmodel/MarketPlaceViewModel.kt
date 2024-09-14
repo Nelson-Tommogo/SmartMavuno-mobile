@@ -8,11 +8,15 @@ import androidx.lifecycle.ViewModel
 import com.example.smartmavuno.R
 
 class MarketplaceViewModel : ViewModel() {
-    val cart = mutableStateListOf<Service>()
+    private val cart = mutableStateListOf<Service>()
 
     private var _sortBy: SortBy by mutableStateOf(SortBy.Ratings)
     val sortBy: SortBy
         get() = _sortBy
+
+    private var _selectedCategory: String by mutableStateOf("All")
+    val selectedCategory: String
+        get() = _selectedCategory
 
     private var _services: List<Service> by mutableStateOf(getDummyServices())
     val services: List<Service>
@@ -26,8 +30,13 @@ class MarketplaceViewModel : ViewModel() {
         updateServices()
     }
 
-    fun updateSortBy(newSortBy: SortBy) {
-        _sortBy = newSortBy
+//    fun updateSortBy(newSortBy: String) {
+//        _sortBy = newSortBy
+//        updateServices()
+//    }
+
+    fun updateCategory(newCategory: String) {
+        _selectedCategory = newCategory
         updateServices()
     }
 
@@ -37,36 +46,40 @@ class MarketplaceViewModel : ViewModel() {
 
     fun filterByName(name: String) {
         _services = getDummyServices().filter {
-            it.name.contains(name, ignoreCase = true)
+            it.name.contains(name, ignoreCase = true) &&
+                    (it.category == _selectedCategory || _selectedCategory == "All")
         }
         _filteredResultsAvailable = _services.isNotEmpty()
     }
 
     private fun updateServices() {
-        _services = when (_sortBy) {
-            SortBy.Ratings -> getDummyServices().sortedByDescending { it.rating }
-            SortBy.Price -> getDummyServices().sortedBy { it.price.removePrefix("KES ").toFloat() }
-            SortBy.FrequentlyOrdered -> getDummyServices()
+        _services = getDummyServices().filter {
+            it.category == _selectedCategory || _selectedCategory == "All"
+        }.sortedBy {
+            when (_sortBy) {
+                SortBy.Ratings -> -it.rating
+                SortBy.Price -> it.price.removePrefix("KES ").toFloat()
+                SortBy.FrequentlyOrdered -> 0f // Assuming no sorting needed here
+            }
         }
     }
 
     private fun getDummyServices(): List<Service> {
         return listOf(
-            Service("Waru", R.drawable.waru, "KES 100", 4.5f),
-            Service("Potatoes", R.drawable.potatoes, "KES 200", 4.0f),
-            Service("Cabbage", R.drawable.cabbage, "KES 150", 3.5f),
-            Service("Carrots", R.drawable.carrots, "KES 120", 4.2f),
-            Service("Cassava", R.drawable.cassava, "KES 180", 4.8f),
-            Service("Maize", R.drawable.maize, "KES 250", 4.1f),
-            Service("Melon", R.drawable.melon, "KES 300", 3.9f),
-            Service("Onions", R.drawable.onions, "KES 80", 4.3f),
-            Service("Guavas", R.drawable.guava, "KES 100", 4.5f),
-            Service("Tomatoes", R.drawable.tomatoes, "KES 200", 4.0f),
-            Service("Beans", R.drawable.beans, "KES 180", 4.2f),
-            Service("Lettuce", R.drawable.lettuce, "KES 150", 4.0f),
-            Service("Peas", R.drawable.peas, "KES 160", 4.3f),
-            Service("Spinach", R.drawable.spinach, "KES 120", 4.1f)
-
+            Service("Waru", R.drawable.waru, "KES 100", 4.5f, "Vegetables"),
+            Service("Potatoes", R.drawable.potatoes, "KES 200", 4.0f, "Vegetables"),
+            Service("Cabbage", R.drawable.cabbage, "KES 150", 3.5f, "Vegetables"),
+            Service("Carrots", R.drawable.carrots, "KES 120", 4.2f, "Vegetables"),
+            Service("Cassava", R.drawable.cassava, "KES 180", 4.8f, "Vegetables"),
+            Service("Maize", R.drawable.maize, "KES 250", 4.1f, "Vegetables"),
+            Service("Melon", R.drawable.melon, "KES 300", 3.9f, "Fruits"),
+            Service("Onions", R.drawable.onions, "KES 80", 4.3f, "Vegetables"),
+            Service("Guavas", R.drawable.guava, "KES 100", 4.5f, "Fruits"),
+            Service("Tomatoes", R.drawable.tomatoes, "KES 200", 4.0f, "Vegetables"),
+            Service("Beans", R.drawable.beans, "KES 180", 4.2f, "Vegetables"),
+            Service("Lettuce", R.drawable.lettuce, "KES 150", 4.0f, "Vegetables"),
+            Service("Peas", R.drawable.peas, "KES 160", 4.3f, "Vegetables"),
+            Service("Spinach", R.drawable.spinach, "KES 120", 4.1f, "Vegetables")
         )
     }
 }
@@ -80,5 +93,6 @@ data class Service(
     val iconRes: Int,
     val price: String,
     val rating: Float,
+    val category: String,
     val originalPrice: String = "",
 )
