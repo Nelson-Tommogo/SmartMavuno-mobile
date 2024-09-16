@@ -28,6 +28,7 @@ import com.example.smartmavuno.R
 import com.example.smartmavuno.auth.LoginScreen
 import com.example.smartmavuno.auth.SignupScreen
 import com.example.smartmavuno.navigation.Screens
+import com.example.smartmavuno.ui.theme.green1
 import com.example.smartmavuno.ui.theme.white
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -43,7 +44,7 @@ fun BottomNavComposable(navController: NavHostController) {
     Scaffold(
         bottomBar = {
             BottomAppBar(
-                containerColor = grey,
+                containerColor = green1,
                 modifier = Modifier
                     .height(bottomAppBarHeight)
                     .padding(horizontal = 25.dp, vertical = 5.dp)

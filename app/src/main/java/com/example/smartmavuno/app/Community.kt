@@ -31,12 +31,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartmavuno.R
@@ -133,12 +136,14 @@ fun Community(navController: NavController) {
                     modifier = Modifier.padding(end = 150.dp)
                 )
                 Icon(
-                    painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
+                    painter = painterResource(id = R.drawable.baseline_search_24),
                     contentDescription = "Forward",
                     modifier = Modifier
                         .width(40.dp)
                         .height(24.dp)
-                        .clickable { /* Handle forward icon click */ },
+                        .clickable {
+
+                        },
                     tint = green1
                 )
             }
@@ -149,8 +154,8 @@ fun Community(navController: NavController) {
                 "SokoMoko Farmers"
             )
             val topCommunityIcons = listOf(
-                R.drawable.farmerscomtop,
-                R.drawable.farmerscomtopone
+                R.drawable.centralkenyafarmers,
+                R.drawable.centralkenyafarmers
             )
 
             Row(
@@ -221,13 +226,11 @@ fun Community(navController: NavController) {
                 "Smart Farmers Forum"
             )
             val communityIcons = listOf(
-                R.drawable.farmerscom,
-                R.drawable.farmerscomone,
-                R.drawable.farmerscomthree,
-                R.drawable.farmerscom
+                R.drawable.centralkenyafarmers,
+                R.drawable.centralkenyafarmers,
+                R.drawable.centralkenyafarmers,
+                R.drawable.centralkenyafarmers
             )
-
-
 
 
 
@@ -238,49 +241,70 @@ fun Community(navController: NavController) {
                     .background(green1)
                     .padding(16.dp)
             ) {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(otherCommunities.size) { index ->
-                        CommunityBox(
-                            communityName = otherCommunities[index],
-                            iconRes = communityIcons[index],
-                            green1 = green1,
-                            onClick = { /* Handle navigation to the community */ }
-                        )
+                Column {
+                    // Add heading "COMMUNITIES"
+                    Text(
+                        text = "CONNECT WITH TOP COMMUNITIES",
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp
+                        ),
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp)
+                    )
+
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(otherCommunities.size) { index ->
+                            CommunityBox(
+                                communityName = otherCommunities[index],
+                                iconRes = communityIcons[index],
+                                green1 = green1,
+                                onClick = { /* Handle navigation to the community */ }
+                            )
+                        }
                     }
                 }
             }
+
         }
     }
 }
 
 @Composable
 fun TopCommunityBox(communityName: String, iconRes: Int, green1: Color) {
-    Column(
+    Box(
         modifier = Modifier
             .size(150.dp)
             .clip(RoundedCornerShape(16.dp))
             .background(green1)
             .clickable {
-                // Handle community box click
+
             }
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
-        Icon(
+        Image(
             painter = painterResource(id = iconRes),
             contentDescription = communityName,
-            modifier = Modifier.size(80.dp), // Increase the icon size
-            tint = Color.Unspecified
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(16.dp)),
+            contentScale = ContentScale.Crop
         )
+
         Text(
             text = communityName,
-            style = MaterialTheme.typography.bodyMedium,
-            color = Color.Black,
+            style = MaterialTheme.typography.bodyMedium.copy(
+                fontWeight = FontWeight.Bold
+            ),
+            color = Color.White,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier
+                .align(Alignment.Center)
+                .padding(8.dp)
         )
     }
 }
@@ -291,21 +315,26 @@ fun CommunityBox(communityName: String, iconRes: Int, green1: Color, onClick: ()
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .background(grey)
-            .clickable {
-                // Handle community box click
-            }
+            .background(white)
+            .clickable { onClick() }
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Icon(
+        // Image on the left side
+        Image(
             painter = painterResource(id = iconRes),
             contentDescription = communityName,
-            modifier = Modifier.size(40.dp),
-            tint = Color.Unspecified
+            modifier = Modifier
+                .size(60.dp) // Adjust size to fit within the row
+                .clip(CircleShape),
+            contentScale = ContentScale.Crop // Make the image fill its space
         )
+
+        // Spacer between the image and text
         Spacer(modifier = Modifier.width(16.dp))
+
+        // Text displayed next to the image
         Text(
             text = communityName,
             style = MaterialTheme.typography.bodyMedium,
@@ -313,6 +342,8 @@ fun CommunityBox(communityName: String, iconRes: Int, green1: Color, onClick: ()
             textAlign = TextAlign.Start,
             modifier = Modifier.weight(1f)
         )
+
+        // Arrow icon for navigation
         Icon(
             painter = painterResource(id = R.drawable.baseline_arrow_forward_ios_24),
             contentDescription = "Navigate to $communityName",

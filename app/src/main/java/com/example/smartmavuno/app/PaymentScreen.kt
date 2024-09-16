@@ -41,16 +41,16 @@ fun PaymentOptions(navController: NavHostController) {
     var showBankDropdown by remember { mutableStateOf(false) }
 
     val banks = listOf(
-        Bank("Equity Bank", R.drawable.bank),
-        Bank("KCB Bank", R.drawable.bank),
-        Bank("NCBA Bank", R.drawable.bank),
-        Bank("Cooperative Bank", R.drawable.bank),
-        Bank("Stanbic Bank", R.drawable.bank),
-        Bank("Barclays Bank", R.drawable.bank),
-        Bank("Family Bank", R.drawable.bank),
-        Bank("Diamond Trust Bank", R.drawable.bank),
-        Bank("CBA Bank", R.drawable.bank),
-        Bank("HF Bank", R.drawable.bank)
+        Bank("Equity Bank", R.drawable.farm),
+        Bank("KCB Bank", R.drawable.farm),
+        Bank("NCBA Bank", R.drawable.farm),
+        Bank("Cooperative Bank", R.drawable.farm),
+        Bank("Stanbic Bank", R.drawable.farm),
+        Bank("Barclays Bank", R.drawable.farm),
+        Bank("Family Bank", R.drawable.farm),
+        Bank("Diamond Trust Bank", R.drawable.farm),
+        Bank("CBA Bank", R.drawable.farm),
+        Bank("HF Bank", R.drawable.farm)
     )
 
     Column(
@@ -91,7 +91,7 @@ fun PaymentOptions(navController: NavHostController) {
         Spacer(modifier = Modifier.height(8.dp))
 
         PaymentOptionCard(
-            iconResId = R.drawable.bank,
+            iconResId = R.drawable.farm,
             title = "Bank Transfer",
             description = "Donate via Bank Transfer",
             onClick = { showBankDropdown = !showBankDropdown }

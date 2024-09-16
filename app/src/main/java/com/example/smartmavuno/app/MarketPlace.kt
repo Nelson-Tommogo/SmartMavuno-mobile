@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,7 +36,7 @@ import kotlinx.coroutines.delay
 fun MarketplaceScreen(navController: NavController) {
     var searchQuery by remember { mutableStateOf("") }
     val categories = listOf(
-        "Vegetables", "Fruits", "Cereals & Grains", "Poultry", "Spices", "Dairy Products"
+        "Vegetables", "Fruits", "Cereals & Grains", "Poultry", "Spices", "Dairy Products","Farm Inputs"
     )
     val filteredCategories = categories.filter {
         it.contains(searchQuery, ignoreCase = true)
@@ -46,14 +47,12 @@ fun MarketplaceScreen(navController: NavController) {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        // Top bar remains constant
         MarketplaceTopBar(navController = navController, searchQuery) {
             searchQuery = it
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Scrollable content
         val scrollState = rememberScrollState()
         Column(
             modifier = Modifier
@@ -171,8 +170,9 @@ fun CategoryList(filteredCategories: List<String>, navController: NavController)
         "Fruits" to R.drawable.fruit,
         "Cereals & Grains" to R.drawable.corn,
         "Poultry Products" to R.drawable.egs,
-        "Spices" to R.drawable.croptwo,
-        "Dairy Products" to R.drawable.crop5
+        "Spices" to R.drawable.spices,
+        "Dairy Products" to R.drawable.milk,
+        "Farm Inputs" to R.drawable.milk
     )
 
     val categoriesToDisplay = if (filteredCategories.isEmpty()) {
@@ -200,31 +200,36 @@ fun CategoryItem(category: String, imageResId: Int, onClick: () -> Unit) {
             .fillMaxWidth()
             .height(100.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(Color.White)
+            .background(Color.LightGray)
             .clickable { onClick() }
-            .shadow(4.dp),
+            .shadow(0.dp),
         contentAlignment = Alignment.CenterStart
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(),
+                .height(100.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = category,
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodySmall.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                ),
                 modifier = Modifier
                     .padding(start = 16.dp)
                     .weight(1f),
             )
 
+
             Image(
                 painter = painterResource(id = imageResId),
                 contentDescription = category,
                 modifier = Modifier
-                    .size(80.dp)
+                    .fillMaxHeight()
+                    .width(80.dp)
                     .weight(1f),
                 contentScale = ContentScale.Crop
             )

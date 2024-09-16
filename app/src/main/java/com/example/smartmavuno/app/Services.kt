@@ -1,5 +1,6 @@
 package com.example.smartmavuno.app
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -35,9 +36,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -138,8 +141,8 @@ fun Service(navController: NavController) {
             "Soil Testing", "Pest Control"
         )
         val serviceIcons = listOf(
-            R.drawable.landleasing, R.drawable.consultancy,
-            R.drawable.farmlabour, R.drawable.equiprental,
+            R.drawable.landleasing, R.drawable.consult,
+            R.drawable.labor, R.drawable.labor,
             R.drawable.moniitor, R.drawable.irrigation,
             R.drawable.soiltesting, R.drawable.pestcontrol
         )
@@ -186,29 +189,36 @@ fun ServiceBox(service: String, iconRes: Int, green1: Color, onClick: () -> Unit
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
+        // Image Background
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color.White)
+        ) {
+            Image(
+                painter = painterResource(id = iconRes),
+                contentDescription = service,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+        // Overlay Text
         Column(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .background(Color.Black.copy(alpha = 0.6f))
+                .padding(8.dp)
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Box(
-                modifier = Modifier
-                    .size(80.dp)
-                    .clip(CircleShape)
-                    .background(Color.White),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    painter = painterResource(id = iconRes),
-                    contentDescription = service,
-                    modifier = Modifier.size(80.dp),
-                    tint = Color.Unspecified
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = service,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Black,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                ),
                 textAlign = TextAlign.Center
             )
         }

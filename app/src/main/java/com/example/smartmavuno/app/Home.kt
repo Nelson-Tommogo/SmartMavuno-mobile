@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -295,161 +296,58 @@ fun Links(navController: NavHostController) {
 
 @Composable
 fun RecentProducts(navController: NavHostController) {
-    data class Product(
-        val iconRes: Int,
-        val name: String,
-        val price: String,
-        val discountedPrice: String,
-        val rating: Int,
-        var isInCart: Boolean = false // Add isInCart property
+    val cropImages = listOf(
+        R.drawable.smartfarm,
+        R.drawable.consult,
+        R.drawable.labor,
+        R.drawable.blackfriday,
+        R.drawable.urban
     )
 
-    val products = listOf(
-        Product(R.drawable.crop, "Fresh Carrots", "Ksh 100", "Ksh 80", 4),
-        Product(R.drawable.cropone, "Tomatoes", "Ksh 200", "Ksh 150", 3),
-        Product(R.drawable.crop3, "Mango Seeds", "Ksh 300", "Ksh 250", 5),
-        Product(R.drawable.crop4, "Fresh Maize", "Ksh 400", "Ksh 350", 2),
-        Product(R.drawable.crop5, "Cassava", "Ksh 500", "Ksh 450", 1)
+    val adTexts = listOf(
+        "Monitor Your Farms at the comfort of your Phone!!!",
+        "Book For our Agricultural Consultancy services, become an Agritech champion",
+        "Enjoy our services ranging from insured loans to getting Farm labor!!",
+        "Check our black friday offer on Lands Around You!!",
+        "You wanna try Urban Farming?...We got You!, Order the equipments from our store"
     )
 
-    val green1 = colorResource(id = R.color.green1)
-    val white = colorResource(id = R.color.white)
-    val grey = colorResource(id = R.color.grey)
-    var currentIndex by remember { mutableIntStateOf(0) }
+    var currentImageIndex by remember { mutableIntStateOf(0) }
 
-    LaunchedEffect(Unit) {
-        while (true) {
-            delay(1000)
-            currentIndex = (currentIndex + 1) % products.size
-        }
+    LaunchedEffect(currentImageIndex) {
+        delay(3000L)
+        currentImageIndex = (currentImageIndex + 1) % cropImages.size
     }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
+            .height(150.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(white)
-            .padding(16.dp)
     ) {
-        Text(
-            text = "Recent Products",
-            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-            color = Color.Black,
-            modifier = Modifier.padding(bottom = 8.dp)
+        Image(
+            painter = painterResource(id = cropImages[currentImageIndex]),
+            contentDescription = "Crop Ad",
+            modifier = Modifier.fillMaxWidth(),
+            contentScale = ContentScale.Crop
         )
 
-        val state = rememberLazyListState(initialFirstVisibleItemIndex = currentIndex)
-
-        LazyRow(
-            state = state,
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp), // Adjust height to accommodate "Add to Cart" button
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            contentPadding = PaddingValues(horizontal = 8.dp)
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.4f))
+                .padding(8.dp),
+            contentAlignment = Alignment.BottomCenter
         ) {
-            itemsIndexed(products) { index, product ->
-                Box(
-                    modifier = Modifier
-                        .width(150.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(grey)
-                        .clickable { },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier.padding(8.dp)
-                    ) {
-                        Image(
-                            painter = painterResource(id = product.iconRes),
-                            contentDescription = null,
-                            modifier = Modifier.size(38.dp),
-                        )
-                        Text(
-                            text = product.name,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Color.Black,
-                            modifier = Modifier.padding(top = 8.dp)
-                        )
-                        Text(
-                            text = product.price,
-                            style = MaterialTheme.typography.bodySmall.copy(
-                                textDecoration = TextDecoration.LineThrough
-                            ),
-                            color = Color.Red,
-                            modifier = Modifier.padding(top = 4.dp)
-                        )
-                        Text(
-                            text = product.discountedPrice,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = green2,
-                            modifier = Modifier.padding(top = 4.dp)
-                        )
-                        Row(
-                            modifier = Modifier.padding(top = 4.dp),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            repeat(5) { starIndex ->
-                                val starColor = if (starIndex < product.rating) Color.Yellow else Color.Gray
-                                Image(
-                                    painter = painterResource(id = R.drawable.baseline_star_purple500_24),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .size(12.dp)
-                                        .padding(1.dp),
-                                    colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(starColor)
-                                )
-                            }
-                        }
-                        Button(
-                            onClick = {
-                                product.isInCart = !product.isInCart
-                                navController.navigate(Screens.MarketPlace.route)
-                            },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = if (product.isInCart) Color.Gray else green2
-                            ),
-                            modifier = Modifier
-                                .padding(top = 8.dp)
-                                .defaultMinSize(minWidth = 64.dp, minHeight = 24.dp)
-                                .align(Alignment.CenterHorizontally)
-                        ) {
-                            Text(
-                                text = if (product.isInCart) "Remove" else "Add",
-                                style = MaterialTheme.typography.bodySmall.copy(fontSize = 10.sp),
-                                color = white
-                            )
-                        }
-                    }
-                }
-            }
-        }
-
-        // Dots indicators
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            products.forEachIndexed { index, _ ->
-                val color = if (index == currentIndex) green1 else Color.Gray
-                Box(
-                    modifier = Modifier
-                        .size(8.dp)
-                        .padding(horizontal = 2.dp)
-                        .background(color, shape = CircleShape)
-                )
-            }
+            Text(
+                text = adTexts[currentImageIndex],
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.White,
+                textAlign = TextAlign.Center
+            )
         }
     }
 }
-
-
 
 
 
@@ -462,11 +360,10 @@ fun Methods(navController: NavHostController) {
     )
 
     val methods = listOf(
-        Method(R.drawable.crop, "Hydroponics"),
-        Method(R.drawable.cropone, "Aquaponics"),
-        Method(R.drawable.crop3, "Vertical Farming"),
-        Method(R.drawable.crop4, "Greenhouse Farming"),
-        Method(R.drawable.crop5, "Conservation Tillage")
+        Method(R.drawable.vegetables, "Vegetables"),
+        Method(R.drawable.spices, "Spices"),
+        Method(R.drawable.fruit, "Fruits"),
+        Method(R.drawable.milk, "Dairy Products"),
     )
 
     val white = colorResource(id = R.color.white)
@@ -484,9 +381,9 @@ fun Methods(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(12.dp))
             .background(white)
-            .padding(16.dp)
+            .padding(6.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -494,7 +391,7 @@ fun Methods(navController: NavHostController) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Popular Cultivation Methods",
+                text = "NEW",
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                 color = Color.Black,
                 modifier = Modifier.padding(bottom = 8.dp)
@@ -505,50 +402,54 @@ fun Methods(navController: NavHostController) {
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Black,
                 modifier = Modifier.clickable {
-                     navController.navigate(Screens.Articles.route)
+                    navController.navigate(Screens.Articles.route)
                 }
             )
         }
+
         val state = rememberLazyListState(initialFirstVisibleItemIndex = listState)
+
         LazyRow(
             state = state,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(120.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             contentPadding = PaddingValues(horizontal = 8.dp)
         ) {
             itemsIndexed(methods) { index, method ->
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                Box(
                     modifier = Modifier
-                        .width(100.dp) // Adjust width to accommodate text
+                        .fillMaxHeight()
+                        .width(120.dp)
                         .clip(RoundedCornerShape(16.dp))
                         .background(grey)
-                        .clickable { /* Handle click */ }
-                        .padding(8.dp)
+                        .clickable { /* Handle click */ },
+                    contentAlignment = Alignment.BottomCenter // Position the text at the bottom
                 ) {
                     Image(
                         painter = painterResource(id = method.iconRes),
-                        contentDescription = null,
+                        contentDescription = method.name,
                         modifier = Modifier
-                            .size(38.dp)
-                            .clip(CircleShape)
-                            .background(Color.White)
-                            .padding(8.dp)
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(16.dp)),
+                        contentScale = ContentScale.Crop
                     )
+                    // Overlay the text on top of the image
                     Text(
                         text = method.name,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.Black,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(top = 4.dp)
+                        style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
+                        color = Color.White,
+                        modifier = Modifier
+                            .background(Color.Black.copy(alpha = 0.1f))
+                            .padding(4.dp)
                     )
                 }
             }
         }
     }
 }
-
 
 
 @Composable
@@ -559,11 +460,11 @@ fun Trending(navController: NavHostController) {
     )
 
     val providers = listOf(
-        Provider(R.drawable.crop, "iProcure"),
-        Provider(R.drawable.cropone, "M-Shamba"),
-        Provider(R.drawable.crop3, "Yara East Africa"),
-        Provider(R.drawable.crop4, "AgroCares"),
-        Provider(R.drawable.crop5, "Hello Tractor")
+        Provider(R.drawable.iprocurelogo, "iProcure"),
+        Provider(R.drawable.iprocurelogo, "Family Bank"),
+        Provider(R.drawable.iprocurelogo, "Amaco Insurance"),
+        Provider(R.drawable.iprocurelogo, "KALRO"),
+        Provider(R.drawable.iprocurelogo, "Ujuzi Kilimo")
     )
 
     val white = colorResource(id = R.color.white)
@@ -581,9 +482,9 @@ fun Trending(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(12.dp))
             .background(white)
-            .padding(16.dp)
+            .padding(6.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -602,7 +503,7 @@ fun Trending(navController: NavHostController) {
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Black,
                 modifier = Modifier.clickable {
-                    // Handle click for "View more"
+                    navController.navigate(Screens.Articles.route)
                 }
             )
         }
@@ -611,43 +512,45 @@ fun Trending(navController: NavHostController) {
 
         LazyRow(
             state = state,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(70.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             contentPadding = PaddingValues(horizontal = 8.dp)
         ) {
-            itemsIndexed(providers) { index, provider ->
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
+            itemsIndexed(providers) { index, method ->
+                Box(
                     modifier = Modifier
-                        .width(80.dp) // Adjust width to accommodate text
+                        .fillMaxHeight()
+                        .width(80.dp)
                         .clip(RoundedCornerShape(16.dp))
                         .background(grey)
-                        .clickable { /* Handle click */ }
-                        .padding(8.dp)
+                        .clickable { /* Handle click */ },
+                    contentAlignment = Alignment.BottomCenter // Position the text at the bottom
                 ) {
                     Image(
-                        painter = painterResource(id = provider.iconRes),
-                        contentDescription = null,
+                        painter = painterResource(id = method.iconRes),
+                        contentDescription = method.name,
                         modifier = Modifier
-                            .size(38.dp)
-                            .clip(CircleShape)
-                            .background(Color.White)
-                            .padding(8.dp)
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(16.dp)),
+                        contentScale = ContentScale.Crop
                     )
+                    // Overlay the text on top of the image
                     Text(
-                        text = provider.name,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.Black,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(top = 4.dp)
+                        text = method.name,
+                        style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
+                        color = Color.White,
+                        modifier = Modifier
+                            .background(Color.Black.copy(alpha = 0.1f))
+                            .padding(4.dp)
                     )
                 }
             }
         }
     }
 }
-
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview
